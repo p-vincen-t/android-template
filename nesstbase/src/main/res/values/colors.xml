@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primaryLight">#518cc4</color>
+    <color name="primaryMain">#115f93</color>
+    <color name="primaryDark">#003665</color>
+    <color name="primaryText">#ffffff</color>
+
+    <color name="secondaryLight">#ffff5e</color>
+    <color name="secondaryMain">#f7ce23</color>
+    <color name="secondaryDark">#c09d00</color>
+    <color name="secondaryText">#000000</color>
+
+    <color name="errorMain">#f44336</color>
+
+    <color name="backgroundDefault">#f5f5f5</color>
+
+    <color name="backgroundOverlay">#66000000</color>
+</resources>

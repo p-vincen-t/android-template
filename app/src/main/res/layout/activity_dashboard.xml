@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable name="viewModel" type="com.nesst.ui.dashboard.DashboardViewModel"/>
+    </data>
+    <androidx.drawerlayout.widget.DrawerLayout
+
+            android:id="@+id/drawer_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            tools:openDrawer="start">
+        <include
+                layout="@layout/app_bar_dashboard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        <com.google.android.material.navigation.NavigationView
+                android:id="@+id/nav_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:fitsSystemWindows="true"
+                app:headerLayout="@layout/nav_header_dashboard"
+                app:menu="@menu/activity_dashboard_drawer">
+
+            <RelativeLayout
+
+                    android:layout_gravity="bottom"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <View android:layout_width="match_parent"
+                      android:layout_height="0.1dp"
+                      android:id="@+id/view"
+                      android:background="@color/backgroundOverlay"/>
+                <com.google.android.material.button.MaterialButton
+                        android:onClick="settingsClicked"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/view"
+                        app:cornerRadius="0dp"
+                        android:text="@string/action_settings"
+                        style="@style/Widget.MaterialComponents.Button.TextButton" android:paddingLeft="8dp"
+                        android:paddingRight="8dp"/>
+                <com.google.android.material.button.MaterialButton
+                        android:onClick="legalClicked"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/view"
+                        android:layout_toStartOf="@+id/version_textView"
+                        app:cornerRadius="0dp"
+                        android:text="@string/legal"
+                        style="@style/Widget.MaterialComponents.Button.TextButton" android:paddingLeft="8dp"
+                        android:paddingRight="8dp"/>
+                <androidx.appcompat.widget.AppCompatTextView
+                        android:padding="16dp"
+                        android:id="@+id/version_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_below="@+id/view"
+                        tools:text="v1.0"
+                        android:layout_alignParentEnd="true"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/secondaryText"/>
+
+            </RelativeLayout>
+        </com.google.android.material.navigation.NavigationView>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+</layout>
+
