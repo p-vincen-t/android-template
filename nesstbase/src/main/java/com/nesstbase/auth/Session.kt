@@ -1,11 +1,15 @@
 package com.nesstbase.auth
 
 import androidx.collection.ArrayMap
+import com.nesstbase.apis.AuthApi
 import com.nesstbase.errors.AuthError
 import com.nesstbase.repos.AsyncUserRepository
 import com.nesstbase.scopes.AppScope
 import promise.model.Result
 import promisemodel.repo.StoreRepository
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import javax.inject.Inject
 
 @AppScope
@@ -13,6 +17,8 @@ class Session @Inject constructor() {
 
     @Inject
     lateinit var userRepository: StoreRepository<User>
+
+    @Inject lateinit var authApi: AuthApi
 
 
     fun user(): User {
@@ -30,9 +36,16 @@ class Session @Inject constructor() {
 
     fun resetPassword(identifier: String,
                       result: Result<Boolean, AuthError>) {
-        userRepository.one(ArrayMap<String, Any>().apply {
-            put(AsyncUserRepository.LOGIN_IDENTIFIER_NAME, identifier)
-        }, { user, _ -> result.response(user)  }, {})
+
+        authApi.resetPassword(identifier).enqueue(object : Callback<String> {
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+
+            }
+        })
     }
 
     fun register(names: String,
@@ -40,10 +53,18 @@ class Session @Inject constructor() {
                  phone: String,
                  password: String,
                  result: Result<Boolean, AuthError>) {
-        userRepository.one(ArrayMap<String, Any>().apply {
-            put(AsyncUserRepository.LOGIN_IDENTIFIER_NAME, identifier)
-            put(AsyncUserRepository.PASSWORD_IDENTIFIER_NAME, password)
-        }, { user, _ -> result.response(user)  }, {})
+
+        authApi.register(ArrayMap<String, Any>().apply {
+
+        }).enqueue(object : Callback<String> {
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+
+            }
+        })
     }
 
 }
