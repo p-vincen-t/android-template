@@ -12,6 +12,8 @@
             <option value="$PROJECT_DIR$/nesstbase" />
             <option value="$PROJECT_DIR$/requests" />
             <option value="$PROJECT_DIR$/wallet" />
+            <option value="$PROJECT_DIR$/../flutter/.android/Flutter" />
+            <option value="$PROJECT_DIR$/../flutter/nesst_flutter_base/android" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.nesstbase.auth.Session
 import com.nesstbase.scopes.UiScope
-import promise.Promise
+import promise.commons.Promise
 import javax.inject.Inject
 
 /**

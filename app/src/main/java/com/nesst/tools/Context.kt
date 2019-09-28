@@ -18,7 +18,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.tapadoo.alerter.Alerter
 import com.tbruyelle.rxpermissions2.RxPermissions
-import promise.util.Conditions
+import promise.commons.util.Conditions
 
 /**
  *

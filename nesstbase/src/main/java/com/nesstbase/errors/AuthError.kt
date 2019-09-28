@@ -10,5 +10,6 @@ class AuthError() : Exception() {
 
     companion object {
         const val AUTH_CREDENTIALS_MISSING = 1
+        const val MISSING_DEVICE_KEY = 2
     }
 }

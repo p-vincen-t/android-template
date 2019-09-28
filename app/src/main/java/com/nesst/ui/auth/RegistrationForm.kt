@@ -5,13 +5,12 @@ import androidx.databinding.Bindable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nesst.tools.Result
-import com.nesst.ui.BaseViewModel
 import com.nesst.validators.isEmailValid
 import com.nesst.validators.isPasswordValid
 import com.nesstbase.auth.Session
 import com.nesstbase.errors.AuthError
-import promise.Promise
-import promise.model.Result as PromiseResult
+import promise.commons.Promise
+import promise.commons.model.Result as PromiseResult
 
 class RegistrationForm(private val session: Session, private val promise: Promise) :
     BaseObservable(), AuthForm {
@@ -84,22 +83,17 @@ class RegistrationForm(private val session: Session, private val promise: Promis
     var progressLoading: Boolean = false
 
     override fun validate(args: Any?): Boolean {
-        if (args != null) {
-            if (args is BaseViewModel) {
-                val valid = isEmailValid(email)
-                if (!valid) {
-                    emailError = "Kindly check your email"
-                    args.notifyChanges()
-                    return false
-                }
-                if (!isPasswordValid(password)) {
-                    passwordError = "Check your password"
-                    args.notifyChanges()
-                    return false
-                }
-                return true
-            }
+        val valid = isEmailValid(email)
+        if (!valid) {
+            emailError = "Kindly check your email"
+            notifyChange()
+            return false
         }
-        return false
+        if (!isPasswordValid(password)) {
+            passwordError = "Kindly check your password"
+            notifyChange()
+            return false
+        }
+        return true
     }
 }

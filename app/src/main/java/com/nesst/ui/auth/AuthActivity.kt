@@ -25,7 +25,7 @@ class AuthActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setResult(Activity.RESULT_CANCELED)
-        setHasBackButton(true)
+        addBackButton()
 
         val binding = DataBindingUtil.setContentView<ActivityAuthBinding>(
             this,

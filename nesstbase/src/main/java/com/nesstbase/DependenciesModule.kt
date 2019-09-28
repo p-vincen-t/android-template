@@ -8,8 +8,8 @@ import com.nesstbase.repos.SyncUserRepository
 import com.nesstbase.scopes.AppScope
 import dagger.Module
 import dagger.Provides
-import promise.Promise
-import promisemodel.repo.StoreRepository
+import promise.commons.Promise
+import promise.model.repo.StoreRepository
 
 @Module
 object DependenciesModule {
@@ -28,7 +28,7 @@ object DependenciesModule {
     @AppScope
     @JvmStatic
     fun userRepository(authApi: AuthApi): StoreRepository<User> =
-        StoreRepository.createClass(
+        StoreRepository.of(
         SyncUserRepository::class,
         AsyncUserRepository::class,
         null,

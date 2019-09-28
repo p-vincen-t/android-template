@@ -5,6 +5,7 @@ import androidx.databinding.BindingAdapter
 import com.google.android.material.textfield.TextInputLayout
 
 object BindingAdapters {
+
     @JvmStatic
     @BindingAdapter("errorText")
     fun showError(editText: TextInputLayout, err: String) {
@@ -16,6 +17,8 @@ object BindingAdapters {
     fun changeVisibility(view: View, visible: Boolean) {
         view.visibility = if (visible) View.VISIBLE else View.GONE
     }
+
+
 
     @JvmStatic
     @BindingAdapter("focusChange")

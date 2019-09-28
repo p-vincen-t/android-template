@@ -4,8 +4,8 @@ import android.view.View
 import androidx.databinding.Bindable
 import com.nesst.ui.BaseViewModel
 import com.nesstbase.auth.Session
-import promise.Promise
-import promise.data.log.LogUtil
+import promise.commons.Promise
+import promise.commons.data.log.LogUtil
 
 class AuthViewModel(private val session: Session, private val promise: Promise) : BaseViewModel() {
 
@@ -41,15 +41,15 @@ class AuthViewModel(private val session: Session, private val promise: Promise) 
     fun authButtonClicked(_v: View) {
         when (nextAction) {
             ACTION_LOGIN -> {
-                if (loginForm.validate(this)) loginForm.executeNext(this)
+                if (loginForm.validate(null)) loginForm.executeNext(this)
                 else notifyChanges()
             }
             ACTION_RESET -> {
-                if (passwordResetForm.validate(this)) passwordResetForm.executeNext(this)
+                if (passwordResetForm.validate(null)) passwordResetForm.executeNext(this)
                 else notifyChanges()
             }
             ACTION_REGISTER -> {
-                if (registrationForm.validate(this)) registrationForm.executeNext(this)
+                if (registrationForm.validate(null)) registrationForm.executeNext(this)
                 else notifyChanges()
             }
         }

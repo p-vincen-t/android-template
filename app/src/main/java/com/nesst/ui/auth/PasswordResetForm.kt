@@ -5,16 +5,14 @@ import androidx.databinding.Bindable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nesst.tools.Result
-import com.nesst.ui.BaseViewModel
 import com.nesst.validators.isIdentifierValid
-import com.nesst.validators.isPasswordValid
 import com.nesstbase.auth.Session
-import com.nesstbase.auth.User
 import com.nesstbase.errors.AuthError
-import promise.Promise
-import promise.model.Result as PromiseResult
+import promise.commons.Promise
+import promise.commons.model.Result as PromiseResult
 
-class PasswordResetForm(private val session: Session, private val promise: Promise) : BaseObservable(), AuthForm {
+class PasswordResetForm(private val session: Session, private val promise: Promise) :
+    BaseObservable(), AuthForm {
 
     private val _result = MutableLiveData<Result<*>>()
 
@@ -62,17 +60,12 @@ class PasswordResetForm(private val session: Session, private val promise: Promi
     var progressLoading: Boolean = false
 
     override fun validate(args: Any?): Boolean {
-        if (args != null) {
-            if (args is BaseViewModel) {
-                val valid = isIdentifierValid(identifier)
-                if (!valid.first) {
-                    identifierError = valid.second!!
-                    args.notifyChanges()
-                    return false
-                }
-                return true
-            }
+        val valid = isIdentifierValid(identifier)
+        if (!valid.first) {
+            identifierError = valid.second!!
+            notifyChange()
+            return false
         }
-        return false
+        return true
     }
 }

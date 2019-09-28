@@ -12,4 +12,5 @@ interface UiComponent {
 
     fun inject(authActivity: AuthActivity)
     fun inject(dashboardActivity: DashboardActivity)
+    fun inject(baseActivity: BaseActivity)
 }

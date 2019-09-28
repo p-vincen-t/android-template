@@ -85,13 +85,13 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     fun profileInfoClicked(v: View) =
-        doAfterAnother(Runnable{onBackPressed()}, Runnable {startActivity(Intent(this, AuthActivity::class.java))})
+        executeBeforeAfterOnUi({onBackPressed()}, {startActivity(Intent(this, AuthActivity::class.java))})
 
     fun settingsClicked(v: View) =
-        doAfterAnother(Runnable{onBackPressed()}, Runnable {startActivity(Intent(this, SettingsActivity::class.java))})
+        executeBeforeAfterOnUi({onBackPressed()}, {startActivity(Intent(this, SettingsActivity::class.java))})
 
     fun legalClicked(v: View) =
-        doAfterAnother(Runnable{onBackPressed()}, Runnable {startActivity(Intent(this, LegalActivity::class.java))})
+        executeBeforeAfterOnUi({onBackPressed()}, {startActivity(Intent(this, LegalActivity::class.java))})
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -99,22 +99,23 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+// Handle action bar item clicks here. The action bar will
+    // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
+        when (item.itemId) {
             R.id.action_search -> true
             else -> super.onOptionsItemSelected(item)
         }
-    }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
-        when (item.itemId) {
-        }
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        drawerLayout.closeDrawer(GravityCompat.START)
+        executeBeforeAfterOnUi({
+            drawer_layout.closeDrawer(GravityCompat.START)
+        }, {
+            when (item.itemId) {
+
+            }
+        })
         return true
     }
 
@@ -122,14 +123,12 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
         private var mainFragment: MainFragment = MainFragment.newInstance()
         private var ordersFragment: OrdersFragment = OrdersFragment.newInstance()
         private var walletFragment: WalletFragment = WalletFragment.newInstance()
-
         override fun getItem(position: Int): Fragment = when (position) {
             0 -> mainFragment
             1 -> ordersFragment
             2 -> walletFragment
             else -> throw IllegalArgumentException("Only allowed three fragments")
         }
-
         override fun getCount(): Int = 3
     }
 }

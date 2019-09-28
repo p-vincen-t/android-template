@@ -1,13 +1,14 @@
 package com.nesstbase.auth
 
-import promise.model.S
+import promise.commons.model.Identifiable
 
-class User(val names: String, val email: String): S {
-    override fun id(id: Int) {
+
+class User(val names: String, val email: String): Identifiable<String> {
+    override fun setId(id: String) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun id(): Int {
+    override fun getId(): String {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

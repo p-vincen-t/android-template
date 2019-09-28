@@ -8,6 +8,7 @@ fun isEmailValid(input: String): Boolean =
 fun isPhoneNumberValid(input: String) = Patterns.PHONE.matcher(input).matches()
 
 fun isIdentifierValid(input: String): Pair<Boolean, String?> {
+    if (input.isBlank()) return  Pair(false, "Email or phone number is required")
     return if (input.contains('@')) {
         if (isEmailValid(input)) {
             Pair(true, null)

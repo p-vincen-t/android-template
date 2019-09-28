@@ -3,7 +3,7 @@ package com.nesstbase
 import com.nesstbase.auth.Session
 import com.nesstbase.scopes.AppScope
 import dagger.Component
-import promise.Promise
+import promise.commons.Promise
 
 @Component(modules = [DependenciesModule::class])
 @AppScope

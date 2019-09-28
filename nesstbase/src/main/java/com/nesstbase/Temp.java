@@ -9,17 +9,6 @@ public class Temp {
     private AuthApi authApi;
 
     public void login() {
-        authApi.login("", "")
-                .enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
 
-                    }
-
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-
-                    }
-                });
     }
 }

@@ -1,15 +1,15 @@
 package com.nesstbase
 
-import android.app.Application
-import promise.Promise
+import androidx.multidex.MultiDexApplication
+import promise.commons.Promise
 
-open class NesstBase : Application() {
+open class NesstBase : MultiDexApplication() {
 
     lateinit var appComponent: AppComponent
 
     override fun onCreate() {
         super.onCreate()
-        Promise.init(this).threads(100)
+        Promise.init(this,100)
         appComponent = DaggerAppComponent.create()
     }
 }
