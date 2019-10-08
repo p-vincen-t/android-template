@@ -9,9 +9,9 @@ import com.nesst.R
 import com.nesst.databinding.ActivityAuthBinding
 import com.nesst.ui.BaseActivity
 import com.nesst.ui.DaggerUiComponent
-import com.nesst.tools.DialogButton
-import com.nesst.tools.dialog
-import com.nesst.tools.Result
+import com.nesst.ui.DialogButton
+import com.nesst.ui.dialog
+import com.nesst.ui.Result
 import javax.inject.Inject
 
 

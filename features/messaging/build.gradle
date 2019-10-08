@@ -4,16 +4,10 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
-androidExtensions {
-    experimental = true
-    defaultCacheImplementation = "SPARSE_ARRAY"
-}
-
 android {
     dataBinding {
         enabled = true
     }
-    buildToolsVersion "29.0.1"
     compileSdkVersion 29
     defaultConfig {
         minSdkVersion 17
@@ -21,19 +15,15 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
-    testOptions {
-        unitTests {
-            includeAndroidResources = true
-            returnDefaultValues = true
-        }
-    }
 }
 
 dependencies {
-    implementation project(':app')
+    implementation project(path: ':featuresBase:messaging')
+    implementation project(path: ':app')
+    kapt 'com.google.dagger:dagger-compiler:2.24'
 }

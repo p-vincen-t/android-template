@@ -1,4 +1,4 @@
-package com.nesst.tools
+package com.nesst.ui
 
 /**
  * A generic class that holds a value with its loading status.

@@ -7,4 +7,10 @@
             android:title="@string/action_search"
             app:actionViewClass="androidx.appcompat.widget.SearchView"
             app:showAsAction="ifRoom|collapseActionView" />
+
+    <item
+            android:id="@+id/action_messages"
+            android:icon="@drawable/ic_message_black_24dp"
+            android:title="@string/messages"
+            app:showAsAction="ifRoom" />
 </menu>

@@ -8,7 +8,6 @@ import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
@@ -17,7 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.nesst.R
 import com.nesst.databinding.ActivityDashboardBinding
-import com.nesst.ui.BaseActivity
+import com.nesst.ui.BaseSplitActivity
 import com.nesst.ui.DaggerUiComponent
 import com.nesst.ui.auth.AuthActivity
 import com.nesst.ui.legal.LegalActivity
@@ -27,40 +26,46 @@ import kotlinx.android.synthetic.main.app_bar_dashboard.*
 import kotlinx.android.synthetic.main.content_dashboard.*
 import javax.inject.Inject
 
-class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+class DashboardActivity : BaseSplitActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     @Inject
     lateinit var dashboardViewModelFactory: DashboardViewModelFactory
 
     lateinit var dashboardViewModel: DashboardViewModel
 
-    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        when (item.itemId) {
-            R.id.navigation_main -> {
-                viewpager.setCurrentItem(0, true)
-                return@OnNavigationItemSelectedListener true
+    private val onNavigationItemSelectedListener =
+        BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_main -> {
+                    viewpager.setCurrentItem(0, true)
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.navigation_orders -> {
+                    viewpager.setCurrentItem(1, true)
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.navigation_wallet -> {
+                    viewpager.setCurrentItem(2, true)
+                    return@OnNavigationItemSelectedListener true
+                }
             }
-            R.id.navigation_orders -> {
-                viewpager.setCurrentItem(1, true)
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_wallet -> {
-                viewpager.setCurrentItem(2, true)
-                return@OnNavigationItemSelectedListener true
-            }
+            false
         }
-        false
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = DataBindingUtil.setContentView<ActivityDashboardBinding>(this, R.layout.activity_dashboard)
+        val binding = DataBindingUtil.setContentView<ActivityDashboardBinding>(
+            this,
+            R.layout.activity_dashboard
+        )
         setSupportActionBar(toolbar)
 
         DaggerUiComponent.builder().appComponent(app.appComponent).build().inject(this)
 
         dashboardViewModel = ViewModelProvider(this, dashboardViewModelFactory).get(
-            DashboardViewModel::class.java)
+            DashboardViewModel::class.java
+        )
 
         binding.viewModel = dashboardViewModel
 
@@ -85,13 +90,19 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     fun profileInfoClicked(v: View) =
-        executeBeforeAfterOnUi({onBackPressed()}, {startActivity(Intent(this, AuthActivity::class.java))})
+        executeBeforeAfterOnUi(
+            { onBackPressed() },
+            { startActivity(Intent(this, AuthActivity::class.java)) })
 
     fun settingsClicked(v: View) =
-        executeBeforeAfterOnUi({onBackPressed()}, {startActivity(Intent(this, SettingsActivity::class.java))})
+        executeBeforeAfterOnUi(
+            { onBackPressed() },
+            { startActivity(Intent(this, SettingsActivity::class.java)) })
 
     fun legalClicked(v: View) =
-        executeBeforeAfterOnUi({onBackPressed()}, {startActivity(Intent(this, LegalActivity::class.java))})
+        executeBeforeAfterOnUi(
+            { onBackPressed() },
+            { startActivity(Intent(this, LegalActivity::class.java)) })
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -105,6 +116,10 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
         // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
             R.id.action_search -> true
+            R.id.action_messages -> {
+                startActivityInMessagingFeature(MESSAGING_ACTIVITY)
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
 
@@ -119,7 +134,8 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    inner class SectionsPagerAdapter internal constructor(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+    inner class SectionsPagerAdapter internal constructor(fm: FragmentManager) :
+        FragmentPagerAdapter(fm) {
         private var mainFragment: MainFragment = MainFragment.newInstance()
         private var ordersFragment: OrdersFragment = OrdersFragment.newInstance()
         private var walletFragment: WalletFragment = WalletFragment.newInstance()
@@ -129,6 +145,7 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
             2 -> walletFragment
             else -> throw IllegalArgumentException("Only allowed three fragments")
         }
+
         override fun getCount(): Int = 3
     }
 }

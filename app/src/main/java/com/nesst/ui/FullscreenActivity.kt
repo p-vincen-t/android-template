@@ -1,10 +1,10 @@
 package com.nesst.ui
 
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.nesst.R
 import kotlinx.android.synthetic.main.activity_fullscreen.*
 

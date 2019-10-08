@@ -4,7 +4,7 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.nesst.tools.Result
+import com.nesst.ui.Result
 import com.nesst.validators.isIdentifierValid
 import com.nesst.validators.isPasswordValid
 import com.nesstbase.auth.Session

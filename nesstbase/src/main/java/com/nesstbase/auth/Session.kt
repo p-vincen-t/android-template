@@ -22,10 +22,11 @@ import promise.model.store.PreferenceStorage
 
 
 private fun getDeviceInfo(promise: Promise): Device {
-    return Device("mobile", "mobile description", true,"f8:59:71:59:5f:9c")
-    /*val manager = promise.context().getSystemService(Context.WIFI_SERVICE) as WifiManager?
+
+    val manager = promise.context().getSystemService(Context.WIFI_SERVICE) as WifiManager?
     val info = manager!!.connectionInfo
-    val address = info.macAddress*/
+    val address = info.macAddress
+    return Device("mobile", "mobile description", true,address)
 }
 
 private const val SESSION_PREFERENCES_NAME = "session_pref"
@@ -55,10 +56,8 @@ private val devicePreferenceStore: PreferenceStorage<Device> by lazy {
 @AppScope
 class Session @Inject constructor() {
 
-
     @Inject
     lateinit var authApi: AuthApi
-
 
     fun user(): User {
         return User("Peter Vincent", "dev4vin@gmail.com")

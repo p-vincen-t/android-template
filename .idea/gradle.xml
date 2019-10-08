@@ -9,11 +9,13 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/features" />
+            <option value="$PROJECT_DIR$/features/messaging" />
+            <option value="$PROJECT_DIR$/features/request" />
+            <option value="$PROJECT_DIR$/features/wallet" />
+            <option value="$PROJECT_DIR$/featuresBase" />
+            <option value="$PROJECT_DIR$/featuresBase/messaging" />
             <option value="$PROJECT_DIR$/nesstbase" />
-            <option value="$PROJECT_DIR$/requests" />
-            <option value="$PROJECT_DIR$/wallet" />
-            <option value="$PROJECT_DIR$/../flutter/.android/Flutter" />
-            <option value="$PROJECT_DIR$/../flutter/nesst_flutter_base/android" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

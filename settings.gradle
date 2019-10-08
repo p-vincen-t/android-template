@@ -1,8 +1,2 @@
-include ':app', ':nesstbase', ':requests', ':wallet'
+include ':app', ':nesstbase', ':features:wallet', ':features:messaging', ':featuresBase:messaging', 'features:request'
 
-setBinding(new Binding([gradle: this]))
-
-evaluate(new File(
-        settingsDir.parentFile,
-        'flutter/.android/include_flutter.groovy'
-))

@@ -1,24 +1,29 @@
-package com.nesst.tools
+package com.nesst.ui
 
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.StrictMode
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import com.tapadoo.alerter.Alerter
+import androidx.fragment.app.FragmentActivity
+import com.nesst.BuildConfig
+import com.nesst.R
 import com.tbruyelle.rxpermissions2.RxPermissions
 import promise.commons.util.Conditions
+
 
 /**
  *
@@ -68,6 +73,19 @@ fun Context.dialog(
     }
 }
 
+fun Activity.showProgress(message: String, cancelable: Boolean = true, show: Boolean = true): ProgressBar {
+    val builder = AlertDialog.Builder(this)
+    builder.setCancelable(cancelable)
+    val view = this.layoutInflater.inflate(R.layout.progress_bar_layout, null)
+    val textView = view.findViewById<TextView>(R.id.progress_text)
+    textView.text = message
+    builder.setView(view)
+    val dialog = builder.create()
+    if (show)dialog.show()
+    else dialog.dismiss()
+    return view.findViewById(R.id.progress_bar)
+}
+
 
 /**
  *
@@ -95,7 +113,7 @@ fun Activity.requestPermission(
  * @param permission
  */
 @SuppressLint("CheckResult")
-fun Activity.requestPermission(
+fun FragmentActivity.requestPermission(
     callBack: (String, Boolean) -> Unit,
     permission: String
 ) {
@@ -165,7 +183,11 @@ fun Activity.checkPermissions(
  * @param onSelected
  * @param selected
  */
-fun AppCompatSpinner.populate(items: List<String>, onSelected: ((Int) -> Unit)? = null, selected: String? = null) {
+fun AppCompatSpinner.populate(
+    items: List<String>,
+    onSelected: ((Int) -> Unit)? = null,
+    selected: String? = null
+) {
     val startAdapter = ArrayAdapter(this.context, android.R.layout.simple_spinner_item, items)
     startAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
     this.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -183,6 +205,13 @@ fun AppCompatSpinner.populate(items: List<String>, onSelected: ((Int) -> Unit)? 
     }
 }
 
+/** Launch an activity by its class name. */
+fun Context.launchActivity(className: String) {
+    Intent().setClassName(BuildConfig.APPLICATION_ID, className)
+        .also {
+            startActivity(it)
+        }
+}
 /**
  *
  *

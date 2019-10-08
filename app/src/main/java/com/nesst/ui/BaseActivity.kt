@@ -90,5 +90,4 @@ open class BaseActivity : AppCompatActivity() {
         promise.execute(before)
         promise.execute(after, wait ?: 500)
     }
-
 }
