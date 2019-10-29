@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--            android:icon="@drawable/ic_search_black_24dp"-->
     <item
             android:id="@+id/action_search"
-            android:icon="@drawable/ic_search_black_24dp"
             android:title="@string/action_search"
+            app:materialIcon="search_web"
+            app:materialIconColor="@color/icon"
             app:actionViewClass="androidx.appcompat.widget.SearchView"
             app:showAsAction="ifRoom|collapseActionView" />
 
     <item
             android:id="@+id/action_messages"
-            android:icon="@drawable/ic_message_black_24dp"
+            app:materialIcon="message"
+            app:materialIconColor="@color/icon"
             android:title="@string/messages"
             app:showAsAction="ifRoom" />
 </menu>

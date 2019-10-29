@@ -1,26 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         tools:context=".ui.auth.AuthActivity">
 
     <data>
-        <import type="com.nesst.ui.auth.AuthViewModel"/>
-        <import type="com.nesst.ui.auth.LoginForm"/>
-        <import type="com.nesst.ui.auth.RegistrationForm"/>
-        <import type="com.nesst.ui.auth.PasswordResetForm"/>
 
-        <variable name="viewModel"
-                  type="AuthViewModel"/>
+        <import type="com.nesst.ui.auth.AuthViewModel" />
+
+        <import type="com.nesst.ui.auth.LoginForm" />
+
+        <import type="com.nesst.ui.auth.RegistrationForm" />
+
+        <import type="com.nesst.ui.auth.PasswordResetForm" />
+
+        <variable
+                name="viewModel"
+                type="AuthViewModel" />
+
         <variable
                 name="loginForm"
                 type="LoginForm" />
+
         <variable
                 name="registrationForm"
                 type="RegistrationForm" />
+
         <variable
                 name="passwordResetForm"
                 type="PasswordResetForm" />
+
         <variable
                 name="nextAction"
                 type="Integer" />
@@ -29,118 +38,126 @@
     <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin"
             android:background="@android:color/white"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/big"
+            android:paddingTop="@dimen/big"
+            android:paddingRight="@dimen/big"
+            android:paddingBottom="@dimen/big">
 
-        <LinearLayout
-                android:orientation="vertical"
+        <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="16dp">
+
             <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
-                    android:text="@string/welcome"
-                    app:visibility="@{viewModel.showWelcomeMessage}"
                     android:layout_height="wrap_content"
+                    android:text="@string/welcome"
+                    android:textColor="@color/primaryText"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    android:textColor="@color/secondaryText"/>
+                    app:visibility="@{viewModel.showWelcomeMessage}" />
+
             <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
-                    android:text="@{viewModel.authActionTitle}"
-                    tools:text="Sign in to continue"
                     android:layout_height="wrap_content"
+                    android:text="@{viewModel.authActionTitle}"
+                    android:textColor="@color/primaryText"
                     android:textSize="16sp"
-                    android:textColor="@color/secondaryText"/>
-        </LinearLayout>
+                    tools:text="Sign in to continue" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <LinearLayout
-                android:orientation="vertical"
+        <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:padding="16dp">
+
             <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
-                    app:visibility="@{viewModel.identifierInputVisible}"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                    android:hint="@string/prompt_email_or_phone"
                     android:layout_marginBottom="16dp"
-                    app:errorText="@{nextAction == AuthViewModel.ACTION_LOGIN ? loginForm.identifierError : registrationForm.emailError}"
-                    app:errorEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                        android:text="@={loginForm.identifier}"
-                        android:layout_width="match_parent"
-                        tools:text="Email here"
-                        android:layout_height="wrap_content"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPassword"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:hint="@string/prompt_email_or_phone"
+                    android:inputType="textEmailAddress"
                     app:errorEnabled="true"
-                    app:errorText="@{loginForm.passwordError}"
-                    android:hint="@string/prompt_password">
+                    app:errorText="@{nextAction == AuthViewModel.ACTION_LOGIN ? loginForm.identifierError : registrationForm.emailError}"
+                    app:visibility="@{viewModel.identifierInputVisible}">
 
                 <com.google.android.material.textfield.TextInputEditText
-                        android:text="@={loginForm.password}"
                         android:layout_width="match_parent"
-                        tools:text="Password here"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:text="@={loginForm.identifier}"
+                        tools:text="Email here" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_password"
+                    android:inputType="textPassword"
+                    app:errorEnabled="true"
+                    app:errorText="@{loginForm.passwordError}">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={loginForm.password}"
+                        tools:text="Password here" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
-                    android:onClick="@{viewModel::loginOrForgotPasswordClicked}"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:enabled="@{viewModel.signInForgotPasswordButtonEnabled}"
-                    app:cornerRadius="0dp"
                     android:layout_gravity="end"
+                    android:enabled="@{viewModel.signInForgotPasswordButtonEnabled}"
+                    android:onClick="@{viewModel::loginOrForgotPasswordClicked}"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
                     android:text="@{viewModel.signInResetText}"
-                    style="@style/Widget.MaterialComponents.Button.TextButton" android:paddingLeft="8dp"
-                    android:paddingRight="8dp"/>
+                    app:cornerRadius="0dp" />
+
             <com.google.android.material.button.MaterialButton
-                    android:onClick="@{viewModel::authButtonClicked}"
-                    android:enabled="@{loginForm.dataValid}"
-                    tools:enabled="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:enabled="@{loginForm.dataValid}"
+                    android:onClick="@{viewModel::authButtonClicked}"
                     android:padding="16dp"
+                    android:text="@{viewModel.authActionButtonText}"
                     app:cornerRadius="0dp"
-                    tools:text="Sign in"
-                    android:text="@{viewModel.authActionButtonText}"/>
+                    tools:enabled="true"
+                    tools:text="Sign in" />
+
             <com.google.android.material.button.MaterialButton
-                    android:onClick="@{viewModel::createAccountClicked}"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:cornerRadius="0dp"
-                    android:enabled="@{viewModel.signInForgotPasswordButtonEnabled}"
                     android:layout_gravity="center"
-                    android:text="@string/create_account"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:enabled="@{viewModel.signInForgotPasswordButtonEnabled}"
+                    android:onClick="@{viewModel::createAccountClicked}"
                     android:paddingLeft="8dp"
-                    android:paddingRight="8dp"/>
+                    android:paddingRight="8dp"
+                    android:text="@string/create_account"
+                    app:cornerRadius="0dp" />
+
             <ProgressBar
-                    app:visibility="@{loginForm.progressLoading}"
-                    tools:visibility="visible"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="64dp"
                     android:layout_marginEnd="32dp"
-                    android:layout_marginBottom="64dp"/>
-        </LinearLayout>
+                    android:layout_marginBottom="64dp"
+                    app:visibility="@{loginForm.progressLoading}"
+                    tools:visibility="visible" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

@@ -1,72 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:fitsSystemWindows="true"
         xmlns:tools="http://schemas.android.com/tools">
+
     <data>
-        <variable name="viewModel" type="com.nesst.ui.dashboard.DashboardViewModel"/>
+
+        <variable
+                name="viewModel"
+                type="com.nesst.ui.dashboard.DashboardViewModel" />
     </data>
+
     <androidx.drawerlayout.widget.DrawerLayout
 
             android:id="@+id/drawer_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
             tools:openDrawer="start">
+
         <include
                 layout="@layout/app_bar_dashboard"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-        <com.google.android.material.navigation.NavigationView
-                android:id="@+id/nav_view"
-                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="@dimen/navigation_drawer_width"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
-                android:fitsSystemWindows="true"
-                app:headerLayout="@layout/nav_header_dashboard"
-                app:menu="@menu/activity_dashboard_drawer">
+                android:orientation="horizontal"
+                android:fitsSystemWindows="true">
 
-            <RelativeLayout
-
-                    android:layout_gravity="bottom"
+            <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                <View android:layout_width="match_parent"
-                      android:layout_height="0.1dp"
-                      android:id="@+id/view"
-                      android:background="@color/backgroundOverlay"/>
-                <com.google.android.material.button.MaterialButton
-                        android:onClick="settingsClicked"
-                        android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/backgroundDefault"
+                    android:padding="@dimen/big"
+                    android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/accounts_list"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/view"
-                        app:cornerRadius="0dp"
-                        android:text="@string/action_settings"
-                        style="@style/Widget.MaterialComponents.Button.TextButton" android:paddingLeft="8dp"
-                        android:paddingRight="8dp"/>
-                <com.google.android.material.button.MaterialButton
-                        android:onClick="legalClicked"
+                        android:layout_gravity="bottom|center_horizontal"
+                        android:orientation="vertical">
+
+                    <net.steamcrafted.materialiconlib.MaterialIconView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:materialIcon="help"
+                            android:onClick="legalClicked"
+                            android:layout_margin="@dimen/medium"
+                            app:materialIconColor="@color/icon"
+                            app:cornerRadius="0dp" />
+
+                    <net.steamcrafted.materialiconlib.MaterialIconView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="settingsClicked"
+                            android:layout_margin="@dimen/medium"
+                            app:materialIcon="settings"
+                            app:materialIconColor="@color/icon"
+                            app:cornerRadius="0dp" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:background="@color/primaryMain"
+                    android:orientation="vertical">
+
+                <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/view"
-                        android:layout_toStartOf="@+id/version_textView"
-                        app:cornerRadius="0dp"
-                        android:text="@string/legal"
-                        style="@style/Widget.MaterialComponents.Button.TextButton" android:paddingLeft="8dp"
-                        android:paddingRight="8dp"/>
+                        android:orientation="horizontal"
+                        android:padding="@dimen/big"
+                        android:layout_height="wrap_content">
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_toStartOf="@+id/snooze_account_materialIcon"
+                            android:orientation="vertical"
+                            android:layout_height="wrap_content">
+                        <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="match_parent"
+                                tools:text="@tools:sample/first_names"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                                android:textSize="24sp"
+                                android:layout_height="wrap_content"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                tools:text="@tools:sample/last_names"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                    <net.steamcrafted.materialiconlib.MaterialIconView
+                            android:id="@+id/snooze_account_materialIcon"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="settingsClicked"
+                            android:layout_margin="@dimen/medium"
+                            app:materialIcon="account_off"
+                            app:materialIconColor="@color/icon"
+                            app:cornerRadius="0dp" />
+
+                </RelativeLayout>
+                <View
+                        android:id="@+id/view"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.1dp"
+                        android:background="@color/backgroundOverlay" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/menu_list_recyclerView"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.1dp"
+                        android:background="@color/backgroundOverlay" />
                 <androidx.appcompat.widget.AppCompatTextView
-                        android:padding="16dp"
                         android:id="@+id/version_textView"
                         android:layout_width="wrap_content"
-                        android:layout_below="@+id/view"
-                        tools:text="v1.0"
-                        android:layout_alignParentEnd="true"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/secondaryText"/>
+                        android:layout_gravity="end"
+                        android:gravity="end"
+                        android:padding="16dp"
+                        android:textColor="@color/icon"
+                        tools:text="v1.0" />
 
-            </RelativeLayout>
-        </com.google.android.material.navigation.NavigationView>
-
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>
 

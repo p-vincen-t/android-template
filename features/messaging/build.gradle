@@ -4,16 +4,24 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
+androidExtensions {
+    experimental = true
+    defaultCacheImplementation = "SPARSE_ARRAY"
+}
+
 android {
     dataBinding {
         enabled = true
     }
-    compileSdkVersion 29
+
+    compileSdkVersion versions.compileSdk
+
     defaultConfig {
         minSdkVersion 17
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+        vectorDrawables.useSupportLibrary true
     }
 
     compileOptions {
@@ -26,4 +34,8 @@ dependencies {
     implementation project(path: ':featuresBase:messaging')
     implementation project(path: ':app')
     kapt 'com.google.dagger:dagger-compiler:2.24'
+
+    implementation 'com.google.firebase:firebase-messaging:20.0.0'
 }
+
+apply plugin: 'com.google.gms.google-services'

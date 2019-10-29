@@ -24,4 +24,7 @@ android {
 dependencies {
     implementation project(':app')
     kapt 'com.google.dagger:dagger-compiler:2.24'
+    // google maps library ------------------------------------------------------------------------
+    implementation 'com.google.android.gms:play-services-maps:15.0.1'
+    implementation 'com.google.android.gms:play-services-places:15.0.1'
 }

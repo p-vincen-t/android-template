@@ -10,9 +10,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
-import android.net.wifi.WifiInfo
-import android.content.Context.WIFI_SERVICE
-import androidx.core.content.ContextCompat.getSystemService
 import android.net.wifi.WifiManager
 import promise.commons.Promise
 import promise.commons.model.Result
@@ -59,18 +56,18 @@ class Session @Inject constructor() {
     @Inject
     lateinit var authApi: AuthApi
 
-    fun user(): User {
-        return User("Peter Vincent", "dev4vin@gmail.com")
+    fun user(): Account {
+        return Account("Peter Vincent", "dev4vin@gmail.com")
     }
 
-    private fun login(token: String, result: Result<in User, in AuthError>) {
+    private fun login(token: String, result: Result<in Account, in AuthError>) {
 
     }
 
     fun login(
         identifier: String,
         password: String,
-        result: Result<User, AuthError>
+        result: Result<Account, AuthError>
     ) {
         var deviceKey = preferences.getString(MOBILE_DEVICE_ID_KEY)
         if (deviceKey.isEmpty()) {

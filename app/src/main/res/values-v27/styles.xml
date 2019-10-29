@@ -2,14 +2,16 @@
 <resources>
     <style name="AppTheme" parent="Theme.MaterialComponents.Light">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@android:color/white</item>
-        <item name="colorPrimaryDark">@android:color/white</item>
-        <item name="colorAccent">@color/primaryLight</item>
+        <item name="colorPrimary">@color/primaryMain</item>
+        <item name="colorPrimaryDark">@color/primaryDark</item>
+        <item name="colorAccent">@color/secondaryMain</item>
+        <item name="android:windowBackground">@color/backgroundDefault</item>
+        <item name="homeAsUpIndicator">@drawable/ic_nav_back</item>
         <item name="android:windowLightNavigationBar">true</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/white</item>
-        <item name="android:windowBackground">@color/backgroundDefault</item>
+
     </style>
     <style name="AppTheme.FlatActionBar" parent="AppTheme">
         <item name="android:actionBarStyle">@style/ActionBar.Flat</item>

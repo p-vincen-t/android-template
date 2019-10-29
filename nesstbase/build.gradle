@@ -12,6 +12,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "API_URL", "\"http://394712cf.ngrok.io/\"")
+        buildConfigField("String", "API_URL_SOCKET", "\"ws://394712cf.ngrok.io/\"")
     }
 
     compileOptions {
@@ -32,14 +33,16 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.24'
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
     api 'io.reactivex.rxjava2:rxjava:2.2.12'
-    api 'com.github.android-promise:commons:1.0-beta1'
+    api 'com.github.android-promise:commons:1.0-beta2'
+    api 'com.github.android-promise:ui:1.0-beta2'
+    api 'com.github.android-promise:model:1.0-beta0'
     api "androidx.preference:preference-ktx:1.1.0"
     api 'androidx.core:core-ktx:1.1.0'
     api 'androidx.multidex:multidex:2.0.1'
-    implementation 'com.github.nkzawa:socket.io-client:0.6.0'
+
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.annotation:annotation:1.1.0'
-    implementation 'com.github.android-promise:model:1.0-beta0'
+
     implementation 'com.squareup.okhttp3:logging-interceptor:4.1.0'
     implementation 'com.squareup.retrofit2:retrofit:2.6.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.1'

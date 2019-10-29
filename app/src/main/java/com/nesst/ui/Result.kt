@@ -5,12 +5,7 @@ package com.nesst.ui
  * @param <T>
  */
 sealed class Result<out T : Any> {
-    /**
-     * Success when there's data returned
-     * @param T type of the data
-     * @property data
-     */
-    data class Success<out T : Any>(val data: T) : Result<T>() {
+    class Success<out T : Any>(val data: T) : Result<T>() {
         /**
          * any extra info to be passed together with the data
          */
@@ -26,13 +21,7 @@ sealed class Result<out T : Any> {
                 field = value ?: Any()
             }
     }
-
-    /**
-     * Error when there's no data
-     * @param E
-     * @property exception
-     */
-    data class Error<out E : Exception>(val exception: E) : Result<E>() {
+    class Error<out E : Exception>(val exception: E) : Result<E>() {
         /**
          * any extra info to be passed together with the data
          */
@@ -48,14 +37,9 @@ sealed class Result<out T : Any> {
                 field = value ?: Any()
             }
     }
-
-    /**
-     *
-     *
-     * @return
-     */
     override fun toString(): String = when (this) {
         is Success<*> -> "Success[data=$data, args=$args]"
         is Error -> "Error[exception=$exception, ergs=$args]"
     }
 }
+

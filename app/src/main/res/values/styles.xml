@@ -3,9 +3,9 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@android:color/white</item>
-        <item name="colorPrimaryDark">@android:color/white</item>
-        <item name="colorAccent">@color/primaryLight</item>
+        <item name="colorPrimary">@color/primaryMain</item>
+        <item name="colorPrimaryDark">@color/primaryDark</item>
+        <item name="colorAccent">@color/secondaryMain</item>
         <item name="android:windowBackground">@color/backgroundDefault</item>
         <item name="homeAsUpIndicator">@drawable/ic_nav_back</item>
     </style>
@@ -19,9 +19,9 @@
         <item name="android:displayOptions">homeAsUp</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar"/>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light"/>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
 
     <style name="TextLabelWhite" parent="TextAppearance.MaterialComponents.Body1">
         <!-- Hint color and label color in FALSE state -->

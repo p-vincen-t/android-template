@@ -5,13 +5,11 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.nesst.DialogButton
 import com.nesst.R
 import com.nesst.databinding.ActivityAuthBinding
-import com.nesst.ui.BaseActivity
-import com.nesst.ui.DaggerUiComponent
-import com.nesst.ui.DialogButton
-import com.nesst.ui.dialog
-import com.nesst.ui.Result
+import com.nesst.dialog
+import com.nesst.ui.*
 import javax.inject.Inject
 
 

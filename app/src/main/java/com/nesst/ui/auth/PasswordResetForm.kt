@@ -27,12 +27,12 @@ class PasswordResetForm(private val session: Session, private val promise: Promi
         viewModel.notifyChanges()
         promise.execute {
             session.resetPassword(identifier, PromiseResult<Boolean, AuthError>()
-                .responseCallBack {
+                .withCallBack {
                     promise.executeOnUi {
                         _result.value = Result.Success<Boolean>(it)
                     }
                 }
-                .errorCallBack {
+                .withErrorCallBack {
                     promise.executeOnUi {
                         _result.value = Result.Error<AuthError>(it)
                         dataValid = true

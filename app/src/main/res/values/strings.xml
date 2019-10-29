@@ -158,4 +158,8 @@
     <string name="downloading">Downloading %1$s</string>
     <string name="installing">Installing %1$s</string>
     <string name="error_for_module">Error: %1$i for module %2$s</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_survey_blog">Blog and Surveys</string>
+    <string name="title_blog">Blog</string>
+    <string name="title_survey">Survey</string>
 </resources>

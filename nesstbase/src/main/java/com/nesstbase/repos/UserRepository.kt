@@ -1,7 +1,7 @@
 package com.nesstbase.repos
 
 import com.nesstbase.apis.AuthApi
-import com.nesstbase.auth.User
+import com.nesstbase.auth.Account
 import com.nesstbase.errors.AuthError
 import com.nesstbase.auth.Device
 import org.json.JSONObject
@@ -34,9 +34,9 @@ val devicePreferenceStore: PreferenceStorage<Device> by lazy {
 }
 
 class AsyncUserRepository constructor(private val authApi: AuthApi) :
-    AbstractAsyncIDataStore<User>() {
+    AbstractAsyncIDataStore<Account>() {
     override fun one(
-        res: (User, Any?) -> Unit,
+        res: (Account, Any?) -> Unit,
         err: ((Exception) -> Unit)?,
         args: Map<String, Any?>?
     ) {
@@ -71,9 +71,9 @@ class AsyncUserRepository constructor(private val authApi: AuthApi) :
     }
 }
 
-class SyncUserRepository : AbstractSyncIDataStore<User>() {
+class SyncUserRepository : AbstractSyncIDataStore<Account>() {
 
-    override fun one(args: Map<String, Any?>?): Pair<User?, Any?> {
+    override fun one(args: Map<String, Any?>?): Pair<Account?, Any?> {
         return Pair(null, null)
     }
 

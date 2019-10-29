@@ -12,4 +12,9 @@ open class NesstBase : MultiDexApplication() {
         Promise.init(this,100)
         appComponent = DaggerAppComponent.create()
     }
+
+    companion object {
+        @JvmField
+        val TEMP_PREFERENCE_NAME = "nesst_prefs_temp"
+    }
 }

@@ -7,7 +7,8 @@ buildscript {
             'minSdk'            : 24,
             'targetSdk'         : 28,
             'kotlin'            : '1.3.50',
-            'playcore'          : '1.6.3',
+            'anko'              : '0.10.5',
+            'playcore'          : '1.6.4',
             'appcompat'         : '1.0.2',
             'espresso'          : '3.1.1',
             'extJunit'          : '1.1.0',
@@ -16,7 +17,9 @@ buildscript {
     ]
 
     ext.names = [
-            'applicationId': 'com.nesst'
+            'applicationId': 'com.nesst',
+            'versionName'  : '1.0',
+            'versionCode'  : 1
     ]
 
     repositories {
@@ -25,10 +28,10 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.0'
+        classpath 'com.android.tools.build:gradle:3.5.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
         classpath 'com.google.gms:google-services:4.3.2'
-        classpath 'androidx.navigation:navigation-safe-args-gradle-plugin:2.2.0-alpha03'
+        classpath 'androidx.navigation:navigation-safe-args-gradle-plugin:2.2.0-rc01'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }

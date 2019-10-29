@@ -7,7 +7,7 @@ import com.google.android.play.core.splitcompat.SplitCompat
 import com.nesstbase.NesstBase
 import java.util.*
 
-class App : NesstBase() {
+open class App : NesstBase() {
 
     override fun attachBaseContext(base: Context) {
         LanguageHelper.init(base)

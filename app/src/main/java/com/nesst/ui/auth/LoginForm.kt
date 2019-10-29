@@ -8,7 +8,7 @@ import com.nesst.ui.Result
 import com.nesst.validators.isIdentifierValid
 import com.nesst.validators.isPasswordValid
 import com.nesstbase.auth.Session
-import com.nesstbase.auth.User
+import com.nesstbase.auth.Account
 import com.nesstbase.errors.AuthError
 import promise.commons.Promise
 import promise.commons.model.Result as PromiseResult
@@ -28,13 +28,13 @@ class LoginForm(private val session: Session, private val promise: Promise) : Ba
         viewModel.signInForgotPasswordButtonEnabled = false
         viewModel.notifyChanges()
         promise.execute {
-            session.login(identifier, password, PromiseResult<User, AuthError>()
-                .responseCallBack {
+            session.login(identifier, password, PromiseResult<Account, AuthError>()
+                .withCallBack {
                     promise.executeOnUi {
-                        _result.value = Result.Success<User>(it)
+                        _result.value = Result.Success<Account>(it)
                     }
                 }
-                .errorCallBack {
+                .withErrorCallBack {
                     promise.executeOnUi {
                         _result.value = Result.Error<AuthError>(it)
                         dataValid = true

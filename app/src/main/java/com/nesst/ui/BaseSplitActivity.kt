@@ -8,9 +8,7 @@ import android.widget.Toast
 import com.google.android.play.core.splitcompat.SplitCompat
 import com.google.android.play.core.splitinstall.*
 import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
-import com.nesst.BuildConfig
-import com.nesst.LanguageHelper
-import com.nesst.R
+import com.nesst.*
 import java.util.*
 
 /**
@@ -166,7 +164,7 @@ abstract class BaseSplitActivity : BaseActivity() {
     }
 
 
-    /** Display a loading state to the user. */
+    /** Display a loading state to the account. */
     private fun displayLoadingState(state: SplitInstallSessionState, message: String) {
         val bar = showProgress(message)
         bar.max = state.totalBytesToDownload().toInt()
@@ -176,7 +174,7 @@ abstract class BaseSplitActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == CONFIRMATION_REQUEST_CODE) {
-            // Handle the user's decision. For example, if the user selects "Cancel",
+            // Handle the account's decision. For example, if the account selects "Cancel",
             // you may want to disable certain functionality that depends on the module.
             if (resultCode == Activity.RESULT_CANCELED) {
                 Toast.makeText(this, R.string.user_cancelled, Toast.LENGTH_LONG).show()

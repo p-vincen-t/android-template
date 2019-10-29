@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_margin="@dimen/medium"
+        android:layout_height="wrap_content">
+        <com.github.florent37.shapeofview.shapes.CircleView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <net.steamcrafted.materialiconlib.MaterialIconView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    app:materialIcon="account_circle"
+                    app:materialIconColor="@color/icon" />
+
+        </com.github.florent37.shapeofview.shapes.CircleView>
+
+</LinearLayout>
