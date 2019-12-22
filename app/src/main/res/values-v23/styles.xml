@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="AppTheme" parent="Theme.MaterialComponents.Light">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/primaryMain</item>
         <item name="colorPrimaryDark">@color/primaryDark</item>
         <item name="colorAccent">@color/secondaryMain</item>
         <item name="android:windowBackground">@color/backgroundDefault</item>
-        <item name="homeAsUpIndicator">@drawable/ic_nav_back</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/white</item>
     </style>
+
     <style name="AppTheme.FlatActionBar" parent="AppTheme">
         <item name="android:actionBarStyle">@style/ActionBar.Flat</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
+
     <style name="ActionBar.Flat" parent="android:Widget.Material.ActionBar.Solid">
         <item name="android:windowActionBarOverlay">false</item>
         <item name="android:background">@android:color/white</item>

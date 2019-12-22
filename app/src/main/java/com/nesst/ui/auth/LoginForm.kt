@@ -7,8 +7,8 @@ import androidx.lifecycle.MutableLiveData
 import com.nesst.ui.Result
 import com.nesst.validators.isIdentifierValid
 import com.nesst.validators.isPasswordValid
-import com.nesstbase.auth.Session
 import com.nesstbase.auth.Account
+import com.nesstbase.auth.Session
 import com.nesstbase.errors.AuthError
 import promise.commons.Promise
 import promise.commons.model.Result as PromiseResult

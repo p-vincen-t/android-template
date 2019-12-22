@@ -84,7 +84,11 @@ fun Context.dialog(
     }
 }
 
-fun Activity.showProgress(message: String, cancelable: Boolean = true, show: Boolean = true): ProgressBar {
+fun Activity.showProgress(
+    message: String,
+    cancelable: Boolean = true,
+    show: Boolean = true
+): ProgressBar {
     val builder = AlertDialog.Builder(this)
     builder.setCancelable(cancelable)
     val view = this.layoutInflater.inflate(R.layout.progress_bar_layout, null)
@@ -92,7 +96,7 @@ fun Activity.showProgress(message: String, cancelable: Boolean = true, show: Boo
     textView.text = message
     builder.setView(view)
     val dialog = builder.create()
-    if (show)dialog.show()
+    if (show) dialog.show()
     else dialog.dismiss()
     return view.findViewById(R.id.progress_bar)
 }
@@ -224,6 +228,7 @@ fun Context.launchActivity(className: String) {
             startActivity(it)
         }
 }
+
 /**
  *
  *

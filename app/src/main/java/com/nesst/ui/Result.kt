@@ -21,6 +21,7 @@ sealed class Result<out T : Any> {
                 field = value ?: Any()
             }
     }
+
     class Error<out E : Exception>(val exception: E) : Result<E>() {
         /**
          * any extra info to be passed together with the data
@@ -37,6 +38,7 @@ sealed class Result<out T : Any> {
                 field = value ?: Any()
             }
     }
+
     override fun toString(): String = when (this) {
         is Success<*> -> "Success[data=$data, args=$args]"
         is Error -> "Error[exception=$exception, ergs=$args]"

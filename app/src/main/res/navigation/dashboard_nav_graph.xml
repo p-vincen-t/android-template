@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2017, Nesst
+  ~ Licensed under the Apache License, Version 2.0, "Nesst Inc".
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/nav_graph"
+        app:startDestination="@id/mainFragment">
+    <fragment
+            android:id="@+id/mainFragment"
+            android:name="com.nesst.ui.dashboard.MainFragment"
+            android:label="fragment_main"
+            tools:layout="@layout/main_fragment" >
+    </fragment>
+    <fragment
+            android:id="@+id/recentActivitiesFragment"
+            android:name="com.nesst.ui.dashboard.RecentActivitiesFragment"
+            android:label="fragment_recent_activities"
+            tools:layout="@layout/recent_activities_fragment" >
+    </fragment>
+    <fragment
+            android:id="@+id/walletFragment"
+            android:name="com.nesst.ui.dashboard.WalletFragment"
+            android:label="fragment_wallet"
+            tools:layout="@layout/wallet_fragment" />
+</navigation>

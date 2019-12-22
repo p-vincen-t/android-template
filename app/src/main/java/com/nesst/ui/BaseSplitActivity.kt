@@ -192,10 +192,10 @@ abstract class BaseSplitActivity : BaseActivity() {
 
 //        private const val INSTANT_PACKAGE_NAME = "com.google.android.samples.instantdynamicfeatures"
 
-         const val MESSAGING_ACTIVITY = "$PACKAGE_NAME.$MESSAGING_FEATURE_NAME.ui.MainActivity"
+        const val MESSAGING_ACTIVITY = "$PACKAGE_NAME.$MESSAGING_FEATURE_NAME.ui.MainActivity"
 
 
-//        private const val INSTANT_SAMPLE_CLASSNAME = "$INSTANT_PACKAGE_NAME.SplitInstallInstantActivity"
+        //        private const val INSTANT_SAMPLE_CLASSNAME = "$INSTANT_PACKAGE_NAME.SplitInstallInstantActivity"
         private const val CONFIRMATION_REQUEST_CODE = 1
     }
 

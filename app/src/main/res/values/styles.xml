@@ -7,7 +7,6 @@
         <item name="colorPrimaryDark">@color/primaryDark</item>
         <item name="colorAccent">@color/secondaryMain</item>
         <item name="android:windowBackground">@color/backgroundDefault</item>
-        <item name="homeAsUpIndicator">@drawable/ic_nav_back</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

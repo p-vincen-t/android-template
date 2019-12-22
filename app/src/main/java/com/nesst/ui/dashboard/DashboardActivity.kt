@@ -16,26 +16,26 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationView
 import com.nesst.R
 import com.nesst.databinding.ActivityDashboardBinding
-import com.nesst.ui.*
+import com.nesst.ui.BaseSplitActivity
+import com.nesst.ui.DaggerUiComponent
 import com.nesst.ui.auth.AuthActivity
 import com.nesst.ui.legal.LegalActivity
+import com.nesst.ui.messaging.MessagingActivity
 import com.nesst.ui.settings.SettingsActivity
 import com.nesst.ui.viewHolders.NavigationAccountViewHolder
 import com.nesstbase.auth.Account
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.app_bar_dashboard.*
 import kotlinx.android.synthetic.main.content_dashboard.*
-import net.steamcrafted.materialiconlib.MaterialMenuInflater
+import org.jetbrains.anko.intentFor
 import promise.ui.PromiseAdapter
 import promise.ui.model.Viewable
 import javax.inject.Inject
 import kotlin.reflect.KClass
 
-class DashboardActivity : BaseSplitActivity(), NavigationView.OnNavigationItemSelectedListener,
-    PromiseAdapter.Listener<Account> {
+class DashboardActivity : BaseSplitActivity(), PromiseAdapter.Listener<Account> {
 
     @Inject
     lateinit var dashboardViewModelFactory: DashboardViewModelFactory
@@ -51,7 +51,7 @@ class DashboardActivity : BaseSplitActivity(), NavigationView.OnNavigationItemSe
                     viewpager.setCurrentItem(0, true)
                     return@OnNavigationItemSelectedListener true
                 }
-                R.id.navigation_orders -> {
+                R.id.navigation_recent_activities -> {
                     viewpager.setCurrentItem(1, true)
                     return@OnNavigationItemSelectedListener true
                 }
@@ -66,7 +66,7 @@ class DashboardActivity : BaseSplitActivity(), NavigationView.OnNavigationItemSe
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        /*val binding = ActivityDashboardBinding()*/
+
         val binding = DataBindingUtil.setContentView<ActivityDashboardBinding>(
             this,
             R.layout.activity_dashboard
@@ -95,8 +95,6 @@ class DashboardActivity : BaseSplitActivity(), NavigationView.OnNavigationItemSe
 
         toggle.syncState()
 
-        nav_view.setNavigationItemSelectedListener(this)
-
         bottom_nav_view.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
         viewpager.adapter = SectionsPagerAdapter(supportFragmentManager)
@@ -114,7 +112,7 @@ class DashboardActivity : BaseSplitActivity(), NavigationView.OnNavigationItemSe
     }
 
     override fun onClick(t: Account, id: Int) {
-
+        startActivity(intentFor<AuthActivity>())
     }
 
 
@@ -143,50 +141,37 @@ class DashboardActivity : BaseSplitActivity(), NavigationView.OnNavigationItemSe
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        MaterialMenuInflater
-            .with(this) // Provide the activity context
-            // Set the fall-back color for all the icons. Colors set inside the XML will always have higher priority
-            // Inflate the menu
-            .inflate(R.menu.dashboard, menu)
+        menuInflater.inflate(R.menu.dashboard, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
-// Handle action bar item clicks here. The action bar will
-    // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
             R.id.action_search -> true
             R.id.action_messages -> {
-                startActivityInMessagingFeature(MESSAGING_ACTIVITY)
+                startActivity(Intent(this, MessagingActivity::class.java))
+                //startActivityInMessagingFeature(MESSAGING_ACTIVITY)
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        executeBeforeAfterOnUi({
-            drawer_layout.closeDrawer(GravityCompat.START)
-        }, {
-            when (item.itemId) {
-
-            }
-        })
-        return true
-    }
-
     inner class SectionsPagerAdapter internal constructor(fm: FragmentManager) :
         FragmentPagerAdapter(fm) {
         private var mainFragment: MainFragment = MainFragment.newInstance()
-        private var ordersFragment: OrdersFragment = OrdersFragment.newInstance()
+        private var recentActivitiesFragment: RecentActivitiesFragment = RecentActivitiesFragment.newInstance()
         private var walletFragment: WalletFragment = WalletFragment.newInstance()
         override fun getItem(position: Int): Fragment = when (position) {
             0 -> mainFragment
-            1 -> ordersFragment
+            1 -> recentActivitiesFragment
             2 -> walletFragment
             else -> throw IllegalArgumentException("Only allowed three fragments")
         }
 
         override fun getCount(): Int = 3
+    }
+
+    fun snoozeNotifications(view: View) {
+
     }
 }

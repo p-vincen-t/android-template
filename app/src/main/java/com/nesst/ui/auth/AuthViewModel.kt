@@ -83,8 +83,11 @@ class AuthViewModel(private val session: Session, private val promise: Promise) 
     }
 
     companion object {
-        @JvmField val ACTION_LOGIN = 1
-        @JvmField val ACTION_RESET = 2
-        @JvmField val ACTION_REGISTER = 3
+        @JvmField
+        val ACTION_LOGIN = 1
+        @JvmField
+        val ACTION_RESET = 2
+        @JvmField
+        val ACTION_REGISTER = 3
     }
 }

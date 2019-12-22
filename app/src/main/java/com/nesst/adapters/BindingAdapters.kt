@@ -3,6 +3,8 @@ package com.nesst.adapters
 import android.view.View
 import androidx.databinding.BindingAdapter
 import com.google.android.material.textfield.TextInputLayout
+import com.nesst.ui.views.PhotoView
+import com.nesstbase.models.Photo
 
 object BindingAdapters {
 
@@ -18,11 +20,11 @@ object BindingAdapters {
         view.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
-
-
     @JvmStatic
-    @BindingAdapter("focusChange")
-    fun onFocusChange(view: View, visible: Boolean) {
-        view.visibility = if (visible) View.VISIBLE else View.GONE
+    @BindingAdapter("photo")
+    fun photo(view: PhotoView, photo: Photo) {
+        view.photo = photo
     }
+
+
 }

@@ -1,38 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/nav_header_height" xmlns:tools="http://schemas.android.com/tools"
-        android:paddingBottom="@dimen/big"
-        android:paddingLeft="@dimen/big"
-        android:paddingRight="@dimen/big"
-        android:paddingTop="@dimen/big"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Light"
+        android:layout_height="@dimen/nav_header_height"
+        android:gravity="bottom"
         android:orientation="vertical"
-        android:gravity="bottom">
+        android:paddingLeft="@dimen/big"
+        android:paddingTop="@dimen/big"
+        android:paddingRight="@dimen/big"
+        android:paddingBottom="@dimen/big"
+        android:theme="@style/ThemeOverlay.MaterialComponents.Light">
 
     <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/medium"
-            app:srcCompat="@mipmap/ic_launcher_round"
-            android:onClick="profileInfoClicked"
             android:contentDescription="@string/nav_header_desc"
-            android:id="@+id/imageView"/>
+            android:onClick="profileInfoClicked"
+            android:paddingTop="@dimen/medium"
+            app:srcCompat="@mipmap/ic_launcher_round" />
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/medium"
             android:onClick="profileInfoClicked"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"/>
+            android:paddingTop="@dimen/medium"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
     <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView"
             android:onClick="profileInfoClicked"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
 
 </LinearLayout>

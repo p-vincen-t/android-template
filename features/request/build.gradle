@@ -9,6 +9,9 @@ android {
         enabled = true
     }
     compileSdkVersion 29
+
+    buildToolsVersion "29.0.1"
+
     defaultConfig {
         minSdkVersion 17
         targetSdkVersion 29

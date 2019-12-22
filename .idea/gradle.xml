@@ -11,12 +11,9 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/features" />
             <option value="$PROJECT_DIR$/features/blog" />
-            <option value="$PROJECT_DIR$/features/messaging" />
             <option value="$PROJECT_DIR$/features/request" />
             <option value="$PROJECT_DIR$/features/survey" />
             <option value="$PROJECT_DIR$/features/wallet" />
-            <option value="$PROJECT_DIR$/featuresBase" />
-            <option value="$PROJECT_DIR$/featuresBase/messaging" />
             <option value="$PROJECT_DIR$/nesstbase" />
           </set>
         </option>
