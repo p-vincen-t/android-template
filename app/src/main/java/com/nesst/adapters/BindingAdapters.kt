@@ -4,7 +4,7 @@ import android.view.View
 import androidx.databinding.BindingAdapter
 import com.google.android.material.textfield.TextInputLayout
 import com.nesst.ui.views.PhotoView
-import com.nesstbase.models.Photo
+import com.nesst.appdomain.models.Photo
 
 object BindingAdapters {
 

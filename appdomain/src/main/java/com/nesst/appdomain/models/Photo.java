@@ -1,9 +1,8 @@
 
-package com.nesstbase.models;
+package com.nesst.appdomain.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 
 public class Photo implements Parcelable {
 

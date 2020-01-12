@@ -4,8 +4,8 @@ package com.nesst.ui
  * A generic class that holds a value with its loading status.
  * @param <T>
  */
-sealed class Result<out T : Any> {
-    class Success<out T : Any>(val data: T) : Result<T>() {
+sealed class UIResult<out T : Any> {
+    class Success<out T : Any>(val data: T) : UIResult<T>() {
         /**
          * any extra info to be passed together with the data
          */
@@ -22,7 +22,7 @@ sealed class Result<out T : Any> {
             }
     }
 
-    class Error<out E : Exception>(val exception: E) : Result<E>() {
+    class Error<out E : Exception>(val exception: E) : UIResult<E>() {
         /**
          * any extra info to be passed together with the data
          */

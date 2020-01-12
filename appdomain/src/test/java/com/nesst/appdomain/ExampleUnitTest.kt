@@ -11,17 +11,20 @@
  * limitations under the License.
  */
 
-package com.nesst.ui.messaging
+package com.nesst.appdomain
 
-import android.os.Bundle
-import com.nesst.R
-import com.nesst.ui.BaseActivity
+import org.junit.Test
 
-class ContactsActivity : BaseActivity() {
+import org.junit.Assert.*
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_contacts)
-        addBackButton()
+/**
+ * Example local unit test, which will execute on the development machine (host).
+ *
+ * See [testing documentation](http://d.android.com/tools/testing).
+ */
+class ExampleUnitTest {
+    @Test
+    fun addition_isCorrect() {
+        assertEquals(4, 2 + 2)
     }
 }

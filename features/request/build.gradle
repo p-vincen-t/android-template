@@ -10,7 +10,7 @@ android {
     }
     compileSdkVersion 29
 
-    buildToolsVersion "29.0.1"
+    buildToolsVersion "29.0.2"
 
     defaultConfig {
         minSdkVersion 17
@@ -28,6 +28,6 @@ dependencies {
     implementation project(':app')
     kapt 'com.google.dagger:dagger-compiler:2.24'
     // google maps library ------------------------------------------------------------------------
-    implementation 'com.google.android.gms:play-services-maps:15.0.1'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-places:15.0.1'
 }

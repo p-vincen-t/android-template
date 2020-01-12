@@ -1,2 +1,2 @@
-include ':app', ':nesstbase', ':features:wallet',':features:blog', ':features:survey', 'features:request'
+include ':app', ':nesstbase', ':features:wallet',':features:blog', ':features:survey', ':appdomain', 'features:request'
 

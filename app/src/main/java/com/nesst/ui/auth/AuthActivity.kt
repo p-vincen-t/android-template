@@ -11,7 +11,7 @@ import com.nesst.databinding.ActivityAuthBinding
 import com.nesst.dialog
 import com.nesst.ui.BaseActivity
 import com.nesst.ui.DaggerUiComponent
-import com.nesst.ui.Result
+import com.nesst.ui.UIResult
 import javax.inject.Inject
 
 
@@ -52,9 +52,9 @@ class AuthActivity : BaseActivity() {
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        authViewModel.loginForm.result.observe(this@AuthActivity, Observer {
+        authViewModel.loginForm.UIResult.observe(this@AuthActivity, Observer {
             when (it ?: return@Observer) {
-                is Result.Success<*> -> {
+                is UIResult.Success<*> -> {
                     setResult(Activity.RESULT_OK)
                     finish()
                 }

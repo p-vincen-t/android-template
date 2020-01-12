@@ -4,7 +4,7 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.nesst.ui.Result
+import com.nesst.ui.UIResult
 import com.nesst.validators.isIdentifierValid
 import com.nesst.validators.isPasswordValid
 import com.nesstbase.auth.Account
@@ -16,9 +16,9 @@ import promise.commons.model.Result as PromiseResult
 class LoginForm(private val session: Session, private val promise: Promise) : BaseObservable(),
     AuthForm {
 
-    private val _result = MutableLiveData<Result<*>>()
+    private val _result = MutableLiveData<UIResult<*>>()
 
-    val result: LiveData<Result<*>> = _result
+    val UIResult: LiveData<UIResult<*>> = _result
 
     override fun executeNext(viewModel: AuthViewModel) {
 
@@ -31,12 +31,12 @@ class LoginForm(private val session: Session, private val promise: Promise) : Ba
             session.login(identifier, password, PromiseResult<Account, AuthError>()
                 .withCallBack {
                     promise.executeOnUi {
-                        _result.value = Result.Success<Account>(it)
+                        _result.value = UIResult.Success<Account>(it)
                     }
                 }
                 .withErrorCallBack {
                     promise.executeOnUi {
-                        _result.value = Result.Error<AuthError>(it)
+                        _result.value = UIResult.Error<AuthError>(it)
                         dataValid = true
                         notifyChange()
                         viewModel.signInForgotPasswordButtonEnabled = false

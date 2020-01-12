@@ -14,22 +14,19 @@
 package com.nesst.ui.views
 
 import android.content.Context
-import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.widget.FrameLayout
-import androidx.appcompat.widget.AppCompatImageView
 import com.nesst.R
-import com.nesstbase.models.Photo
+import com.nesst.appdomain.models.Photo
 
 class PhotoView : FrameLayout {
 
     var photo: Photo? = null
 
-    private lateinit var
     private var placeHolderDrawable: Drawable? = null
     private var errorDrawable: Drawable? = null
 

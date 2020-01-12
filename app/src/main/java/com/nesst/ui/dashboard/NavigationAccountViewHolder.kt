@@ -11,17 +11,25 @@
  * limitations under the License.
  */
 
-package com.nesst.ui.messaging
+package com.nesst.ui.dashboard
 
-import android.os.Bundle
+import android.view.View
+import androidx.appcompat.widget.AppCompatImageView
 import com.nesst.R
-import com.nesst.ui.BaseActivity
+import com.nesstbase.auth.Account
+import promise.ui.model.Viewable
 
-class ContactsActivity : BaseActivity() {
+class NavigationAccountViewHolder(private val account: Account) : Viewable {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_contacts)
-        addBackButton()
+    lateinit var accountImageView: AppCompatImageView
+
+    override fun layout(): Int = R.layout.account_nav_layout
+
+    override fun bind(view: View, args: Any?) {
+
+    }
+
+    override fun init(view: View) {
+        accountImageView = view.findViewById(R.id.account_imageView)
     }
 }

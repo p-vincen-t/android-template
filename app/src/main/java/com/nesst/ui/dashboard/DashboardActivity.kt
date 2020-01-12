@@ -24,7 +24,6 @@ import com.nesst.ui.auth.AuthActivity
 import com.nesst.ui.legal.LegalActivity
 import com.nesst.ui.messaging.MessagingActivity
 import com.nesst.ui.settings.SettingsActivity
-import com.nesst.ui.viewHolders.NavigationAccountViewHolder
 import com.nesstbase.auth.Account
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.app_bar_dashboard.*
@@ -101,7 +100,7 @@ class DashboardActivity : BaseSplitActivity(), PromiseAdapter.Listener<Account> 
 
         accountsAdapter = PromiseAdapter(ArrayMap<Class<*>, KClass<out Viewable>>().apply {
             put(Account::class.java, NavigationAccountViewHolder::class)
-        }, this)
+        }, this, null)
 
         accounts_list.layoutManager = LinearLayoutManager(this)
         accounts_list.adapter = accountsAdapter
@@ -114,7 +113,6 @@ class DashboardActivity : BaseSplitActivity(), PromiseAdapter.Listener<Account> 
     override fun onClick(t: Account, id: Int) {
         startActivity(intentFor<AuthActivity>())
     }
-
 
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
