@@ -1,7 +1,7 @@
 package com.nesstbase
 
-import com.nesstbase.auth.Session
-import com.nesstbase.scopes.AppScope
+import com.google.gson.Gson
+import com.nesstbase.data.DataComponent
 import dagger.Component
 import promise.commons.Promise
 
@@ -9,5 +9,6 @@ import promise.commons.Promise
 @AppScope
 interface AppComponent {
     fun promise(): Promise
-    fun session(): Session
+    fun gson(): Gson
+    fun dataComponent(): DataComponent
 }

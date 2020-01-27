@@ -13,23 +13,12 @@
 
 package com.nesst.ui.dashboard
 
-import android.view.View
-import androidx.appcompat.widget.AppCompatImageView
-import com.nesst.R
-import com.nesst.appdomain.session.Account
-import promise.ui.model.Viewable
+import com.nesstbase.session.SessionComponent
+import dagger.Component
 
-class NavigationAccountViewHolder(private val account: Account) : Viewable {
+@Component(dependencies = [SessionComponent::class])
+@DashboardScope
+interface DashboardComponent {
 
-    lateinit var accountImageView: AppCompatImageView
-
-    override fun layout(): Int = R.layout.account_nav_layout
-
-    override fun bind(view: View, args: Any?) {
-
-    }
-
-    override fun init(view: View) {
-        accountImageView = view.findViewById(R.id.account_imageView)
-    }
+    fun inject(dashboardActivity: DashboardActivity)
 }

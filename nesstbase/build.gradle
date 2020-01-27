@@ -33,7 +33,7 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.24'
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
     api 'io.reactivex.rxjava2:rxjava:2.2.12'
-    api 'com.github.android-promise:commons:1.0'
+
     api 'com.github.android-promise:model:1.0-beta0'
     api "androidx.preference:preference-ktx:1.1.0"
     api 'androidx.core:core-ktx:1.1.0'

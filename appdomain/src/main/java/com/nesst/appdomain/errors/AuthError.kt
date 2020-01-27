@@ -11,25 +11,14 @@
  * limitations under the License.
  */
 
-package com.nesst.ui.dashboard
+package com.nesst.appdomain.errors
 
-import android.view.View
-import androidx.appcompat.widget.AppCompatImageView
-import com.nesst.R
-import com.nesst.appdomain.session.Account
-import promise.ui.model.Viewable
-
-class NavigationAccountViewHolder(private val account: Account) : Viewable {
-
-    lateinit var accountImageView: AppCompatImageView
-
-    override fun layout(): Int = R.layout.account_nav_layout
-
-    override fun bind(view: View, args: Any?) {
+class AuthError(missingDeviceKey: Any?) : Exception() {
+    object MISSING_DEVICE_KEY {
 
     }
 
-    override fun init(view: View) {
-        accountImageView = view.findViewById(R.id.account_imageView)
+    object AUTH_CREDENTIALS_MISSING {
+
     }
 }

@@ -142,13 +142,11 @@ fun FragmentActivity.requestPermission(
  *
  * @return
  */
-fun Context.appVersionName(): String {
-    return try {
-        val packageInfo = this.packageManager.getPackageInfo(this.packageName, 0)
-        packageInfo.versionName.toString()
-    } catch (e: PackageManager.NameNotFoundException) {
-        ""
-    }
+fun Context.appVersionName(): String = try {
+    val packageInfo = this.packageManager.getPackageInfo(this.packageName, 0)
+    packageInfo.versionName.toString()
+} catch (e: PackageManager.NameNotFoundException) {
+    ""
 }
 
 /**

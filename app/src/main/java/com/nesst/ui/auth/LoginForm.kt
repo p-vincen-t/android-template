@@ -4,12 +4,10 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.nesst.appdomain.session.Session
 import com.nesst.ui.UIResult
 import com.nesst.validators.isIdentifierValid
 import com.nesst.validators.isPasswordValid
-import com.nesstbase.auth.Account
-import com.nesstbase.auth.Session
-import com.nesstbase.errors.AuthError
 import promise.commons.Promise
 import promise.commons.model.Result as PromiseResult
 

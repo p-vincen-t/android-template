@@ -1,4 +1,4 @@
-package com.nesstbase.scopes
+package com.nesstbase
 
 import javax.inject.Scope
 

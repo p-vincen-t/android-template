@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.widget.Toast
 import com.google.android.play.core.splitcompat.SplitCompat
 import com.google.android.play.core.splitinstall.*
@@ -35,39 +36,35 @@ abstract class BaseSplitActivity : BaseActivity() {
             state.languages().first()
         } else state.moduleNames().joinToString(" - ")
 
-        when (state.status()) {
-            SplitInstallSessionStatus.DOWNLOADING -> {
-                //  In order to see this, the application has to be uploaded to the Play Store.
-                displayLoadingState(state, getString(R.string.downloading, names))
-            }
-            SplitInstallSessionStatus.REQUIRES_USER_CONFIRMATION -> {
-                /*
-                  This may occur when attempting to download a sufficiently large module.
+        if (state.status() == SplitInstallSessionStatus.DOWNLOADING) {
+            //  In order to see this, the application has to be uploaded to the Play Store.
+            displayLoadingState(state, getString(R.string.downloading, names))
+        }
+        else if (state.status() == SplitInstallSessionStatus.REQUIRES_USER_CONFIRMATION) {
+            /*
+                      This may occur when attempting to download a sufficiently large module.
 
-                  In order to see this, the application has to be uploaded to the Play Store.
-                  Then features can be requested until the confirmation path is triggered.
-                 */
-                manager.startConfirmationDialogForResult(state, this, CONFIRMATION_REQUEST_CODE)
+                      In order to see this, the application has to be uploaded to the Play Store.
+                      Then features can be requested until the confirmation path is triggered.
+                     */
+            manager.startConfirmationDialogForResult(state, this, CONFIRMATION_REQUEST_CODE)
+        }
+        else if (state.status() == SplitInstallSessionStatus.INSTALLED) {
+            if (langsInstall) {
+                onSuccessfulLanguageLoad(names)
+            } else {
+                onSuccessfulLoad(names)
             }
-            SplitInstallSessionStatus.INSTALLED -> {
-                if (langsInstall) {
-                    onSuccessfulLanguageLoad(names)
-                } else {
-                    onSuccessfulLoad(names)
-                }
-            }
-
-            SplitInstallSessionStatus.INSTALLING -> displayLoadingState(
-                state,
-                getString(R.string.installing, names)
+        }
+        else if (state.status() == SplitInstallSessionStatus.INSTALLING) displayLoadingState(
+            state,
+            getString(R.string.installing, names)
+        )
+        else if (state.status() == SplitInstallSessionStatus.FAILED) {
+            dialog(
+                "Error installing module",
+                getString(R.string.error_for_module, state.errorCode())
             )
-
-            SplitInstallSessionStatus.FAILED -> {
-                dialog(
-                    "Error installing module",
-                    getString(R.string.error_for_module, state.errorCode())
-                )
-            }
         }
     }
 
@@ -137,9 +134,13 @@ abstract class BaseSplitActivity : BaseActivity() {
         }
 
         // Create request to install a language by name.
-        val request = SplitInstallRequest.newBuilder()
-            .addLanguage(Locale.forLanguageTag(lang))
-            .build()
+        val request = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            SplitInstallRequest.newBuilder()
+                .addLanguage(Locale.forLanguageTag(lang))
+                .build()
+        } else {
+            TODO("VERSION.SDK_INT < LOLLIPOP")
+        }
 
         // Load and install the requested language.
         manager.startInstall(request)
@@ -163,7 +164,6 @@ abstract class BaseSplitActivity : BaseActivity() {
         recreate()
     }
 
-
     /** Display a loading state to the account. */
     private fun displayLoadingState(state: SplitInstallSessionState, message: String) {
         val bar = showProgress(message)
@@ -184,9 +184,8 @@ abstract class BaseSplitActivity : BaseActivity() {
         }
     }
 
-
     companion object {
-        const val PACKAGE_NAME = BuildConfig.APPLICATION_ID
+        private const val PACKAGE_NAME = BuildConfig.APPLICATION_ID
 
         const val MESSAGING_FEATURE_NAME = "messaging"
 

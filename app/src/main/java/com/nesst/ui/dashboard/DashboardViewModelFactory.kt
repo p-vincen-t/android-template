@@ -2,8 +2,7 @@ package com.nesst.ui.dashboard
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.nesstbase.auth.Session
-import com.nesstbase.scopes.UiScope
+import com.nesst.appdomain.session.Session
 import promise.commons.Promise
 import javax.inject.Inject
 
@@ -11,7 +10,7 @@ import javax.inject.Inject
  * ViewModel provider factory to instantiate RegisterViewModel.
  * Required given RegisterViewModel has a non-empty constructor
  */
-@UiScope
+@DashboardScope
 class DashboardViewModelFactory @Inject constructor() : ViewModelProvider.Factory {
 
     @Inject

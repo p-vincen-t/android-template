@@ -1,9 +1,6 @@
 package com.nesstbase;
 
-import com.nesstbase.apis.AuthApi;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.nesstbase.session.AuthApi;
 
 public class Temp {
     private AuthApi authApi;

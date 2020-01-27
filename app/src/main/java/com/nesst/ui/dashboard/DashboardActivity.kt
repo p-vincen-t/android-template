@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.nesst.R
+import com.nesst.appdomain.session.Account
 import com.nesst.databinding.ActivityDashboardBinding
 import com.nesst.ui.BaseSplitActivity
 import com.nesst.ui.DaggerUiComponent
@@ -24,7 +25,6 @@ import com.nesst.ui.auth.AuthActivity
 import com.nesst.ui.legal.LegalActivity
 import com.nesst.ui.messaging.MessagingActivity
 import com.nesst.ui.settings.SettingsActivity
-import com.nesstbase.auth.Account
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.app_bar_dashboard.*
 import kotlinx.android.synthetic.main.content_dashboard.*

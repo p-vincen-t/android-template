@@ -2,8 +2,8 @@ package com.nesst.ui.auth
 
 import android.view.View
 import androidx.databinding.Bindable
+import com.nesst.appdomain.session.Session
 import com.nesst.ui.BaseViewModel
-import com.nesstbase.auth.Session
 import promise.commons.Promise
 import promise.commons.data.log.LogUtil
 

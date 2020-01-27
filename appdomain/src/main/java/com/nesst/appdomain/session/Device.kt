@@ -1,4 +1,4 @@
-package com.nesstbase.auth
+package com.nesst.appdomain.session
 
 import promise.commons.model.Identifiable
 

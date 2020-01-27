@@ -2,8 +2,8 @@ package com.nesst.ui.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.nesstbase.auth.Session
-import com.nesstbase.scopes.UiScope
+import com.nesst.appdomain.session.Session
+import com.nesst.ui.UiScope
 import promise.commons.Promise
 import javax.inject.Inject
 
@@ -11,7 +11,7 @@ import javax.inject.Inject
  * ViewModel provider factory to instantiate RegisterViewModel.
  * Required given RegisterViewModel has a non-empty constructor
  */
-@UiScope
+@AuthScope
 class AuthViewModelFactory @Inject constructor() : ViewModelProvider.Factory {
     @Inject
     lateinit var session: Session

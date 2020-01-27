@@ -11,25 +11,19 @@
  * limitations under the License.
  */
 
-package com.nesst.ui.dashboard
+package com.nesstbase.repos
 
-import android.view.View
-import androidx.appcompat.widget.AppCompatImageView
-import com.nesst.R
-import com.nesst.appdomain.session.Account
-import promise.ui.model.Viewable
+import com.nesst.appdomain.session.Session
+import com.nesstbase.data.DataComponent
+import dagger.BindsInstance
+import dagger.Component
 
-class NavigationAccountViewHolder(private val account: Account) : Viewable {
+@RepoScope
+@Component(dependencies = [DataComponent::class], modules = [ReposModule::class])
+interface ReposComponent {
 
-    lateinit var accountImageView: AppCompatImageView
-
-    override fun layout(): Int = R.layout.account_nav_layout
-
-    override fun bind(view: View, args: Any?) {
-
-    }
-
-    override fun init(view: View) {
-        accountImageView = view.findViewById(R.id.account_imageView)
+    @Component.Factory
+    interface Factory {
+        fun create(@BindsInstance session: Session, dataComponent: DataComponent): ReposComponent
     }
 }

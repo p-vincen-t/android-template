@@ -11,25 +11,16 @@
  * limitations under the License.
  */
 
-package com.nesst.ui.dashboard
+package com.nesstbase.session
 
-import android.view.View
-import androidx.appcompat.widget.AppCompatImageView
-import com.nesst.R
-import com.nesst.appdomain.session.Account
-import promise.ui.model.Viewable
+import com.nesst.appdomain.session.Session
+import com.nesstbase.data.DataComponent
+import dagger.Component
+import promise.commons.Promise
 
-class NavigationAccountViewHolder(private val account: Account) : Viewable {
-
-    lateinit var accountImageView: AppCompatImageView
-
-    override fun layout(): Int = R.layout.account_nav_layout
-
-    override fun bind(view: View, args: Any?) {
-
-    }
-
-    override fun init(view: View) {
-        accountImageView = view.findViewById(R.id.account_imageView)
-    }
+@SessionScope
+@Component(dependencies = [DataComponent::class], modules = [SessionModule::class])
+interface SessionComponent {
+    fun session(): Session
+    fun promise(): Promise
 }

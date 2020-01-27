@@ -11,25 +11,13 @@
  * limitations under the License.
  */
 
-package com.nesst.ui.dashboard
+package com.nesst.ui.auth
 
-import android.view.View
-import androidx.appcompat.widget.AppCompatImageView
-import com.nesst.R
-import com.nesst.appdomain.session.Account
-import promise.ui.model.Viewable
+import com.nesstbase.session.SessionComponent
+import dagger.Component
 
-class NavigationAccountViewHolder(private val account: Account) : Viewable {
-
-    lateinit var accountImageView: AppCompatImageView
-
-    override fun layout(): Int = R.layout.account_nav_layout
-
-    override fun bind(view: View, args: Any?) {
-
-    }
-
-    override fun init(view: View) {
-        accountImageView = view.findViewById(R.id.account_imageView)
-    }
+@Component(dependencies = [SessionComponent::class])
+@AuthScope
+interface AuthComponent {
+    fun inject(authActivity: AuthActivity)
 }

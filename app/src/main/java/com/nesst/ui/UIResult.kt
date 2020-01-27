@@ -5,6 +5,7 @@ package com.nesst.ui
  * @param <T>
  */
 sealed class UIResult<out T : Any> {
+
     class Success<out T : Any>(val data: T) : UIResult<T>() {
         /**
          * any extra info to be passed together with the data
