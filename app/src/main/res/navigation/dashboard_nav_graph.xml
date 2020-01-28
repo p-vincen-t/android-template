@@ -19,19 +19,19 @@
         app:startDestination="@id/mainFragment">
     <fragment
             android:id="@+id/mainFragment"
-            android:name="com.nesst.ui.dashboard.MainFragment"
+            android:name="com.nesst.dashboard.MainFragment"
             android:label="fragment_main"
             tools:layout="@layout/main_fragment" >
     </fragment>
     <fragment
             android:id="@+id/recentActivitiesFragment"
-            android:name="com.nesst.ui.dashboard.RecentActivitiesFragment"
+            android:name="com.nesst.dashboard.RecentActivitiesFragment"
             android:label="fragment_recent_activities"
             tools:layout="@layout/recent_activities_fragment" >
     </fragment>
     <fragment
             android:id="@+id/walletFragment"
-            android:name="com.nesst.ui.dashboard.WalletFragment"
+            android:name="com.nesst.dashboard.WalletFragment"
             android:label="fragment_wallet"
             tools:layout="@layout/wallet_fragment" />
 </navigation>

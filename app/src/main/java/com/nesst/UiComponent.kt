@@ -11,9 +11,13 @@
  * limitations under the License.
  */
 
-package com.nesst.appdomain.session
+package com.nesst
 
-class LoginRequest {
-    var identifier: String? = null
-    var password: String? = null
+import com.nesstbase.AppComponent
+import dagger.Component
+
+@Component(dependencies = [AppComponent::class])
+@UiScope
+interface UiComponent {
+    fun inject(baseActivity: BaseActivity)
 }

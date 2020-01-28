@@ -44,15 +44,15 @@
             tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
         <activity
-                android:name="com.nesst.ui.messaging.MessagingActivity"
+                android:name="com.nesst.messaging.MessagingActivity"
                 android:label="@string/title_activity_main"
                 android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-        <activity android:name="com.nesst.ui.messaging.ContactsActivity" />
-        <activity android:name="com.nesst.ui.messaging.ChatActivity" />
+        <activity android:name="com.nesst.messaging.ContactsActivity" />
+        <activity android:name="com.nesst.messaging.ChatActivity" />
 
         <meta-data
                 android:name="com.google.firebase.messaging.default_notification_color"
@@ -61,7 +61,7 @@
         <!-- android:value="@string/default_notification_channel_id" /> -->
 
         <service
-                android:name="com.nesst.services.FireBaseMessageService"
+                android:name="com.nesst.FireBaseMessageService"
                 android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -72,14 +72,14 @@
                 android:name="org.apache.http.legacy"
                 android:required="false"/>
         <activity
-                android:name=".ui.legal.LegalActivity"
+                android:name="com.nesst.legal.LegalActivity"
                 android:label="@string/title_activity_legal"
                 android:theme="@style/AppTheme.NoActionBar" />
         <activity
-                android:name=".ui.settings.SettingsActivity"
+                android:name="com.nesst.settings.SettingsActivity"
                 android:label="@string/title_activity_settings" />
         <activity
-                android:name=".ui.dashboard.DashboardActivity"
+                android:name="com.nesst.dashboard.DashboardActivity"
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -88,7 +88,7 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".ui.auth.AuthActivity"
+                android:name="com.nesst.auth.AuthActivity"
                 android:label="@string/title_empty"
                 android:theme="@style/AppTheme.FlatActionBar" />
     </application>

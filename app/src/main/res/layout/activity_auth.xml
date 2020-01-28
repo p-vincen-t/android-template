@@ -2,17 +2,17 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        tools:context=".ui.auth.AuthActivity">
+        tools:context=".auth.AuthActivity">
 
     <data>
 
-        <import type="com.nesst.ui.auth.AuthViewModel" />
+        <import type="com.nesst.auth.AuthViewModel" />
 
-        <import type="com.nesst.ui.auth.LoginForm" />
+        <import type="com.nesst.auth.LoginForm" />
 
-        <import type="com.nesst.ui.auth.RegistrationForm" />
+        <import type="com.nesst.auth.RegistrationForm" />
 
-        <import type="com.nesst.ui.auth.PasswordResetForm" />
+        <import type="com.nesst.auth.PasswordResetForm" />
 
         <variable
                 name="viewModel"

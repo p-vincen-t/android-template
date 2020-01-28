@@ -24,14 +24,7 @@ import retrofit2.http.*
  */
 
 interface AuthApi {
-    /**
-     * login api
-     *
-     * @param identifier email or phone number
-     * @param password user password
-     * @return token
-     */
-    @FormUrlEncoded
+
     @POST("login")
     @Headers("HOST: AUTH")
     fun login(

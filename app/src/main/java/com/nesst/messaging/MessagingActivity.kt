@@ -11,9 +11,27 @@
  * limitations under the License.
  */
 
-package com.nesst.appdomain.session
+package com.nesst.messaging
 
-class LoginRequest {
-    var identifier: String? = null
-    var password: String? = null
+import android.os.Bundle
+import com.nesst.BaseActivity
+import com.nesst.R
+import kotlinx.android.synthetic.main.activity_messaging.*
+import org.jetbrains.anko.intentFor
+
+class MessagingActivity : BaseActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_messaging)
+
+        setSupportActionBar(toolbar)
+
+        addBackButton()
+
+        fab.setOnClickListener {
+            startActivity(intentFor<ChatActivity>())
+        }
+    }
+
 }

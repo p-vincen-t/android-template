@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="com.nesst.ui.messaging.MessagingActivity"
+        tools:context=".messaging.MessagingActivity"
         tools:showIn="@layout/activity_messaging">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

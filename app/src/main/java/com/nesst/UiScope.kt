@@ -11,9 +11,11 @@
  * limitations under the License.
  */
 
-package com.nesst.appdomain.session
+package com.nesst
 
-class LoginRequest {
-    var identifier: String? = null
-    var password: String? = null
-}
+import javax.inject.Scope
+
+@Scope
+@MustBeDocumented
+@Retention(AnnotationRetention.RUNTIME)
+annotation class UiScope

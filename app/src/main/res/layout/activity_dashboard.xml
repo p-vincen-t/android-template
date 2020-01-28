@@ -7,7 +7,7 @@
 
         <variable
                 name="viewModel"
-                type="com.nesst.ui.dashboard.DashboardViewModel" />
+                type="com.nesst.dashboard.DashboardViewModel" />
     </data>
 
     <androidx.drawerlayout.widget.DrawerLayout
