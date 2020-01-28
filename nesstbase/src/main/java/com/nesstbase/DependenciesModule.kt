@@ -9,7 +9,6 @@ import promise.commons.Promise
 object DependenciesModule {
 
     @Provides
-    @AppScope
     @JvmStatic
     fun promise(): Promise = Promise.instance()
 

@@ -13,14 +13,19 @@
 
 package com.nesstbase.data
 
+import com.appham.mockinizer.mockinize
 import com.google.gson.Gson
 import com.nesstbase.BuildConfig
+import com.nesstbase.data.mocks.mocks
 import com.nesstbase.session.AuthApi
 import dagger.Module
 import dagger.Provides
+import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import promise.commons.Promise
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
@@ -33,16 +38,24 @@ object ApiModule {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BASIC
         val client = OkHttpClient.Builder().addInterceptor(interceptor)
+        if (BuildConfig.DEBUG)
+            client.mockinize(mocks)
         return client.build()
     }
 
     @DataScope
     @JvmStatic
     @Provides
-    fun provideRetrofit(client: OkHttpClient, gson: Gson): Retrofit {
+    fun provideRetrofit(client: OkHttpClient,
+                        gson: Gson,
+                        promise: Promise): Retrofit {
 
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
+            .addCallAdapterFactory(
+                RxJava2CallAdapterFactory
+                    .createWithScheduler(Schedulers.from(promise.executor()))
+            )
             .baseUrl(BuildConfig.API_URL)
             .client(client)
             .build()
@@ -52,5 +65,6 @@ object ApiModule {
     @DataScope
     @JvmStatic
     fun authApi(retrofit: Retrofit): AuthApi = retrofit.create(
-        AuthApi::class.java)
+        AuthApi::class.java
+    )
 }
