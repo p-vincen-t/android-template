@@ -33,7 +33,7 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="@color/backgroundDefault"
+                    android:background="@color/primaryBackground"
                     android:orientation="vertical"
                     android:padding="@dimen/big">
 
@@ -109,8 +109,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_margin="@dimen/medium"
                             android:onClick="snoozeNotifications"
-                            app:srcCompat="@drawable/ic_notifications_grey_24dp"
-                            />
+                            app:srcCompat="@drawable/ic_notifications_grey_24dp" />
 
                 </RelativeLayout>
 
