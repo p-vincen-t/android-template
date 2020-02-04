@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright 2017, Nesst
-  ~ Licensed under the Apache License, Version 2.0, "Nesst Inc".
+  ~ Copyright 2020, {{App}}
+  ~ Licensed under the Apache License, Version 2.0, "{{App}} Inc".
   ~ you may not use this file except in compliance with the License.
   ~ You may obtain a copy of the License at
   ~ http://www.apache.org/licenses/LICENSE-2.0
@@ -19,19 +19,19 @@
         app:startDestination="@id/mainFragment">
     <fragment
             android:id="@+id/mainFragment"
-            android:name="com.nesst.dashboard.MainFragment"
+            android:name="com.app.dashboard.MainFragment"
             android:label="fragment_main"
             tools:layout="@layout/main_fragment" >
     </fragment>
     <fragment
             android:id="@+id/recentActivitiesFragment"
-            android:name="com.nesst.dashboard.RecentActivitiesFragment"
+            android:name="com.app.dashboard.RecentActivitiesFragment"
             android:label="fragment_recent_activities"
             tools:layout="@layout/recent_activities_fragment" >
     </fragment>
     <fragment
             android:id="@+id/walletFragment"
-            android:name="com.nesst.dashboard.WalletFragment"
+            android:name="com.app.dashboard.WalletFragment"
             android:label="fragment_wallet"
             tools:layout="@layout/wallet_fragment" />
 </navigation>

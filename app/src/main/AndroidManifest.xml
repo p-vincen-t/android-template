@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2020, {{App}}
+  ~ Licensed under the Apache License, Version 2.0, "{{App}} Inc".
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        package="com.nesst">
+        package="com.app">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -33,35 +46,49 @@
             android:required="false" />
 
     <application
-            android:name=".App"
+            android:name="com.app.App"
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
+            android:networkSecurityConfig="@xml/network_security_config"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
-            android:networkSecurityConfig="@xml/network_security_config"
             tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        <activity
+                android:name="com.app.SplashActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:label="@string/title_activity_splash"
+                android:theme="@style/FullscreenTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service
+                android:name="com.app.auth.AccountIntentService"
+                android:exported="false" />
 
         <activity
-                android:name="com.nesst.messaging.MessagingActivity"
+                android:name="com.app.messaging.MessagingActivity"
                 android:label="@string/title_activity_main"
                 android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-        <activity android:name="com.nesst.messaging.ContactsActivity" />
-        <activity android:name="com.nesst.messaging.ChatActivity" />
+        <activity android:name="com.app.messaging.ContactsActivity" />
+        <activity android:name="com.app.messaging.ChatActivity" />
 
         <meta-data
                 android:name="com.google.firebase.messaging.default_notification_color"
                 android:resource="@color/secondaryMain" /> <!-- <meta-data -->
         <!-- android:name="com.google.firebase.messaging.default_notification_channel_id" -->
         <!-- android:value="@string/default_notification_channel_id" /> -->
-
         <service
-                android:name="com.nesst.FireBaseMessageService"
+                android:name="com.app.FireBaseMessageService"
                 android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -70,25 +97,27 @@
 
         <uses-library
                 android:name="org.apache.http.legacy"
-                android:required="false"/>
+                android:required="false" />
+
         <activity
-                android:name="com.nesst.legal.LegalActivity"
+                android:name="com.app.legal.LegalActivity"
                 android:label="@string/title_activity_legal"
                 android:theme="@style/AppTheme.NoActionBar" />
         <activity
-                android:name="com.nesst.settings.SettingsActivity"
+                android:name="com.app.settings.SettingsActivity"
                 android:label="@string/title_activity_settings" />
         <activity
-                android:name="com.nesst.dashboard.DashboardActivity"
+                android:name="com.app.dashboard.DashboardActivity"
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-                android:name="com.nesst.auth.AuthActivity"
+                android:name="com.app.auth.AuthActivity"
                 android:label="@string/title_empty"
                 android:theme="@style/AppTheme.FlatActionBar" />
     </application>
