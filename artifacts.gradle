@@ -29,7 +29,7 @@ android {
         versionCode names.versionCode
         versionName names.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "PACKAGE_NAME", "\"com.app\"")
+        buildConfigField("String", "PACKAGE_NAME", "\"co.app\"")
         vectorDrawables.useSupportLibrary true
         multiDexEnabled = true
         useLibrary 'org.apache.http.legacy'

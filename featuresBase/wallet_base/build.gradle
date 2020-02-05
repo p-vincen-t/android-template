@@ -30,9 +30,9 @@ android {
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [
-                        "room.schemaLocation":"$projectDir/schemas".toString(),
-                        "room.incremental":"true",
-                        "room.expandProjection":"true"]
+                        "room.schemaLocation"  : "$projectDir/schemas".toString(),
+                        "room.incremental"     : "true",
+                        "room.expandProjection": "true"]
             }
         }
     }
@@ -51,23 +51,24 @@ android {
 }
 
 dependencies {
-    implementation project(path: ':domains:wallet_domain')
+    api project(path: ':domains:wallet_domain')
+    implementation 'com.github.android-promise:commons:1.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
-    api 'com.google.dagger:dagger:2.24'
+    implementation 'com.google.dagger:dagger:2.24'
     kapt 'com.google.dagger:dagger-compiler:2.24'
-    api 'io.reactivex.rxjava2:rxjava:2.2.12'
-    api 'com.github.android-promise:model:1.0-beta0'
-    api "androidx.preference:preference-ktx:1.1.0"
-    api 'androidx.core:core-ktx:1.1.0'
-    api 'io.reactivex.rxjava2:rxjava:2.2.12'
-    api 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.12'
+    implementation 'com.github.android-promise:model:1.0-beta0'
+    implementation "androidx.preference:preference-ktx:1.1.0"
+    implementation 'androidx.core:core-ktx:1.1.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.12'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation project(path: ':domain')
-    api 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.google.code.gson:gson:2.8.6'
 
     implementation 'com.squareup.okhttp3:logging-interceptor:4.1.0'
-    api 'com.squareup.retrofit2:retrofit:2.6.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
     implementation 'com.squareup.retrofit2:converter-scalars:2.1.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
@@ -76,7 +77,8 @@ dependencies {
     def room_version = "2.2.3"
 
     implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version" // For Kotlin use kapt instead of annotationProcessor
+    kapt "androidx.room:room-compiler:$room_version"
+    // For Kotlin use kapt instead of annotationProcessor
 
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:$room_version"

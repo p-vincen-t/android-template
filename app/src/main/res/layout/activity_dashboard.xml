@@ -20,7 +20,7 @@
 
         <variable
                 name="viewModel"
-                type="com.app.dashboard.DashboardViewModel" />
+                type="co.app.dashboard.DashboardViewModel" />
     </data>
 
     <androidx.drawerlayout.widget.DrawerLayout

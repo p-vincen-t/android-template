@@ -51,6 +51,5 @@ android {
 
 dependencies {
     implementation project(':app')
-    implementation project(path: ':domains:wallet_domain')
     implementation project(path: ':featuresBase:wallet_base')
 }
