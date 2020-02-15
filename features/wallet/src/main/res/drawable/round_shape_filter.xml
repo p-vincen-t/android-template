@@ -16,7 +16,7 @@
 
     <item>
         <shape android:shape="rectangle" >
-            <stroke android:color="@color/secondaryMain"/>
+            <stroke android:color="@color/color_secondary"/>
             <solid android:color="@android:color/transparent" />
             <corners android:radius="30dp"/>
         </shape>

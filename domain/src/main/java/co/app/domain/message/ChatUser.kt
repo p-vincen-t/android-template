@@ -11,6 +11,8 @@
  * limitations under the License.
  */
 
-package co.app.domain.models
+package co.app.domain.message
 
-class ChatUser
+import co.app.common.models.Photo
+
+class ChatUser(var userId: String, var userName: String, var photo: Photo)

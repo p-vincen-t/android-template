@@ -17,5 +17,5 @@ import javax.inject.Inject
 
 @AccountScope
 class UserAccount @Inject constructor() {
- var id: String = ""
+ var id: String = "1"
 }

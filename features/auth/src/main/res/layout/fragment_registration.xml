@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2020, {{App}}
   ~ Licensed under the Apache License, Version 2.0, "{{App}} Inc".
   ~ you may not use this file except in compliance with the License.
@@ -16,8 +15,11 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         tools:context=".register.RegistrationFragment">
+
     <data>
+
         <import type="co.app.auth.register.RegistrationViewModel" />
+
         <variable
                 name="viewModel"
                 type="RegistrationViewModel" />
@@ -25,70 +27,10 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/color_surface"
             android:orientation="vertical"
             android:padding="16dp">
-
-        <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:hint="@string/prompt_email_or_phone"
-                android:inputType="textEmailAddress"
-                app:errorEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:text="Email here" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/prompt_password"
-                android:inputType="textPassword"
-                app:errorEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:text="Password here" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/forgotPasswordButton"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:text="Forgot your password"
-                app:cornerRadius="0dp" />
-
-        <com.google.android.material.button.MaterialButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="@string/action_sign_in"
-                app:cornerRadius="0dp"
-                tools:text="Sign in" />
-
-        <com.google.android.material.button.MaterialButton
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:id="@+id/createAccountButton"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:text="@string/create_account"
-                app:cornerRadius="0dp" />
 
         <ProgressBar
                 android:layout_width="wrap_content"
@@ -99,5 +41,113 @@
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="64dp"
                 tools:visibility="visible" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:orientation="vertical">
+            <com.google.android.material.textfield.TextInputLayout
+                    style="@style/AppTextField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:hint="@string/prompt_names"
+                    android:inputType="textPersonName"
+                    app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="Names here" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    style="@style/AppTextField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:hint="@string/prompt_email"
+                    android:inputType="textEmailAddress"
+                    app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="Email here" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    style="@style/AppTextField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:hint="@string/prompt_phone"
+                    android:inputType="textPhonetic"
+                    app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="Phone number here" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    style="@style/AppTextField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_password"
+                    android:inputType="textPassword"
+                    app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="Password here" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    style="@style/AppTextField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_password_comfirm"
+                    android:inputType="textPassword"
+                    app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="Confirm Password here" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+           <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="@string/action_sign_up"
+                    app:cornerRadius="0dp"
+                    tools:text="Sign in" />
+
+            <com.google.android.material.button.MaterialButton
+                    android:id="@+id/loginButton"
+                    style="@style/AppButton.Outlined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:text="@string/action_sign_in"
+                    app:cornerRadius="0dp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

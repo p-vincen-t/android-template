@@ -20,10 +20,19 @@ import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.widget.FrameLayout
+import androidx.databinding.BindingAdapter
 import co.app.R
 import co.app.common.models.Photo
 
 class PhotoView : FrameLayout {
+
+    companion object {
+        @JvmStatic
+        @BindingAdapter("photo")
+        fun photo(view: PhotoView, photo: Photo) {
+            view.photo = photo
+        }
+    }
 
     var photo: Photo? = null
 

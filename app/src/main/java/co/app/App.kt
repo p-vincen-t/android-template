@@ -16,12 +16,12 @@ package co.app
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
+import android.os.Build
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.collection.ArrayMap
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
-import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.*
 import co.app.common.account.UserAccount
+import co.app.settings.ThemePreference
 import co.base.AppBase
 import co.base.AppBase.Companion.TEMP_PREFERENCE_NAME
 import com.google.android.play.core.splitcompat.SplitCompat
@@ -36,7 +36,9 @@ import java.util.*
 
 class App : AppBase(), LifecycleObserver {
 
-    lateinit var promise: Promise
+    val themePreferenceRepo: ThemePreference by lazy {
+        ThemePreference()
+    }
 
     private val manager: SplitInstallManager by lazy {
         SplitInstallManagerFactory.create(this)
@@ -55,8 +57,8 @@ class App : AppBase(), LifecycleObserver {
 
     override fun onCreate() {
         super.onCreate()
-        promise = appComponent.promise()
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
+        themePreferenceRepo.setTheme()
         promise.execute {
             manager.installedModules.forEach {
                 registerModule(it)
@@ -74,6 +76,8 @@ class App : AppBase(), LifecycleObserver {
     }
 
     fun isWalletModuleInstalled(): Boolean = manager.installedModules.contains(WALLET_FEATURE_NAME)
+
+    fun isAuthModuleInstalled(): Boolean = manager.installedModules.contains(AUTH_FEATURE_NAME)
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onMoveToForeground() {

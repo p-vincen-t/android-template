@@ -23,6 +23,9 @@ import co.base.data.DaggerDataComponent
 import co.base.data.DataComponent
 import co.base.repos.DaggerReposComponent
 import co.base.repos.ReposComponent
+import com.instacart.library.truetime.TrueTimeRx
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import okhttp3.Interceptor
 import okhttp3.Response
 import promise.commons.Promise
@@ -35,6 +38,12 @@ const val NETWORK_ERROR_MESSAGE = "network_error_message"
 open class AppBase : MultiDexApplication() {
 
     lateinit var userAccount: UserAccount
+
+    @Inject
+    lateinit var compositeDisposable: CompositeDisposable
+
+    @Inject
+    lateinit var promise: Promise
 
     lateinit var accountComponent: AccountComponent
 
@@ -50,6 +59,20 @@ open class AppBase : MultiDexApplication() {
         super.onCreate()
         Promise.init(this, 100)
         appComponent = DaggerAppComponent.create()
+        appComponent.inject(this)
+        compositeDisposable.add(
+            TrueTimeRx.build()
+                .initializeRx("time.google.com")
+                .subscribeOn(Schedulers.from(promise.executor()))
+                .subscribe(
+                    {
+                        LogUtil.d(
+                            TAG,
+                            "TrueTime was initialized and we have a time: $it"
+                        )
+                    }
+                ) { throwable: Throwable -> throwable.printStackTrace() }
+        )
         initUserAccount()
     }
 

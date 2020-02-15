@@ -35,31 +35,6 @@ class LoginViewModel(private val session: Session, private val promise: Promise)
 
     val uIResult: LiveData<UIResult<*>> = _result
 
-    fun executeNext() {
-        dataValid = false
-        progressLoading = true
-        notifyChanges()
-        promise.execute {
-            session.login(
-                LoginRequest().apply {
-                    identifier = identifier
-                    password = password
-                }, Result<Boolean, AuthError>()
-                    .withCallBack {
-                        promise.executeOnUi {
-                            _result.value = UIResult.Success<Boolean>(it)
-                        }
-                    }
-                    .withErrorCallBack {
-                        promise.executeOnUi {
-                            _result.value = UIResult.Error<AuthError>(it)
-                            dataValid = true
-                            notifyChanges()
-                        }
-                    })
-        }
-    }
-
     override fun clear() {
 
     }
@@ -96,6 +71,29 @@ class LoginViewModel(private val session: Session, private val promise: Promise)
     }
 
     fun loginButtonClicked(v: View) {
-
+        if (validate(null)) {
+            dataValid = false
+            progressLoading = true
+            notifyChanges()
+            promise.execute {
+                session.login(
+                    LoginRequest().apply {
+                        identifier = identifier
+                        password = password
+                    }, Result<Boolean, AuthError>()
+                        .withCallBack {
+                            promise.executeOnUi {
+                                _result.value = UIResult.Success<Boolean>(it)
+                            }
+                        }
+                        .withErrorCallBack {
+                            promise.executeOnUi {
+                                _result.value = UIResult.Error<AuthError>(it)
+                                dataValid = true
+                                notifyChanges()
+                            }
+                        })
+            }
+        }
     }
 }

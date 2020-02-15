@@ -28,7 +28,7 @@ class DashboardViewModel(private val userAccount: UserAccount, private val promi
     val accountsResult: LiveData<List<UserChildAccount>> = _accountsResult
 
     fun fetchAccounts() {
-        _accountsResult.value = List.generate(3) { UserChildAccount() }
+        _accountsResult.value = List.generate(2) { UserChildAccount() }
     }
 
 }

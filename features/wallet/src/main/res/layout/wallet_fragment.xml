@@ -12,13 +12,14 @@
   ~ limitations under the License.
   -->
 
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
-        tools:context=".WalletFragment">
+        tools:context="co.app.wallet.WalletFragment">
     <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             app:cardCornerRadius="0dp"
@@ -27,14 +28,78 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+            <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/big"
+                    android:layout_height="wrap_content">
+                <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:textColor="@color/color_on_surface"
+                        android:text="@string/list_of_accounts"
+                        style="@style/AppTextField"
+                        android:textSize="18sp"
+                        android:layout_height="wrap_content"/>
+                <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        app:srcCompat="@drawable/ic_settings_secondary_24dp"
+                        android:layout_height="wrap_content"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/accounts_recycler_view"
                     android:layout_width="match_parent"
                     android:orientation="horizontal"
-                    tools:listitem="@layout/restaurant_chip_filter_item_layout"
+                    android:padding="@dimen/small"
+                    tools:listitem="@layout/account_type_item_layout"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:layout_height="wrap_content" />
+            <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/small"
+                    android:layout_height="wrap_content">
+                <com.google.android.material.button.MaterialButton
+                        android:id="@+id/depositButton"
+                        style="@style/AppButton.Outlined"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:text="@string/deposit" />
+
+                <com.google.android.material.button.MaterialButton
+                        android:id="@+id/transferButton"
+                        style="@style/AppButton.Outlined"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:text="@string/transfer" />
+                <com.google.android.material.button.MaterialButton
+                        android:id="@+id/withdrawButton"
+                        style="@style/AppButton.Outlined"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:text="@string/withdraw" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.cardview.widget.CardView>
 
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/wallet_reports_recycler_view"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            tools:listitem="@layout/report_layout"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_height="wrap_content" />
 </androidx.appcompat.widget.LinearLayoutCompat>

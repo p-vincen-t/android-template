@@ -16,10 +16,16 @@ package co.base
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
+import io.reactivex.disposables.CompositeDisposable
 import promise.commons.Promise
 
 @Module
 object DependenciesModule {
+
+    @Provides
+    @JvmStatic
+    @AppScope
+    fun provideCompositeDisposable(): CompositeDisposable = CompositeDisposable()
 
     @Provides
     @JvmStatic

@@ -14,8 +14,8 @@
 package co.base.message
 
 import androidx.room.*
-import co.app.domain.models.ChatMessage
-import co.app.domain.models.ChatUser
+import co.app.domain.message.ChatMessage
+import co.app.domain.message.ChatUser
 
 @Entity(tableName = "chats")
 class ChatMessageRecord {
@@ -35,7 +35,11 @@ class ChatMessageRecord {
     var chatMessageReplyRecord: ChatMessageRecord? = null
     var forwardedFlag: Boolean = false
 
-    fun toChatMessage(): ChatMessage = ChatMessage(sender!!, message, sentTime).apply {
+    fun toChatMessage(): ChatMessage = ChatMessage(
+        sender!!,
+        message,
+        sentTime
+    ).apply {
         if (chatMessageReplyRecord != null) {
             chatMessageReply = chatMessageReplyRecord!!.toChatMessage()
         }

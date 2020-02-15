@@ -51,5 +51,18 @@ android {
 
 dependencies {
     implementation project(':app')
+    implementation 'com.google.code.gson:gson:2.8.6'
     implementation project(path: ':featuresBase:wallet_base')
+    implementation 'com.github.android-promise:commons:1.0'
+    implementation 'com.github.android-promise:ui:1.0-rc04'
+    implementation 'com.google.dagger:dagger:2.26'
+    kapt 'com.google.dagger:dagger-compiler:2.26'
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.tapadoo.android:alerter:4.0.2'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
 }

@@ -14,20 +14,19 @@
 package co.base.data
 
 import co.app.common.account.UserAccount
-import com.google.gson.Gson
 import co.base.BuildConfig
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import io.reactivex.schedulers.Schedulers
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
+import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import promise.commons.Promise
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 @Module
@@ -36,23 +35,52 @@ object ApiModule {
     @DataScope
     @JvmStatic
     @Provides
-    fun provideOkHttpClient(userAccount: UserAccount, interceptor: Interceptor): OkHttpClient {
+    fun provideOkHttpClient(
+        userAccount: UserAccount,
+        promise: Promise,
+        interceptor: Interceptor
+    ): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+        val cacheDirectory = File(
+            promise.context()
+                .cacheDir.absolutePath
+                .plus("network")
+        )
         val client = OkHttpClient.Builder()
+            .cache(
+                Cache(
+                    directory = cacheDirectory,
+                    maxSize = 10L * 1024L * 1024L // 10 MiB
+                )
+            )
             .readTimeout(60, TimeUnit.SECONDS)
             .connectTimeout(60, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)
+            .callTimeout(10, TimeUnit.SECONDS)
             .addNetworkInterceptor(interceptor)
-            .addInterceptor(object: Interceptor {
-                override fun intercept(chain: Interceptor.Chain): Response {
-                    var request: Request = chain.request()
-                    request = request.newBuilder()
-                        .addHeader("client-type", "android")
-                        .addHeader("api-key", userAccount.id)
-                        .addHeader("Content-Type", "application/json; charset=utf-8")
+            .authenticator(object : Authenticator {
+                private fun responseCount(response: Response): Int {
+                    var newResponse = response
+                    var result = 1
+                    while (newResponse.priorResponse.also { newResponse = it!! } != null) {
+                        result++
+                    }
+                    return result
+                }
+
+                @Throws(IOException::class)
+                override fun authenticate(route: Route?, response: Response): Request? {
+                    // Give up, we've already attempted to authenticate.
+                    if (response.request.header("Client") != null) return null
+                    // If we've failed 3 times, give up.
+                    if (responseCount(response) >= 3) return null
+                    val credential = Credentials.basic("client-type", "android")
+                    return response.request.newBuilder()
+                        .header("Client", credential)
+                        .header("api-key", userAccount.id)
+                        .header("Content-Type", "application/json; charset=utf-8")
                         .build()
-                    return chain.proceed(request)
                 }
             })
             .addInterceptor(loggingInterceptor)
@@ -72,16 +100,13 @@ object ApiModule {
         gson: Gson,
         promise: Promise,
         apiUrl: String
-    ): Retrofit {
-
-        return Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .addCallAdapterFactory(
-                RxJava2CallAdapterFactory
-                    .createWithScheduler(Schedulers.from(promise.executor()))
-            )
-            .baseUrl(apiUrl)
-            .client(client)
-            .build()
-    }
+    ): Retrofit = Retrofit.Builder()
+        .addConverterFactory(GsonConverterFactory.create(gson))
+        .addCallAdapterFactory(
+            RxJava2CallAdapterFactory
+                .createWithScheduler(Schedulers.from(promise.executor()))
+        )
+        .baseUrl(apiUrl)
+        .client(client)
+        .build()
 }

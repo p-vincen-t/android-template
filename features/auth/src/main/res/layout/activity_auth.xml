@@ -12,6 +12,8 @@
   ~ limitations under the License.
   -->
 
+
+
 <androidx.appcompat.widget.LinearLayoutCompat
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -19,25 +21,24 @@
         tools:context=".AuthActivity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/big"
-        android:paddingTop="@dimen/big"
-        android:paddingRight="@dimen/big"
-        android:paddingBottom="@dimen/big">
+        android:background="@color/color_surface"
+        android:orientation="vertical">
 
     <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:orientation="vertical"
+            android:paddingLeft="@dimen/big"
+            android:paddingTop="@dimen/big"
+            android:paddingRight="@dimen/big"
+            android:paddingBottom="@dimen/big"
             android:padding="16dp">
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/welcome"
-                android:textColor="@color/primaryText"
+                android:textColor="@color/color_on_surface"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -45,7 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/authTitleTextVew"
-                android:textColor="@color/primaryText"
+                android:textColor="@color/color_on_surface"
                 android:textSize="16sp"
                 tools:text="Sign in to continue" />
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -54,7 +55,8 @@
             android:id="@+id/nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:padding="16dp"
             app:defaultNavHost="true"
             app:navGraph="@navigation/auth_graph" />

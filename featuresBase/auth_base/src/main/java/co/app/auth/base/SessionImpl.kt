@@ -20,8 +20,8 @@ import co.app.auth.domain.AuthError
 import co.app.auth.domain.LoginRequest
 import co.app.auth.domain.RegistrationRequest
 import co.app.auth.domain.Session
+import co.app.domain.session.Device
 import com.google.gson.Gson
-import co.app.domain.session.*
 import org.json.JSONObject
 import promise.commons.Promise
 import promise.commons.model.Result
@@ -55,7 +55,8 @@ private const val MOBILE_DEVICE_ID_KEY = "device_id"
 @SessionScope
 class SessionImpl @Inject constructor(
     private val authApi: AuthApi,
-    private val gson: Gson
+    private val gson: Gson,
+    private val promise: Promise
 ) : Session {
 
     private val preferences: Preferences by lazy {
@@ -90,6 +91,10 @@ class SessionImpl @Inject constructor(
         if (deviceKey.isEmpty()) {
             deviceKey = "5d63013e46ad7a0010b378ed"
         }
+        promise.execute({
+            result.response(true)
+        }, 2000)
+
         authApi.login(
             loginRequest
         )

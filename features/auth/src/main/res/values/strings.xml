@@ -28,4 +28,10 @@
     <string name="sign_in_to_continue">Sign In to continue</string>
     <string name="loading">Loading</string>
     <string name="title_auth">Auth</string>
+    <string name="reset_your_password">Reset your password</string>
+    <string name="prompt_email">Email here</string>
+    <string name="prompt_phone">Phone here</string>
+    <string name="prompt_names">Names here</string>
+    <string name="prompt_password_comfirm">Confirm password</string>
+    <string name="action_sign_up">Sign up</string>
 </resources>

@@ -13,7 +13,16 @@
 
 package co.base.repos
 
+import co.app.domain.message.MessageRepository
+import co.base.message.FakeMessageRepositoryImpl
+import dagger.Binds
 import dagger.Module
+
+@Module
+abstract class RepoBinders {
+    @Binds
+    abstract fun bindMessageRepository(messageRepositoryImpl: FakeMessageRepositoryImpl): MessageRepository
+}
 
 @Module
 object ReposModule {

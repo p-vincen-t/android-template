@@ -33,9 +33,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="?android:attr/windowBackground"
+            android:background="@color/color_surface"
             app:elevation="4dp"
-            app:itemBackground="@android:color/white"
+            app:itemBackground="@color/color_surface"
             app:itemIconTint="@drawable/bottom_nav_icon_background"
             app:itemTextColor="@drawable/bottom_nav_icon_background"
             app:menu="@menu/dashboard_bottom_nav" />

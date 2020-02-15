@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.app.domain.models
+package co.app.domain.message
 import co.app.common.models.Photo
 
 data class ChatMessage(var sender: ChatUser, var message: String = "", var sentTime: Long) {
@@ -20,4 +20,3 @@ data class ChatMessage(var sender: ChatUser, var message: String = "", var sentT
     var forwarded: Boolean? = null
 }
 
-data class ChatThread(var user: ChatUser, var lastChatMessage: ChatMessage)

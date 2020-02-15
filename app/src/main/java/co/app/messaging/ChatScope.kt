@@ -11,11 +11,11 @@
  * limitations under the License.
  */
 
-package co.app.dashboard
+package co.app.messaging
 
 import javax.inject.Scope
 
 @Scope
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
-annotation class DashboardScope
+annotation class ChatScope

@@ -25,6 +25,7 @@ object BindingAdapters {
     @BindingAdapter("errorText")
     fun showError(editText: TextInputLayout, err: String) {
         editText.error = err
+
     }
 
     @JvmStatic
@@ -32,12 +33,4 @@ object BindingAdapters {
     fun changeVisibility(view: View, visible: Boolean) {
         view.visibility = if (visible) View.VISIBLE else View.GONE
     }
-
-    @JvmStatic
-    @BindingAdapter("photo")
-    fun photo(view: PhotoView, photo: Photo) {
-        view.photo = photo
-    }
-
-
 }

@@ -13,11 +13,19 @@
 
 package co.app
 
+import android.content.Intent
 import android.util.Log
+import co.app.domain.message.ChatMessage
+import co.app.messaging.ChatMessageService
 import com.google.firebase.messaging.FirebaseMessagingService
-
+import com.google.firebase.messaging.RemoteMessage
 
 class FireBaseMessageService : FirebaseMessagingService() {
+
+    override fun onCreate() {
+        super.onCreate()
+
+    }
 
     /**
      * Called if InstanceID token is updated. This may occur if the security of
@@ -32,8 +40,16 @@ class FireBaseMessageService : FirebaseMessagingService() {
 //        sendRegistrationToServer(token)
     }
 
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        super.onMessageReceived(remoteMessage)
+        val chatMessage: ChatMessage
+        val intent = Intent(this, ChatMessageService::class.java)
+       // bin
+
+    }
+
     companion object {
-        private const val TAG = "_FirebaseService"
+        private const val TAG = "_FireBaseMessageService"
     }
 
 }

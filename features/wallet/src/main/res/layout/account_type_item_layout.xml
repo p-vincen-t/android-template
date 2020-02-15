@@ -15,30 +15,30 @@
 <com.facebook.shimmer.ShimmerFrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:id="@+id/shimmersFrameLayout"
         android:background="@drawable/round_shape_filter"
-        android:layout_marginEnd="-8sp"
-        android:layout_marginStart="20sp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="0dp"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
-    <LinearLayout android:layout_width="wrap_content"
+        android:layout_margin="@dimen/small">
+    <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/filter_btn"
             android:orientation="vertical" >
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 tools:text="Alcohol"
+                android:textColor="@color/color_on_secondary"
                 android:id="@+id/accountTitleTextView"
                 android:textSize="18sp"/>
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 tools:text="20000"
+                android:textColor="@color/color_on_secondary"
+                style="@style/AppTextField"
                 android:id="@+id/accountBalanceTextView"/>
 
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </com.facebook.shimmer.ShimmerFrameLayout>

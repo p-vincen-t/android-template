@@ -13,13 +13,84 @@
 
 <resources>
 
+    <style name="AppMaterialTheme" parent="Theme.MaterialComponents.DayNight">
+        <!-- Global color attributes -->
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryVariant">@color/color_primary_variant</item>
+        <item name="colorOnPrimary">@color/color_on_primary</item>
+        <item name="colorSecondary">@color/color_secondary</item>
+        <item name="colorSecondaryVariant">@color/color_secondary_variant</item>
+        <item name="colorOnSecondary">@color/color_on_secondary</item>
+        <item name="colorError">@color/color_error</item>
+        <item name="colorOnError">@color/color_on_error</item>
+        <item name="colorSurface">@color/color_surface</item>
+        <item name="colorOnSurface">@color/color_on_surface</item>
+        <item name="android:colorBackground">@color/color_background</item>
+        <item name="colorOnBackground">@color/color_on_background</item>
+        <item name="android:statusBarColor">@color/color_status_bar</item>
+        <!-- Global type attributes -->
+        <item name="textAppearanceButton">@style/AppTextAppearance.Button</item>
+               <!-- Global shape attributes -->
+               <!-- Chip widget style attribute -->
+        <item name="chipStyle">@style/AppChip</item>
+        <item name="chipStandaloneStyle">@style/AppChip.Standalone</item>
+        <!-- Button widget style attribute -->
+        <item name="materialButtonStyle">@style/AppButton</item>
+        <!-- Text Field widget style attribute -->
+        <item name="textInputStyle">@style/AppTextField</item>
+        <!-- Card widget style attribute -->
+        <item name="materialCardViewStyle">@style/AppCard</item>
+        <!-- Bottom Navigation widget style attribute -->
+        <item name="bottomNavigationStyle">@style/AppBottomNavigation</item>
+    </style>
+
+    <style name="AppTextAppearance.Chip" parent="TextAppearance.MaterialComponents.Chip">
+
+    </style>
+
+    <style name="AppTextAppearance.Button" parent="TextAppearance.MaterialComponents.Button">
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+
+    <!-- NOTE: Chips don't seem to pick up on the theme fontFamily attributes, so these styles are necessary -->
+    <!-- See: https://issuetracker.google.com/issues/127453566 -->
+
+    <style name="AppChip" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="android:textAppearance">@style/AppTextAppearance.Chip</item>
+    </style>
+
+    <style name="AppChip.Standalone" parent="Widget.MaterialComponents.Chip.Entry">
+        <item name="android:textAppearance">@style/AppTextAppearance.Chip</item>
+    </style>
+
+    <style name="AppButton" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">?attr/colorSecondary</item>
+        <item name="android:textColor">@color/button_text_color</item>
+        <item name="iconTint">@color/button_text_color</item>
+        <item name="rippleColor">@color/button_ripple_color</item>
+    </style>
+
+    <style name="AppButton.Outlined" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="backgroundTint">?attr/colorSurface</item>
+        <item name="android:textColor">@color/button_outlined_text_color</item>
+        <item name="iconTint">@color/button_outlined_text_color</item>
+        <item name="rippleColor">@color/button_outlined_ripple_color</item>
+    </style>
+
+    <style name="AppTextField" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="boxBackgroundColor">@color/text_field_background</item>
+    </style>
+
+    <style name="AppCard" parent="Widget.MaterialComponents.CardView">
+        <item name="cardElevation">8dp</item>
+    </style>
+
+    <style name="AppBottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView.Colored" />
+
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/primaryMain</item>
-        <item name="colorPrimaryDark">@color/primaryDark</item>
-        <item name="colorAccent">@color/secondaryMain</item>
-        <item name="android:windowBackground">@color/backgroundDefault</item>
+    <style name="AppTheme" parent="AppMaterialTheme">
+
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -33,7 +104,7 @@
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents" />
 
     <style name="TextLabelWhite" parent="TextAppearance.MaterialComponents.Body1">
         <!-- Hint color and label color in FALSE state -->
@@ -50,7 +121,7 @@
         <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
     </style>
 
-    <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
+    <style name="FullscreenActionBarStyle" parent="Widget.MaterialComponents.ActionBar.Solid">
         <item name="android:background">@color/backgroundOverlay</item>
     </style>
 

@@ -15,12 +15,16 @@ package co.base
 
 import com.google.gson.Gson
 import dagger.Component
+import io.reactivex.disposables.CompositeDisposable
 import promise.commons.Promise
 
 @Component(modules = [DependenciesModule::class])
 @AppScope
 interface AppComponent {
     fun promise(): Promise
+    fun compositeDisposable(): CompositeDisposable
     fun gson(): Gson
+
+    fun inject(appBase: AppBase)
 
 }

@@ -14,13 +14,19 @@
 package co.base.repos
 
 import co.app.common.account.UserAccount
+import co.app.domain.message.MessageRepository
 import co.base.data.DataComponent
 import dagger.BindsInstance
 import dagger.Component
 
 @RepoScope
-@Component(dependencies = [DataComponent::class], modules = [ReposModule::class])
+@Component(
+    dependencies = [DataComponent::class],
+    modules = [RepoBinders::class, ReposModule::class]
+)
 interface ReposComponent {
+
+    fun messageRepository(): MessageRepository
 
     @Component.Factory
     interface Factory {
