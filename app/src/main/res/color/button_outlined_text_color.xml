@@ -14,5 +14,5 @@
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:color="?attr/colorOnSurface" android:state_enabled="true"/>
-    <item android:alpha="0.38" android:color="?attr/colorOnSurface"/>
+    <item android:alpha="0.8" android:color="?attr/colorOnSurface"/>
 </selector>

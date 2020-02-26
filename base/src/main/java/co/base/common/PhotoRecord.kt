@@ -11,9 +11,13 @@
  * limitations under the License.
  */
 
-package co.app.wallet.domain.models
+package co.base.common
 
-interface WalletAccount {
-    fun name(): String
-    fun amount(): Double
+import co.app.common.models.Photo
+
+class PhotoRecord {
+    var url: String? = null
+    var type = "OFFLINE"
+
+    fun toPhoto(): Photo = Photo().url(url).type(type)
 }

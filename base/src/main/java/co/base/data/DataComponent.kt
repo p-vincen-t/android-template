@@ -16,8 +16,10 @@ package co.base.data
 import co.app.common.account.UserAccount
 import com.google.gson.Gson
 import co.base.AppComponent
+import co.base.message.ChatMessageRecordDao
 import dagger.BindsInstance
 import dagger.Component
+import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import promise.commons.Promise
@@ -31,8 +33,9 @@ import promise.commons.Promise
 interface DataComponent {
     fun gson(): Gson
     fun promise(): Promise
+    fun chatMessageDao(): ChatMessageRecordDao
     fun okHttpClient(): OkHttpClient
-    fun apiUrl(): String
+    fun apiUrl(): HttpUrl
     @Component.Factory
     interface Factory {
         fun create(@BindsInstance userAccount: UserAccount,

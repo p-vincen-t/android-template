@@ -15,15 +15,20 @@ package co.app.wallet
 
 import co.app.App
 import co.app.ModuleRegister
+import co.app.common.account.AccountComponent
 import co.app.wallet.base.WalletBase
+import co.app.wallet.base.data.DataComponent
 
 class ModuleRegistrar : WalletBase(), ModuleRegister {
+
+    lateinit var accountsComponent: AccountComponent
 
     override fun register(app: App) {
         Companion.app = app
         init(app.promise,
             app.gson(),
             app.okHttpClient())
+        accountsComponent = app.accountComponent
     }
 
     companion object {

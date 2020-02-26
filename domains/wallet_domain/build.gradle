@@ -37,6 +37,7 @@ android {
 
 dependencies {
     implementation project(path: ':domain')
+    implementation project(path: ':common')
     implementation 'com.github.android-promise:commons:1.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
 

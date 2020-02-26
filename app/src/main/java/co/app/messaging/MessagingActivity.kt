@@ -13,13 +13,9 @@
 
 package co.app.messaging
 
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.ServiceConnection
 import android.os.Bundle
-import android.os.IBinder
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import co.app.BaseActivity
 import co.app.R
@@ -33,7 +29,6 @@ class MessagingActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_messaging)
-        setSupportActionBar(toolbar)
         addBackButton()
         messagingViewModel = ViewModelProvider(this)[MessagingViewModel::class.java]
     }
@@ -41,8 +36,10 @@ class MessagingActivity : BaseActivity() {
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
 
-        bindService(Intent(this, ChatMessageService::class.java),
-            messagingViewModel.serviceConnection, Context.BIND_AUTO_CREATE)
+        bindService(
+            Intent(this, ChatMessageService::class.java),
+            messagingViewModel.serviceConnection, Context.BIND_AUTO_CREATE
+        )
 
         fab.setOnClickListener {
             startActivity(intentFor<ChatActivity>())

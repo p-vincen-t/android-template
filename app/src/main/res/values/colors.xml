@@ -17,15 +17,17 @@
     <color name="color_primary">#ffffff</color>
     <color name="color_primary_variant">#fafafa</color>
     <color name="color_on_primary">#484848</color>
-    <color name="color_secondary">#00bcd4</color>
-    <color name="color_secondary_variant">#008ba3</color>
+    <color name="color_secondary">#4184f3</color>
+    <color name="color_secondary_variant">#4184f3</color>
     <color name="color_on_secondary">#fafafa</color>
     <color name="color_error">#f44336</color>
     <color name="color_on_error">#fafafa</color>
     <color name="color_surface">#ffffff</color>
-    <color name="color_on_surface">#484848</color>
-    <color name="color_background">#fafafa</color>
+    <color name="color_on_surface">#424242</color>
+    <color name="color_background">#f2f2f2</color>
     <color name="color_on_background">#212121</color>
-    <color name="color_status_bar">#cccccc</color>
+    <color name="color_status_bar">#ffffff</color>
+    <color name="icon">#bcbdc0</color>
+    <color name="outline_bg">#cacaca</color>
 
 </resources>

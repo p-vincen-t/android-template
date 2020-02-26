@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@color/color_surface"
-            app:elevation="4dp"
+            app:elevation="16dp"
             app:itemBackground="@color/color_surface"
             app:itemIconTint="@drawable/bottom_nav_icon_background"
             app:itemTextColor="@drawable/bottom_nav_icon_background"

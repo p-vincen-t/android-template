@@ -16,6 +16,8 @@ package co.app
 import android.os.Bundle
 import co.app.dashboard.DashboardActivity
 import org.jetbrains.anko.intentFor
+import promise.commons.Promise
+import javax.inject.Inject
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -23,9 +25,16 @@ import org.jetbrains.anko.intentFor
  */
 class SplashActivity : BaseActivity() {
 
+    @Inject
+    lateinit var promise: Promise
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+        DaggerUiComponent.builder()
+            .appComponent(app.appComponent)
+            .build()
+            .inject(this)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {

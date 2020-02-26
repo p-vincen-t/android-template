@@ -42,6 +42,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.app_bar_dashboard.*
 import kotlinx.android.synthetic.main.content_dashboard.*
+import promise.commons.Promise
 import promise.commons.createInstance
 import promise.ui.PromiseAdapter
 import promise.ui.model.Viewable
@@ -54,6 +55,9 @@ class DashboardActivity : BaseSplitActivity(),
 
     @Inject
     lateinit var dashboardViewModelFactory: DashboardViewModelFactory
+
+    @Inject
+    lateinit var promise: Promise
 
     private lateinit var dashboardViewModel: DashboardViewModel
 
@@ -137,16 +141,19 @@ class DashboardActivity : BaseSplitActivity(),
 
     fun profileInfoClicked(v: View) =
         executeBeforeAfterOnUi(
+            promise,
             { onBackPressed() },
             { startAuthActivity() })
 
     fun settingsClicked(v: View) =
         executeBeforeAfterOnUi(
+            promise,
             { onBackPressed() },
             { startActivity(Intent(this, SettingsActivity::class.java)) })
 
     fun legalClicked(v: View) =
         executeBeforeAfterOnUi(
+            promise,
             { onBackPressed() },
             { startActivity(Intent(this, LegalActivity::class.java)) })
 

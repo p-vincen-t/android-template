@@ -13,9 +13,12 @@
 
 package co.base.message
 
-import androidx.room.Dao
+import androidx.room.Embedded
+import androidx.room.Relation
 
-@Dao
-interface ChatMessageDao {
-
+class MessageThreadRecord {
+    @Embedded
+    var chatUser: ChatUserRecord? = null
+    @Relation(parentColumn = "userId", entityColumn = "senderId")
+    var chatMessages: List<ChatMessageRecord>? = null
 }

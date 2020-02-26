@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2020, {{App}}
   ~ Licensed under the Apache License, Version 2.0, "{{App}} Inc".
   ~ you may not use this file except in compliance with the License.
@@ -15,10 +14,13 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item>
-        <shape android:shape="rectangle" >
-            <stroke android:color="@color/color_secondary"/>
-            <solid android:color="@android:color/transparent" />
-            <corners android:radius="30dp"/>
+        <shape android:shape="rectangle">
+
+            <stroke android:color="@color/color_secondary" android:dashWidth="1dp" />
+            <padding android:bottom="@dimen/small"
+                    android:left="@dimen/small" android:right="@dimen/small" android:top="@dimen/small" />
+            <solid android:color="@color/color_background" />
+            <corners android:radius="30dp" />
         </shape>
     </item>
 

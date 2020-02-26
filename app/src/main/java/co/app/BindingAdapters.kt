@@ -14,10 +14,13 @@
 package co.app
 
 import android.view.View
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.google.android.material.textfield.TextInputLayout
 import co.app.common.models.Photo
+import co.app.report.Report
 import co.app.views.PhotoView
+import co.app.views.ReportView
 
 object BindingAdapters {
 
@@ -32,5 +35,17 @@ object BindingAdapters {
     @BindingAdapter("visibility")
     fun changeVisibility(view: View, visible: Boolean) {
         view.visibility = if (visible) View.VISIBLE else View.GONE
+    }
+
+    @JvmStatic
+    @BindingAdapter("report")
+    fun bindReport(view: ReportView, report: Report) {
+        view.report = report
+    }
+
+    @JvmStatic
+    @BindingAdapter("money")
+    fun bindMoney(view: TextView, money: Double) {
+        view.text = money.toString()
     }
 }

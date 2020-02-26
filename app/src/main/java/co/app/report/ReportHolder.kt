@@ -14,26 +14,21 @@
 package co.app.report
 
 import android.view.View
-import co.app.R
 import co.app.views.ReportView
 import promise.ui.model.Viewable
 
-class ReportHolder(private val report: Report): Viewable {
+class ReportHolder(private val report: Report) : Viewable {
 
     lateinit var reportView: ReportView
 
-    override fun layout(): Int = R.layout.report_layout
+    override fun layout(): Int = report.layout()
 
     override fun bind(view: View, args: Any?) {
-        if (report.javaClass.isAnnotationPresent(ReportMeta::class.java)) {
-            val annotation = report.javaClass.getAnnotation(ReportMeta::class.java)!!
-            reportView.menu = annotation.menu
-            reportView.header = annotation.header
-        }
-        report.bind(reportView, args)
+        reportView.report = report
     }
 
     override fun init(view: View) {
-        reportView = view.findViewById(R.id.reportView)
+        reportView = ReportView(view.context)
+        reportView.view = view
     }
 }

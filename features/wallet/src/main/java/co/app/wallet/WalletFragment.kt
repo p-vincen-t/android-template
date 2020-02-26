@@ -17,11 +17,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import co.app.BaseFragment
 import com.app.wallet.R
+import com.app.wallet.databinding.WalletFragmentBinding
+import javax.inject.Inject
 
 class WalletFragment : BaseFragment() {
+
+    @Inject
+    lateinit var walletViewModelFactory: WalletViewModelFactory
 
     private lateinit var viewModel: WalletViewModel
 
@@ -29,12 +35,28 @@ class WalletFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.wallet_fragment, container, false)
+        val binding = DataBindingUtil.inflate<WalletFragmentBinding>(
+            inflater,
+            R.layout.wallet_fragment,
+            container,
+            false
+        )
+        val moduleRegistrar = ModuleRegistrar.instance()
+
+        DaggerWalletComponent.factory()
+            .create(
+                moduleRegistrar.dataComponent.accountsRepository(),
+                moduleRegistrar.accountsComponent
+            )
+            .inject(this)
+        viewModel = ViewModelProvider(this, walletViewModelFactory).get(WalletViewModel::class.java)
+        binding.viewModel = viewModel
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(WalletViewModel::class.java)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.initData()
     }
 
 }

@@ -15,11 +15,13 @@ package co.base.data
 
 import co.app.common.account.UserAccount
 import co.base.BuildConfig
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import io.reactivex.schedulers.Schedulers
 import okhttp3.*
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.logging.HttpLoggingInterceptor
 import promise.commons.Promise
 import retrofit2.Retrofit
@@ -28,6 +30,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
+
 
 @Module
 object ApiModule {
@@ -58,7 +61,7 @@ object ApiModule {
             .connectTimeout(60, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)
             .callTimeout(10, TimeUnit.SECONDS)
-            .addNetworkInterceptor(interceptor)
+            .addInterceptor(interceptor)
             .authenticator(object : Authenticator {
                 private fun responseCount(response: Response): Int {
                     var newResponse = response
@@ -84,13 +87,17 @@ object ApiModule {
                 }
             })
             .addInterceptor(loggingInterceptor)
+        if (BuildConfig.DEBUG)
+            client.addNetworkInterceptor(StethoInterceptor())
         return client.build()
     }
 
     @DataScope
     @JvmStatic
     @Provides
-    fun provideApiUrl(): String = BuildConfig.API_URL
+    fun provideApiUrl(): HttpUrl {
+        return BuildConfig.API_URL.toHttpUrlOrNull()!!
+    }
 
     @DataScope
     @JvmStatic
@@ -99,7 +106,7 @@ object ApiModule {
         client: OkHttpClient,
         gson: Gson,
         promise: Promise,
-        apiUrl: String
+        apiUrl: HttpUrl
     ): Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create(gson))
         .addCallAdapterFactory(

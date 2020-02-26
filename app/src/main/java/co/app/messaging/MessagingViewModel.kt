@@ -21,7 +21,7 @@ import androidx.lifecycle.MutableLiveData
 import co.app.BaseViewModel
 import co.app.messaging.ChatMessageService.LocalBinder
 
-class MessagingViewModel : BaseViewModel() {
+class MessagingViewModel constructor(messageService: ChatMessageService) : BaseViewModel() {
 
     private val binder = MutableLiveData<ChatMessageService>()
 

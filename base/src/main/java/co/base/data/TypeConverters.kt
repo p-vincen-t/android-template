@@ -1,0 +1,47 @@
+/*
+ * Copyright 2020, {{App}}
+ * Licensed under the Apache License, Version 2.0, "{{App}} Inc".
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package co.base.data
+
+import androidx.room.TypeConverter
+import co.app.common.models.ID
+import java.util.*
+
+class TypeConverters {
+    @TypeConverter
+    fun fromTimestamp(value: Long?): Date? {
+        return value?.let { Date(it) }
+    }
+
+    @TypeConverter
+    fun dateToTimestamp(date: Date?): Long? {
+        return date?.time
+    }
+
+    @TypeConverter
+    fun stringfromID(value: ID?): String? {
+        if (value == null) {
+            val id = ID()
+            id.generate()
+            return id.id
+        }
+        return value.id
+    }
+
+    @TypeConverter
+    fun stringToID(date: String): ID {
+        val id = ID()
+        id.id = date
+        return id
+    }
+}

@@ -14,17 +14,26 @@
 package co.app.views
 
 import android.content.Context
+import android.os.Build
 import android.util.AttributeSet
+import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleRegistry
 import co.app.R
 import co.app.report.Report
+import co.app.report.ReportMeta
+import com.google.android.material.appbar.MaterialToolbar
 import promise.commons.createInstance
-import promise.ui.model.Viewable
-import java.lang.IllegalStateException
 
-class ReportView : LinearLayoutCompat {
+class ReportView : LinearLayoutCompat, LifecycleOwner {
+
+    private val registry: LifecycleRegistry = LifecycleRegistry(this)
 
     private var _header: String? = null
     private var _menu: Int = 0
@@ -32,12 +41,22 @@ class ReportView : LinearLayoutCompat {
     private var _report: Report? = null
     private var _onMenuItemClicked: Toolbar.OnMenuItemClickListener? = null
 
-    var onMenuItemClickListner: Toolbar.OnMenuItemClickListener?
-    get() = _onMenuItemClicked
-    set(value) {
-        _onMenuItemClicked = value
-        invalidate()
-    }
+    private var toolbar: MaterialToolbar? = null
+    private var frameLayout: FrameLayout? = null
+
+    var view: View? = null
+
+    var onMenuItemClickListener: Toolbar.OnMenuItemClickListener?
+        get() = _onMenuItemClicked
+        set(value) {
+            _onMenuItemClicked = value
+            if (_menu != 0 && toolbar != null) {
+                toolbar!!.inflateMenu(_menu)
+                if (_onMenuItemClicked != null) {
+                    toolbar!!.setOnMenuItemClickListener(_onMenuItemClicked!!)
+                }
+            }
+        }
 
     /**
      * The font color
@@ -59,13 +78,29 @@ class ReportView : LinearLayoutCompat {
             invalidate()
         }
 
-    var report: Report
-        get() = _report ?: throw IllegalStateException("Cant retrieve report not set")
+    var report: Report?
+        get() = _report
         set(value) {
             _report = value
-            invalidate()
+            if (_report != null) {
+                if (_report!!.javaClass.isAnnotationPresent(ReportMeta::class.java)) {
+                    val annotation = _report!!.javaClass.getAnnotation(ReportMeta::class.java)!!
+                    menu = annotation.menu
+                    header = if (annotation.headerRes != 0) {
+                        context.getString(annotation.headerRes)
+                    } else annotation.header
+                }
+                frameLayout!!.visibility = View.VISIBLE
+                frameLayout!!.removeAllViews()
+                if (view != null) frameLayout!!.addView(view)
+                else LayoutInflater.from(context).inflate(
+                    _report!!.layout(),
+                    frameLayout, true
+                )
+                report!!.bind(this)
+            } else frameLayout!!.visibility = View.GONE
+            if (_report == null) return
         }
-
 
     constructor(context: Context) : super(context) {
         init(null, 0)
@@ -90,7 +125,8 @@ class ReportView : LinearLayoutCompat {
         )
 
         _header = a.getString(
-            R.styleable.ReportView_header)
+            R.styleable.ReportView_header
+        )
         _menu = a.getResourceId(
             R.styleable.ReportView_menu,
             0
@@ -100,31 +136,53 @@ class ReportView : LinearLayoutCompat {
             _reportClass = a.getString(R.styleable.ReportView_report)
             _report = createInstance(Class.forName(_reportClass!!).kotlin)
         }
-
         a.recycle()
-        invalidate()
-    }
+        toolbar = MaterialToolbar(context)
+        val toolBarParams = ViewGroup.LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT,
+            FrameLayout.LayoutParams.WRAP_CONTENT
+        )
+        toolbar!!.layoutParams = toolBarParams
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            toolbar!!.setBackgroundColor(
+                resources.getColor(
+                    R.color.color_surface,
+                    context.theme
+                )
+            )
+        else toolbar!!.setBackgroundColor(resources.getColor(R.color.color_surface))
+        addView(toolbar)
 
-    override fun invalidate() {
-        removeAllViews()
-        if (header.isNotEmpty()) {
-            val toolbar = Toolbar(context)
-            toolbar.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-            toolbar.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
-            addView(toolbar)
-            toolbar.title = header
-            if (_menu != 0) {
-                toolbar.inflateMenu(_menu)
-                if (_onMenuItemClicked != null) {
-                    toolbar.setOnMenuItemClickListener(_onMenuItemClicked!!)
-                }
-            }
-        }
-
+        toolbar!!.title = header
+        if (header.isEmpty() && _menu == 0) toolbar!!.visibility = View.GONE
+        else toolbar!!.visibility = View.VISIBLE
+        frameLayout = FrameLayout(context)
+        val frameLayoutParams = ViewGroup.LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT,
+            FrameLayout.LayoutParams.WRAP_CONTENT
+        )
+        frameLayout!!.layoutParams = frameLayoutParams
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            frameLayout!!.setBackgroundColor(
+                resources.getColor(
+                    R.color.color_surface,
+                    context.theme
+                )
+            )
+        else frameLayout!!.setBackgroundColor(resources.getColor(R.color.color_surface))
+        addView(frameLayout)
         if (_report != null) {
-            if (_report is Viewable) {
-
-            }
-        }
+            frameLayout!!.visibility = View.VISIBLE
+            if (view != null) frameLayout!!.addView(view)
+            else LayoutInflater.from(context).inflate(
+                _report!!.layout(),
+                frameLayout, true
+            )
+            frameLayout!!.removeAllViews()
+            report!!.bind(this)
+        } else frameLayout!!.visibility = View.GONE
     }
+
+
+    override fun getLifecycle(): Lifecycle = registry
 }

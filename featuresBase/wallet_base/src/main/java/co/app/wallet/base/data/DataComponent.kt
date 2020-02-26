@@ -13,22 +13,32 @@
 
 package co.app.wallet.base.data
 
-import com.google.gson.Gson
+import co.app.wallet.base.accounts.AccountsModule
 import co.app.wallet.base.data.api.ApiModule
 import co.app.wallet.base.data.db.DatabaseModule
+import co.app.wallet.domain.accounts.AccountsRepository
+import com.google.gson.Gson
 import dagger.BindsInstance
 import dagger.Component
 import okhttp3.OkHttpClient
 import promise.commons.Promise
 
-@Component(modules = [ApiModule::class, DatabaseModule::class])
+@Component(
+    modules = [ApiModule::class,
+        DatabaseModule::class,
+        AccountsModule::class]
+)
 @DataScope
 interface DataComponent {
 
+    fun accountsRepository(): AccountsRepository
+
     @Component.Factory
     interface Factory {
-        fun create(@BindsInstance promise: Promise,
-                   @BindsInstance gson: Gson,
-                   @BindsInstance okHttpClient: OkHttpClient): DataComponent
+        fun create(
+            @BindsInstance promise: Promise,
+            @BindsInstance gson: Gson,
+            @BindsInstance okHttpClient: OkHttpClient
+        ): DataComponent
     }
 }

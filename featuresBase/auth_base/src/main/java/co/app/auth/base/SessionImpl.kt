@@ -27,7 +27,6 @@ import promise.commons.Promise
 import promise.commons.model.Result
 import promise.commons.pref.Preferences
 import promise.commons.util.DoubleConverter
-import promise.model.store.PreferenceStorage
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -63,7 +62,7 @@ class SessionImpl @Inject constructor(
         Preferences(SESSION_PREFERENCES_NAME)
     }
 
-    private val devicePreferenceStore: PreferenceStorage<Device> by lazy {
+   /* private val devicePreferenceStore: PreferenceStore<Device> by lazy {
         PreferenceStorage(
             SESSION_PREFERENCES_NAME,
             object : DoubleConverter<Device, JSONObject, JSONObject> {
@@ -72,7 +71,7 @@ class SessionImpl @Inject constructor(
 
                 override fun serialize(t: Device): JSONObject = JSONObject(gson.toJson(t))
             })
-    }
+    }*/
 
     private fun login(token: String, result: Result<Boolean, in AuthError>) {
 

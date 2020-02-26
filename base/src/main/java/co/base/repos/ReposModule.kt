@@ -13,18 +13,33 @@
 
 package co.base.repos
 
+import co.app.domain.message.ChatMessage
 import co.app.domain.message.MessageRepository
-import co.base.message.FakeMessageRepositoryImpl
+import co.base.message.AsyncMessageRepo
+import co.base.message.ChatMessageRecordDao
+import co.base.message.MessageRepositoryImpl
+import co.base.message.SyncMessageRepo
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
+import promise.model.repo.StoreRepository
 
 @Module
 abstract class RepoBinders {
     @Binds
-    abstract fun bindMessageRepository(messageRepositoryImpl: FakeMessageRepositoryImpl): MessageRepository
+    abstract fun bindMessageRepository(messageRepositoryImpl: MessageRepositoryImpl): MessageRepository
 }
 
 @Module
 object ReposModule {
 
+    @Provides
+    @JvmStatic
+    fun provideMessageRepo(chatMessageRecordDao: ChatMessageRecordDao): StoreRepository<ChatMessage> =
+        StoreRepository.of(
+            SyncMessageRepo::class,
+            AsyncMessageRepo::class,
+            arrayOf(chatMessageRecordDao),
+            arrayOf(chatMessageRecordDao)
+        )
 }

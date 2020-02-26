@@ -13,17 +13,19 @@
   -->
 
 <resources>
-    <color name="color_primary">#212121</color>
-    <color name="color_primary_variant">#000000</color>
+    <color name="color_primary">#202124</color>
+    <color name="color_primary_variant">#202124</color>
     <color name="color_on_primary">#fafafa</color>
-    <color name="color_secondary">#00bcd4</color>
-    <color name="color_secondary_variant">#008ba3</color>
+    <color name="color_secondary">#4184f3</color>
+    <color name="color_secondary_variant">#4184f3</color>
     <color name="color_on_secondary">#fafafa</color>
     <color name="color_error">#f44336</color>
     <color name="color_on_error">#fafafa</color>
-    <color name="color_surface">#000000</color>
+    <color name="color_surface">#202124</color>
     <color name="color_on_surface">#ffffff</color>
     <color name="color_background">#212121</color>
     <color name="color_on_background">#fafafa</color>
     <color name="color_status_bar">#424242</color>
+    <color name="icon">#5b5e63</color>
+    <color name="outline_bg">#2b2d30</color>
 </resources>

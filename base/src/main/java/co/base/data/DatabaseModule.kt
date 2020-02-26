@@ -13,9 +13,34 @@
 
 package co.base.data
 
+import co.base.message.ChatMessageRecordDao
+import co.base.message.ChatUserDao
+import co.base.message.MessageThreadRecordDao
 import dagger.Module
+import dagger.Provides
+import promise.commons.Promise
+private const val DB_NAME = "app_db"
 
 @Module
 object DatabaseModule {
 
+    @Provides
+    @JvmStatic
+    fun provideDatabase(promise: Promise): AppDatabase =
+        AppDatabase(
+            promise.context(),
+            DB_NAME
+        )
+
+    @Provides
+    @JvmStatic
+    fun providechatUserDao(database: AppDatabase): ChatUserDao = database.chatUserDao()
+
+    @Provides
+    @JvmStatic
+    fun provideChatMessageDao(database: AppDatabase): ChatMessageRecordDao = database.chatMessageDao()
+
+    @Provides
+    @JvmStatic
+    fun provideMessageThreadDao(database: AppDatabase): MessageThreadRecordDao = database.messageThreadDao()
 }

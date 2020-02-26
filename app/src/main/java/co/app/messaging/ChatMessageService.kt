@@ -37,7 +37,7 @@ class ChatMessageService : BaseService() {
 
     override fun onCreate() {
         super.onCreate()
-        DaggerChatComponent.builder()
+        DaggerChatMessageServiceComponent.builder()
             .reposComponent(app.reposComponent)
             .build()
             .inject(this)

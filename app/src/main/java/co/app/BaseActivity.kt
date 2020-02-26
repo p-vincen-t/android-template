@@ -17,6 +17,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import promise.commons.Promise
 import javax.inject.Inject
 
@@ -35,6 +36,11 @@ open class BaseActivity : AppCompatActivity() {
         actionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
+    fun requestFlatAppBar() {
+        val actionBar = supportActionBar
+        actionBar?.elevation = 0f
+    }
+
     /**
      * the main application for providing app component
      */
@@ -42,20 +48,10 @@ open class BaseActivity : AppCompatActivity() {
     /**
      * promise for execution of back ground threads and results on the ui thread
      */
-    @Inject
-    lateinit var promise: Promise
 
-    /**
-     * initializes the app and injects promise instance
-     *
-     * @param savedInstanceState
-     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         app = application as App
-        DaggerUiComponent.builder()
-            .appComponent(app.appComponent)
-            .build().inject(this)
     }
 
     /**
@@ -86,7 +82,7 @@ open class BaseActivity : AppCompatActivity() {
      * @param after last action to execute
      * @param wait interval before executing after
      */
-    fun executeBeforeAfterOnUi(before: () -> Unit, after: () -> Unit, wait: Long? = null) {
+    fun executeBeforeAfterOnUi(promise: Promise, before: () -> Unit, after: () -> Unit, wait: Long? = null) {
         promise.executeOnUi(before)
         promise.executeOnUi(after, wait ?: 500)
     }
@@ -98,7 +94,7 @@ open class BaseActivity : AppCompatActivity() {
      * @param after last action to execute
      * @param wait interval before executing after
      */
-    fun executeBeforeAfter(before: () -> Unit, after: () -> Unit, wait: Long? = null) {
+    fun executeBeforeAfter(promise: Promise, before: () -> Unit, after: () -> Unit, wait: Long? = null) {
         promise.execute(before)
         promise.execute(after, wait ?: 500)
     }

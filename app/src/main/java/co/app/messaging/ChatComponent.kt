@@ -13,12 +13,18 @@
 
 package co.app.messaging
 
-import co.base.repos.ReposComponent
+import dagger.BindsInstance
 import dagger.Component
 
 @ChatScope
-@Component(dependencies = [ReposComponent::class])
+@Component
 interface ChatComponent {
 
-    fun inject(chatMessageService: ChatMessageService)
+    fun inject(messagingActivity: MessagingActivity)
+    fun inject(chatActivity: ChatActivity)
+
+    @Component.Factory
+    interface Factory {
+        fun create(@BindsInstance chatMessageService: ChatMessageService): ChatComponent
+    }
 }

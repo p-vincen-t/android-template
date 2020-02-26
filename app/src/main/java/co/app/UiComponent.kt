@@ -19,5 +19,5 @@ import dagger.Component
 @Component(dependencies = [AppComponent::class])
 @UiScope
 interface UiComponent {
-    fun inject(baseActivity: BaseActivity)
+    fun inject(splashActivity: SplashActivity)
 }

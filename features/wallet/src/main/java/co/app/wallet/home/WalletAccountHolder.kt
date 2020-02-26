@@ -14,19 +14,28 @@
 package co.app.wallet.home
 
 import android.view.View
-import co.app.wallet.domain.models.WalletAccount
+import co.app.wallet.domain.accounts.WalletAccount
+import com.app.wallet.R
+import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.account_type_item_layout.*
 import promise.ui.model.Viewable
 
-class WalletAccountHolder (private val walletAccount: WalletAccount): Viewable {
-    override fun layout(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+class WalletAccountHolder (private val walletAccount: WalletAccount): Viewable, LayoutContainer {
+    lateinit var view: View
+
+    override fun layout(): Int = R.layout.account_type_item_layout
 
     override fun bind(view: View?, args: Any?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        shimmersFrameLayout.stopShimmer()
+        shimmersFrameLayout.setShimmer(null)
+        accountTitleTextView.text = walletAccount.name()
+        accountBalanceTextView.text = walletAccount.amount().toString()
     }
 
-    override fun init(view: View?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun init(view: View) {
+        this.view = view
     }
+
+    override val containerView: View?
+        get() = view
 }

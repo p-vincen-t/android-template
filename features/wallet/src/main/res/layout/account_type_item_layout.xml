@@ -29,14 +29,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Alcohol"
-                android:textColor="@color/color_on_secondary"
+                android:textColor="@color/color_on_surface"
                 android:id="@+id/accountTitleTextView"
                 android:textSize="18sp"/>
         <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="20000"
-                android:textColor="@color/color_on_secondary"
+                android:textColor="@color/color_on_surface"
                 style="@style/AppTextField"
                 android:id="@+id/accountBalanceTextView"/>
 

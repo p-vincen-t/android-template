@@ -13,4 +13,6 @@
 
 package co.app.domain.message
 
-data class ChatThread(var user: ChatUser, var lastChatMessage: ChatMessage)
+import co.app.common.models.AppUser
+
+data class ChatThread(var user: AppUser, var lastChatMessage: ChatMessage)

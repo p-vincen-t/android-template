@@ -25,6 +25,7 @@ class AuthActivity : BaseActivity() {
         setContentView(R.layout.activity_auth)
         setResult(Activity.RESULT_CANCELED)
         addBackButton()
+        requestFlatAppBar()
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {

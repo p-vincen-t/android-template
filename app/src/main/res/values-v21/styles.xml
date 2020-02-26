@@ -27,6 +27,6 @@
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar">
-        <item name="android:elevation">0dp</item>
+
     </style>
 </resources>

@@ -28,15 +28,20 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.tbruyelle.rxpermissions2.RxPermissions
+import promise.commons.Promise
 import promise.commons.util.Conditions
 
-
+fun getString(@StringRes resId: Int): String {
+    val app = Promise.instance().context()
+    return app.getString(resId)
+}
 /**
  *
  *

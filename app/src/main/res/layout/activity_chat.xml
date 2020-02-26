@@ -21,15 +21,15 @@
         tools:context=".messaging.ChatActivity"
         app:flexDirection="column">
     <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/chats_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_flexGrow="1">
-
-    </androidx.recyclerview.widget.RecyclerView>
+            app:layout_flexGrow="1"/>
 
     <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:cardElevation="@dimen/big"
             app:cardBackgroundColor="@color/color_surface"
             app:cardCornerRadius="0dp">
         <com.google.android.flexbox.FlexboxLayout

@@ -19,16 +19,18 @@ import co.app.domain.message.MessageRepository
 import co.app.domain.message.MessagesError
 import co.base.repos.RepoScope
 import promise.commons.model.Result
+import promise.model.repo.StoreRepository
 import javax.inject.Inject
 
 @RepoScope
-class MessageRepositoryImpl @Inject constructor() : MessageRepository {
+class MessageRepositoryImpl @Inject constructor(private val repository: StoreRepository<ChatMessage>) :
+    MessageRepository {
     override fun getMessageThreads(
         skip: Int,
         take: Int,
         response: Result<List<ChatThread>, MessagesError>
     ) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun getMessages(
@@ -37,10 +39,10 @@ class MessageRepositoryImpl @Inject constructor() : MessageRepository {
         take: Int,
         response: Result<List<ChatMessage>, MessagesError>
     ) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun sendMessage(chatMessage: ChatMessage, result: Result<Int, MessagesError>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 }

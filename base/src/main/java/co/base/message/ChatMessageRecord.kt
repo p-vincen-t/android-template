@@ -14,35 +14,51 @@
 package co.base.message
 
 import androidx.room.*
-import co.app.domain.message.ChatMessage
-import co.app.domain.message.ChatUser
+import co.app.common.models.ID
+import co.base.common.PhotoRecord
 
-@Entity(tableName = "chats")
+@Entity(
+    tableName = "chats",
+    foreignKeys = [
+        ForeignKey(
+            entity = ChatUserRecord::class,
+            parentColumns = ["userId"],
+            childColumns = ["senderId"]
+        ),
+        ForeignKey(
+            entity = ChatMessageRecord::class,
+            parentColumns = ["uId"],
+            childColumns = ["chatReplyId"]
+        )
+    ],
+    indices = [
+        Index(value = ["uId"], name = "uid_index", unique = true )
+    ]
+
+)
 class ChatMessageRecord {
 
     @PrimaryKey(autoGenerate = true)
     var id = 0
-    @ColumnInfo(index = true)
-    var uId: String = ""
+
+    var uId: ID? = null
 
     @ColumnInfo(index = true)
-    var senderId: String? = ""
+    var senderId: ID? = null
 
-    var sender: ChatUser? = null
     var message: String = ""
+
+    @Embedded(prefix = "photo_")
+    var photoRecord: PhotoRecord? = null
+
     var sentTime: Long = 0
-    @Relation(parentColumn = "" , entity = ChatMessageRecord::class, entityColumn ="")
-    var chatMessageReplyRecord: ChatMessageRecord? = null
+
+    @ColumnInfo(index = true)
+    var chatReplyId: ID? = null
+
+    /*@Relation(parentColumn = "uId" , entity = ChatMessageRecord::class, entityColumn ="chatReplyId")
+    var chatMessageReplyRecord: ChatMessageRecord? = null*/
+
     var forwardedFlag: Boolean = false
 
-    fun toChatMessage(): ChatMessage = ChatMessage(
-        sender!!,
-        message,
-        sentTime
-    ).apply {
-        if (chatMessageReplyRecord != null) {
-            chatMessageReply = chatMessageReplyRecord!!.toChatMessage()
-        }
-        forwarded = forwardedFlag
-    }
 }

@@ -72,7 +72,7 @@
     </style>
 
     <style name="AppButton.Outlined" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="backgroundTint">?attr/colorSurface</item>
+        <item name="backgroundTint">@color/outline_bg</item>
         <item name="android:textColor">@color/button_outlined_text_color</item>
         <item name="iconTint">@color/button_outlined_text_color</item>
         <item name="rippleColor">@color/button_outlined_ripple_color</item>
@@ -102,7 +102,9 @@
         <item name="android:displayOptions">homeAsUp</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar" >
+
+    </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents" />
 

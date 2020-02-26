@@ -11,8 +11,14 @@
  * limitations under the License.
  */
 
-package co.app.domain.message
+package co.app.wallet.base.accounts
 
-import co.app.common.models.Photo
+import co.app.wallet.domain.accounts.AccountsRepository
+import dagger.Binds
+import dagger.Module
 
-class ChatUser(var userId: String, var userName: String, var photo: Photo)
+@Module
+abstract class AccountsModule {
+    @Binds
+    abstract fun bindAccountsRepository(accountsRepositoryImpl: AccountsRepositoryImpl): AccountsRepository
+}

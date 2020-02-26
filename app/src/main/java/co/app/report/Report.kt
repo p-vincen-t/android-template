@@ -16,5 +16,6 @@ package co.app.report
 import co.app.views.ReportView
 
 interface Report {
-    fun bind(reportView: ReportView, args: Any?)
+    fun bind(reportView: ReportView)
+    fun layout(): Int
 }

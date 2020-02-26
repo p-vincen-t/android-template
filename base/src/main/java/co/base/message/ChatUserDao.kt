@@ -13,9 +13,9 @@
 
 package co.base.message
 
-import androidx.room.Entity
+import androidx.room.Dao
 
-@Entity(tableName = "users")
-class UserRecord {
+@Dao
+interface ChatUserDao {
 
 }
