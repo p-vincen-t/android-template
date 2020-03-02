@@ -55,16 +55,6 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     /**
-     * removes the default elevation of app bar
-     *
-     * @param savedInstanceState
-     */
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-        supportActionBar?.elevation = 0f
-    }
-
-    /**
      * handle  click of back button if its present
      *
      * @param item

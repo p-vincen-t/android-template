@@ -201,4 +201,7 @@
         <item>Set By Battery Saver</item>
     </string-array>
     <string name="def">Default</string>
+    <string name="title_fleet">Fleet Dashboard</string>
+    <string name="title_partner">Partner Dashboard</string>
+    <string name="title_activity_search">SearchActivity</string>
 </resources>

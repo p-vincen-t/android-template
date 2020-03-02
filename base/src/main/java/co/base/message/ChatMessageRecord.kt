@@ -15,6 +15,7 @@ package co.base.message
 
 import androidx.room.*
 import co.app.common.models.ID
+import co.app.domain.message.ChatMessage
 import co.base.common.PhotoRecord
 
 @Entity(
@@ -56,9 +57,10 @@ class ChatMessageRecord {
     @ColumnInfo(index = true)
     var chatReplyId: ID? = null
 
-    /*@Relation(parentColumn = "uId" , entity = ChatMessageRecord::class, entityColumn ="chatReplyId")
-    var chatMessageReplyRecord: ChatMessageRecord? = null*/
-
     var forwardedFlag: Boolean = false
 
+    fun toChatMessage(chatUserDao: ChatUserDao): ChatMessage =
+        ChatMessage(chatUserDao.getChatUser(senderId!!).toChatUser(), message, sentTime).apply {
+
+        }
 }

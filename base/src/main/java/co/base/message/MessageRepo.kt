@@ -21,23 +21,40 @@ import promise.model.repo.AbstractSyncIDataStore
 
 const val SKIP_ARG = "skip_arg"
 const val TAKE_ARG = "take_arg"
+const val SEARCH_ARG = "search_arg"
 
-class AsyncMessageRepo constructor(private val chatMessageRecordDao: ChatMessageRecordDao) : AbstractAsyncIDataStore<ChatMessage>() {
+class AsyncMessageRepo constructor(
+    private val chatMessageRecordDao: ChatMessageRecordDao,
+    private val chatUserDao: ChatUserDao
+) : AbstractAsyncIDataStore<ChatMessage>() {
     @Throws(MissingArgumentException::class)
     override fun all(
         res: (List<out ChatMessage>, Any?) -> Unit,
         err: ((Exception) -> Unit)?,
         args: Map<String, Any?>?
     ) {
-        if (args == null || (!args.contains(SKIP_ARG) || !args.containsKey(TAKE_ARG)))
-            throw MissingArgumentException("SKIP AND TAKE ARGS MUST BE PASSED")
+        when {
+            args == null -> {
+                res(List<ChatMessage>(chatMessageRecordDao.getDistinctMessages().value!!.map {
+                    it.toChatMessage(chatUserDao)
+                }), null)
+            }
+            args.containsKey(SEARCH_ARG) -> {
+                res(List<ChatMessage>(chatMessageRecordDao.getDistinctMessages().value!!.map {
+                    it.toChatMessage(chatUserDao)
+                }), null)
+                /*res(List<ChatMessage>(chatMessageRecordDao.searchMessages(args[SEARCH_ARG].toString())
+                    .map {
+                        it.toChatMessage(chatUserDao)
+                    }), null
+                )*/
+            }
+            args.containsKey(SKIP_ARG) && args.containsKey(TAKE_ARG) -> {
 
-
+            }
+        }
     }
 }
 
-class SyncMessageRepo constructor(private val chatMessageRecordDao: ChatMessageRecordDao): AbstractSyncIDataStore<ChatMessage>() {
-    override fun all(args: Map<String, Any?>?): Pair<List<out ChatMessage>?, Any?> {
-        return super.all(args)
-    }
-}
+class SyncMessageRepo constructor(private val chatMessageRecordDao: ChatMessageRecordDao) :
+    AbstractSyncIDataStore<ChatMessage>()

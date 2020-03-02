@@ -13,14 +13,15 @@
 
 package co.app
 
-import android.content.Context
-import android.content.SharedPreferences
+import android.content.*
 import android.content.res.Configuration
-import android.os.Build
-import androidx.appcompat.app.AppCompatDelegate
+import android.os.IBinder
 import androidx.collection.ArrayMap
-import androidx.lifecycle.*
-import co.app.common.account.UserAccount
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.ProcessLifecycleOwner
+import co.app.messaging.ChatMessageService
 import co.app.settings.ThemePreference
 import co.base.AppBase
 import co.base.AppBase.Companion.TEMP_PREFERENCE_NAME
@@ -29,12 +30,35 @@ import com.google.android.play.core.splitinstall.SplitInstallManager
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
-import promise.commons.Promise
 import promise.commons.createInstance
 import promise.commons.data.log.LogUtil
 import java.util.*
+import kotlin.collections.forEach
+import kotlin.collections.set
+import promise.commons.model.Message as PromiseMessage
 
 class App : AppBase(), LifecycleObserver {
+
+    private val serviceConnection: ServiceConnection by lazy {
+        object : ServiceConnection {
+            override fun onServiceDisconnected(name: ComponentName?) {
+
+            }
+
+            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+                val serviceBinder = service as ChatMessageService.LocalBinder
+                promise.send(PromiseMessage(TAG, serviceBinder.service))
+            }
+        }
+    }
+
+    fun connectChatService() {
+        val intent = Intent(this, ChatMessageService::class.java)
+        startService(intent)
+        bindService(intent,
+            serviceConnection,
+            Context.BIND_AUTO_CREATE)
+    }
 
     val themePreferenceRepo: ThemePreference by lazy {
         ThemePreference()
@@ -96,6 +120,8 @@ class App : AppBase(), LifecycleObserver {
     fun apiUrl(): String = apiUrl
 
     companion object {
+
+        val TAG: String = LogUtil.makeTag(App::class.java)
 
         private const val PACKAGE_NAME = BuildConfig.PACKAGE_NAME
         const val MESSAGING_FEATURE_NAME = "messaging"

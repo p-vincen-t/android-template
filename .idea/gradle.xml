@@ -21,6 +21,8 @@
             <option value="$PROJECT_DIR$/featuresBase" />
             <option value="$PROJECT_DIR$/featuresBase/auth_base" />
             <option value="$PROJECT_DIR$/featuresBase/wallet_base" />
+            <option value="$PROJECT_DIR$/fleet" />
+            <option value="$PROJECT_DIR$/partner" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

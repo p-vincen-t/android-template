@@ -17,6 +17,8 @@ import co.app.common.account.UserAccount
 import com.google.gson.Gson
 import co.base.AppComponent
 import co.base.message.ChatMessageRecordDao
+import co.base.message.ChatUserDao
+import co.base.search.SearchRecordTable
 import dagger.BindsInstance
 import dagger.Component
 import okhttp3.HttpUrl
@@ -34,6 +36,8 @@ interface DataComponent {
     fun gson(): Gson
     fun promise(): Promise
     fun chatMessageDao(): ChatMessageRecordDao
+    fun chatUserDao(): ChatUserDao
+    fun searchRecordTable(): SearchRecordTable
     fun okHttpClient(): OkHttpClient
     fun apiUrl(): HttpUrl
     @Component.Factory

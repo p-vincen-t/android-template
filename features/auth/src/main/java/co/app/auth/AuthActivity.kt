@@ -31,6 +31,5 @@ class AuthActivity : BaseActivity() {
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         authTitleTextVew.text = getString(R.string.sign_in_to_continue)
-
     }
 }

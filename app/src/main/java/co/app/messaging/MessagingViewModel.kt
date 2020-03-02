@@ -21,22 +21,11 @@ import androidx.lifecycle.MutableLiveData
 import co.app.BaseViewModel
 import co.app.messaging.ChatMessageService.LocalBinder
 
-class MessagingViewModel constructor(messageService: ChatMessageService) : BaseViewModel() {
+class MessagingViewModel (messageService: ChatMessageService) : BaseViewModel() {
 
     private val binder = MutableLiveData<ChatMessageService>()
 
     fun serviceBinder(): LiveData<ChatMessageService> = binder
 
-    val serviceConnection: ServiceConnection by lazy {
-        object : ServiceConnection {
-            override fun onServiceDisconnected(name: ComponentName?) {
 
-            }
-
-            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-                val serviceBinder = service as LocalBinder
-                binder.value =  serviceBinder.service
-            }
-        }
-    }
 }

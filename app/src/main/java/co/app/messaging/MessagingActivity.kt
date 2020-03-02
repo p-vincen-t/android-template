@@ -17,33 +17,52 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
+import co.app.App
 import co.app.BaseActivity
 import co.app.R
 import kotlinx.android.synthetic.main.activity_messaging.*
 import org.jetbrains.anko.intentFor
+import promise.commons.Promise
+import promise.commons.data.log.LogUtil
+import promise.commons.model.Result
+import javax.inject.Inject
 
 class MessagingActivity : BaseActivity() {
 
     private lateinit var messagingViewModel: MessagingViewModel
 
+    @Inject
+    lateinit var messagingViewModelFactory: MessageViewModelFactory
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_messaging)
         addBackButton()
-        messagingViewModel = ViewModelProvider(this)[MessagingViewModel::class.java]
+        Promise.instance().listen(App.TAG, Result<Any, Throwable>()
+            .withCallBack {
+                if (it is ChatMessageService) {
+                    LogUtil.e(TAG, "service connected")
+                    DaggerChatComponent.factory()
+                        .create(it)
+                        .inject(this)
+                    messagingViewModel = ViewModelProvider(this,
+                        messagingViewModelFactory)[MessagingViewModel::class.java]
+                }
+            })
+
+        app.connectChatService()
+
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-
-        bindService(
-            Intent(this, ChatMessageService::class.java),
-            messagingViewModel.serviceConnection, Context.BIND_AUTO_CREATE
-        )
-
         fab.setOnClickListener {
             startActivity(intentFor<ChatActivity>())
         }
+    }
+
+    companion object {
+        val TAG = LogUtil.makeTag(MessagingActivity::class.java)
     }
 
 }

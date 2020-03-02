@@ -19,10 +19,12 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.widget.Toast
+import co.app.common.dsl.dialog
+import co.app.common.dsl.showProgress
+import co.app.common.dsl.startActivity
 import com.google.android.play.core.splitcompat.SplitCompat
 import com.google.android.play.core.splitinstall.*
 import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
-import co.app.App.Companion.MESSAGING_FEATURE_NAME
 import java.util.*
 
 /**
@@ -100,7 +102,7 @@ abstract class BaseSplitActivity : BaseActivity() {
 
     fun startAuthActivity() {
         onInstalled = {
-            launchActivity(App.AUTH_ACTIVITY)
+            startActivity(App.AUTH_ACTIVITY)
             onInstalled = null
         }
         loadAndLaunchModule(App.AUTH_FEATURE_NAME)

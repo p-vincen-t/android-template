@@ -13,7 +13,6 @@
 
 package co.app.dashboard
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -34,9 +33,12 @@ import co.app.BaseSplitActivity
 import co.app.PlaceHolderModuleFragment
 import co.app.R
 import co.app.common.account.UserChildAccount
+import co.app.common.dsl.adapter
+import co.app.common.dsl.startActivity
 import co.app.databinding.ActivityDashboardBinding
 import co.app.legal.LegalActivity
 import co.app.messaging.MessagingActivity
+import co.app.search.SearchActivity
 import co.app.settings.SettingsActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_dashboard.*
@@ -47,6 +49,7 @@ import promise.commons.createInstance
 import promise.ui.PromiseAdapter
 import promise.ui.model.Viewable
 import javax.inject.Inject
+import kotlin.concurrent.thread
 import kotlin.reflect.KClass
 
 class DashboardActivity : BaseSplitActivity(),
@@ -119,9 +122,18 @@ class DashboardActivity : BaseSplitActivity(),
 
         viewpager.adapter = SectionsPagerAdapter(supportFragmentManager)
 
-        accountsAdapter = PromiseAdapter(ArrayMap<Class<*>, KClass<out Viewable>>().apply {
-            put(UserChildAccount::class.java, NavigationAccountViewHolder::class)
-        }, this, null)
+        accountsAdapter = adapter(
+            ArrayMap<Class<*>, KClass<out Viewable>>()
+                .apply {
+                    put(
+                        UserChildAccount::class.java,
+                        NavigationAccountViewHolder::class
+                    )
+                },
+            this
+        ) {
+            args = null
+        }
 
         accounts_list.layoutManager = LinearLayoutManager(this)
         accounts_list.adapter = accountsAdapter
@@ -136,7 +148,8 @@ class DashboardActivity : BaseSplitActivity(),
     }
 
     override fun onBackPressed() =
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) drawer_layout.closeDrawer(GravityCompat.START)
+        if (drawer_layout.isDrawerOpen(GravityCompat.START))
+            drawer_layout.closeDrawer(GravityCompat.START)
         else super.onBackPressed()
 
     fun profileInfoClicked(v: View) =
@@ -149,13 +162,17 @@ class DashboardActivity : BaseSplitActivity(),
         executeBeforeAfterOnUi(
             promise,
             { onBackPressed() },
-            { startActivity(Intent(this, SettingsActivity::class.java)) })
+            {
+                startActivity<SettingsActivity>()
+            })
 
     fun legalClicked(v: View) =
         executeBeforeAfterOnUi(
             promise,
             { onBackPressed() },
-            { startActivity(Intent(this, LegalActivity::class.java)) })
+            {
+                startActivity<LegalActivity>()
+            })
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -165,10 +182,12 @@ class DashboardActivity : BaseSplitActivity(),
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when (item.itemId) {
-            R.id.action_search -> true
+            R.id.action_search -> {
+                startActivity<SearchActivity>()
+                true
+            }
             R.id.action_messages -> {
-                startActivity(Intent(this, MessagingActivity::class.java))
-                //startActivityInMessagingFeature(MESSAGING_ACTIVITY)
+                startActivity<MessagingActivity>()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -201,7 +220,7 @@ class DashboardActivity : BaseSplitActivity(),
     }
 
     fun snoozeNotifications(view: View) {
-        startActivity(Intent(this, SettingsActivity::class.java))
+        startActivity<SettingsActivity>()
     }
 
     override fun onRequestedModule(module: String) {

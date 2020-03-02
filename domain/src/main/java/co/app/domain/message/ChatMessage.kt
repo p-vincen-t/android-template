@@ -14,8 +14,15 @@
 package co.app.domain.message
 import co.app.common.models.AppUser
 import co.app.common.models.Photo
+import co.app.domain.search.Search
+import co.app.domain.search.SearchResult
+import co.app.domain.search.notNullIsContainedIn
 
-data class ChatMessage(var sender: AppUser, var message: String = "", var sentTime: Long) {
+data class ChatMessage(var sender: AppUser, var message: String = "", var sentTime: Long): SearchResult {
+    override fun onSearch(search: Search): Boolean =
+        search.query.notNullIsContainedIn(sender.userName) &&
+                search.query.notNullIsContainedIn(message)
+
     var photos: List<Photo>? = null
     var chatMessageReply: ChatMessage? = null
     var forwarded: Boolean? = null

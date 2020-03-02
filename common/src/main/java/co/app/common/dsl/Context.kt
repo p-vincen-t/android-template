@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.app
+package co.app.common.dsl
 
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
@@ -30,13 +30,39 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import co.app.common.R
 import com.tbruyelle.rxpermissions2.RxPermissions
 import promise.commons.Promise
 import promise.commons.util.Conditions
+
+inline fun <reified T: AppCompatActivity> Context.startActivity(noinline intentBlock: Intent.() -> Unit = {}) {
+    val intent = Intent(this, T::class.java)
+    intentBlock.invoke(intent)
+    this.startActivity(intent)
+}
+
+fun  Context.startActivity(className: String, intentBlock: Intent.() -> Unit = {}) {
+    val intent = Intent()
+    intent.setClassName(this.applicationContext, className)
+    intentBlock.invoke(intent)
+    this.startActivity(intent)
+}
+
+/** Launch an activity by its class name. */
+@Deprecated("use start activity passing className",
+    replaceWith = ReplaceWith("startActivity(className)"),
+    level = DeprecationLevel.ERROR)
+fun Context.launchActivity(className: String) {
+    Intent().setClassName("co.app", className)
+        .also {
+            startActivity(it)
+        }
+}
 
 fun getString(@StringRes resId: Int): String {
     val app = Promise.instance().context()
@@ -107,7 +133,6 @@ fun Activity.showProgress(
     return view.findViewById(R.id.progress_bar)
 }
 
-
 /**
  *
  *
@@ -136,8 +161,8 @@ fun Activity.requestPermission(
  */
 @SuppressLint("CheckResult")
 fun FragmentActivity.requestPermission(
-    callBack: (String, Boolean) -> Unit,
-    permission: String
+    permission: String,
+    callBack: (String, Boolean) -> Unit
 ) {
     RxPermissions(this).request(permission)
         .subscribe { aBoolean -> callBack(permission, aBoolean) }
@@ -225,13 +250,6 @@ fun AppCompatSpinner.populate(
     }
 }
 
-/** Launch an activity by its class name. */
-fun Context.launchActivity(className: String) {
-    Intent().setClassName(BuildConfig.APPLICATION_ID, className)
-        .also {
-            startActivity(it)
-        }
-}
 
 /**
  *

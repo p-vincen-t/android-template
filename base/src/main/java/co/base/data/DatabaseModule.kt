@@ -16,10 +16,13 @@ package co.base.data
 import co.base.message.ChatMessageRecordDao
 import co.base.message.ChatUserDao
 import co.base.message.MessageThreadRecordDao
+import co.base.search.SearchRecordTable
 import dagger.Module
 import dagger.Provides
 import promise.commons.Promise
+
 private const val DB_NAME = "app_db"
+private const val BEHAVIOUR_DB_NAME = "behaviour_db"
 
 @Module
 object DatabaseModule {
@@ -34,7 +37,21 @@ object DatabaseModule {
 
     @Provides
     @JvmStatic
-    fun providechatUserDao(database: AppDatabase): ChatUserDao = database.chatUserDao()
+    @DataScope
+    fun provideBehaviorDatabase(): BehaviourDatabase =
+        BehaviourDatabase(
+            BEHAVIOUR_DB_NAME
+        )
+
+    @Provides
+    @JvmStatic
+    @DataScope
+    fun provideSearchRecordTable(database: BehaviourDatabase): SearchRecordTable =
+        BehaviourDatabase.searchRecordTable
+
+    @Provides
+    @JvmStatic
+    fun provideChatUserDao(database: AppDatabase): ChatUserDao = database.chatUserDao()
 
     @Provides
     @JvmStatic

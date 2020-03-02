@@ -14,8 +14,12 @@
 package co.base.message
 
 import androidx.room.Dao
+import androidx.room.Query
+import co.app.common.models.ID
+import co.base.data.BaseDao
 
 @Dao
-interface ChatUserDao {
-
+interface ChatUserDao: BaseDao<ChatUserRecord> {
+    @Query("SELECT * FROM chat_users WHERE userId = :id")
+   fun getChatUser(id: ID): ChatUserRecord
 }

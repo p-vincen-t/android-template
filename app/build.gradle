@@ -46,8 +46,12 @@ android {
     dynamicFeatures = [
             ':features:auth',
             ':features:wallet'
+            //":fleet",
+            //":partner"
     ]
     //dynamicFeatures = [ ':features:request', ":features:blog", ":features:survey"]
+
+
 }
 
 dependencies {

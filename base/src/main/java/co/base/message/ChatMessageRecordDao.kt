@@ -14,13 +14,23 @@
 package co.base.message
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Query
+import androidx.room.*
+import co.app.common.toDistinct
+import co.base.data.BaseDao
 
 @Dao
-interface ChatMessageRecordDao {
+abstract class ChatMessageRecordDao: BaseDao<ChatMessageRecord> {
 
-    @Query("select * from chats where id >= :skip limit :take")
-    fun getMessages(skip: Int, take: Int): LiveData<List<ChatMessageRecord>>
+    @Query("SELECT * FROM chats")
+    protected abstract fun getMessages(): LiveData<List<ChatMessageRecord>>
+
+    fun getDistinctMessages(): LiveData<List<ChatMessageRecord>> = getMessages().toDistinct()
+
+    @Query("SELECT * FROM chats WHERE id >= :skip LIMIT :take")
+    protected abstract fun getPaginatedMessages(skip: Int, take: Int): LiveData<List<ChatMessageRecord>>
+
+    //@Query("SELECT * FROM chats")
+    //@Query("SELECT * FROM chats AS c WHERE c.senderId IN (SELECT userId FROM chat_users WHERE chat_users.userName LIKE  :query ) OR c.message LIKE :query")
+    //abstract fun searchMessages(query: String): List<ChatMessageRecord>
 
 }

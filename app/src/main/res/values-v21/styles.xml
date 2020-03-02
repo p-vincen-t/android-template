@@ -23,7 +23,6 @@
 
     <style name="AppTheme.FlatActionBar" parent="AppTheme">
         <item name="android:displayOptions">homeAsUp</item>
-        <item name="android:elevation">0dp</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar">

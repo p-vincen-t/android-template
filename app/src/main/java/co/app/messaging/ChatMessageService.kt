@@ -19,6 +19,7 @@ import android.os.IBinder
 import co.app.BaseService
 import co.app.domain.message.ChatMessage
 import co.app.domain.message.MessageRepository
+import promise.commons.data.log.LogUtil
 import javax.inject.Inject
 
 class ChatMessageService : BaseService() {
@@ -45,11 +46,15 @@ class ChatMessageService : BaseService() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
+        LogUtil.e(TAG, "service started")
         return START_STICKY
     }
 
     fun onMessageReceived(chatMessage: ChatMessage) {}
 
     override fun onBind(intent: Intent): IBinder = binder
+
+    companion object {
+        val TAG = LogUtil.makeTag(ChatMessageService::class.java)
+    }
 }

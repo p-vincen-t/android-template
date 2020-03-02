@@ -32,7 +32,6 @@
         <item name="android:windowActionBarOverlay">false</item>
         <item name="android:background">@color/color_surface</item>
         <item name="android:displayOptions">homeAsUp</item>
-        <item name="android:elevation">0dp</item>
     </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar">
 
