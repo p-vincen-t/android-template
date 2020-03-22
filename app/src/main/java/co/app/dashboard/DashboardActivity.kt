@@ -14,8 +14,7 @@
 package co.app.dashboard
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
+import android.view.Gravity
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.collection.ArrayMap
@@ -32,58 +31,77 @@ import co.app.App.Companion.WALLET_FRAGMENT
 import co.app.BaseSplitActivity
 import co.app.PlaceHolderModuleFragment
 import co.app.R
-import co.app.common.account.UserChildAccount
+import co.app.common.account.UserAccount
 import co.app.common.dsl.adapter
+import co.app.common.dsl.prepareAdapter
 import co.app.common.dsl.startActivity
+import co.app.dashboard.main.MainFragment
+import co.app.dashboard.recents.RecentActivitiesFragment
 import co.app.databinding.ActivityDashboardBinding
 import co.app.legal.LegalActivity
 import co.app.messaging.MessagingActivity
 import co.app.search.SearchActivity
 import co.app.settings.SettingsActivity
+import com.allenliu.badgeview.BadgeFactory
+import com.allenliu.badgeview.BadgeView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.app_bar_dashboard.*
 import kotlinx.android.synthetic.main.content_dashboard.*
-import promise.commons.Promise
+import promise.commons.AndroidPromise
 import promise.commons.createInstance
-import promise.ui.PromiseAdapter
-import promise.ui.model.Viewable
+import promise.ui.Viewable
+import promise.ui.adapter.PromiseAdapter
 import javax.inject.Inject
-import kotlin.concurrent.thread
 import kotlin.reflect.KClass
 
-class DashboardActivity : BaseSplitActivity(),
-    PromiseAdapter.Listener<UserChildAccount>,
+class DashboardActivity : BaseSplitActivity(), PromiseAdapter.Listener<UserAccount.UserChildAccount>,
+
     PlaceHolderModuleFragment.OnFragmentInteractionListener {
 
     @Inject
     lateinit var dashboardViewModelFactory: DashboardViewModelFactory
 
     @Inject
-    lateinit var promise: Promise
+    lateinit var promise: AndroidPromise
+
+    private lateinit var accountsAdapter: PromiseAdapter<UserAccount.UserChildAccount>
 
     private lateinit var dashboardViewModel: DashboardViewModel
-
-    private lateinit var accountsAdapter: PromiseAdapter<UserChildAccount>
 
     private val onNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_main -> {
                     viewpager.setCurrentItem(0, true)
+                    title = "Today"
+                    search_fab.show()
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_recent_activities -> {
                     viewpager.setCurrentItem(1, true)
+                    title = "History"
+                    search_fab.show()
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_wallet -> {
                     viewpager.setCurrentItem(2, true)
+                    title = "My Account"
+                    search_fab.hide()
                     return@OnNavigationItemSelectedListener true
                 }
             }
             false
         }
+
+    override fun setTitle(title: CharSequence) {
+        super.setTitle(title)
+        title_text_view.text = title.toString()
+    }
+
+    override fun setTitle(titleId: Int) {
+        title = getString(titleId)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -93,8 +111,7 @@ class DashboardActivity : BaseSplitActivity(),
             this,
             R.layout.activity_dashboard
         )
-
-        setSupportActionBar(toolbar)
+        setSupportActionBar(bottom_app_bar)
 
         DaggerDashboardComponent.builder().accountComponent(app.accountComponent).build()
             .inject(this)
@@ -102,50 +119,58 @@ class DashboardActivity : BaseSplitActivity(),
         dashboardViewModel = ViewModelProvider(this, dashboardViewModelFactory).get(
             DashboardViewModel::class.java
         )
-
         binding.viewModel = dashboardViewModel
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         val toggle = ActionBarDrawerToggle(
-            this, drawer_layout, toolbar,
+            this, drawer_layout, bottom_app_bar,
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close
         )
-
         drawer_layout.addDrawerListener(toggle)
-
         toggle.syncState()
+        search_fab.setOnClickListener {
+            startActivity<SearchActivity>()
+        }
+
+        BadgeFactory.create(this)
+            .setTextColor(resources.getColor(R.color.color_on_secondary))
+            .setWidthAndHeight(15, 15)
+            .setBadgeBackground(resources.getColor(R.color.color_secondary))
+            .setTextSize(10)
+            .setBadgeGravity(Gravity.END or Gravity.TOP)
+            .setBadgeCount(3)
+            .setShape(BadgeView.SHAPE_CIRCLE)
+            .setSpace(5, 5)
+            .bind(messages_imageView)
+
+        messages_imageView.setOnClickListener {
+            startActivity<MessagingActivity>()
+        }
 
         bottom_nav_view.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
-
         viewpager.adapter = SectionsPagerAdapter(supportFragmentManager)
 
-        accountsAdapter = adapter(
-            ArrayMap<Class<*>, KClass<out Viewable>>()
+        accountsAdapter = accounts_list.prepareAdapter(
+            viewableClasses = ArrayMap<Class<*>, KClass<out Viewable>>()
                 .apply {
                     put(
-                        UserChildAccount::class.java,
+                        UserAccount.UserChildAccount::class.java,
                         NavigationAccountViewHolder::class
                     )
-                },
-            this
+                }
         ) {
             args = null
         }
-
-        accounts_list.layoutManager = LinearLayoutManager(this)
-        accounts_list.adapter = accountsAdapter
         dashboardViewModel.accountsResult.observe(this, Observer {
             accountsAdapter.add(it)
         })
         dashboardViewModel.fetchAccounts()
+
     }
 
-    override fun onClick(t: UserChildAccount, id: Int) {
-        startAuthActivity()
-    }
 
     override fun onBackPressed() =
         if (drawer_layout.isDrawerOpen(GravityCompat.START))
@@ -173,25 +198,6 @@ class DashboardActivity : BaseSplitActivity(),
             {
                 startActivity<LegalActivity>()
             })
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.dashboard, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean =
-        when (item.itemId) {
-            R.id.action_search -> {
-                startActivity<SearchActivity>()
-                true
-            }
-            R.id.action_messages -> {
-                startActivity<MessagingActivity>()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
 
     inner class SectionsPagerAdapter internal constructor(fm: FragmentManager) :
         FragmentPagerAdapter(fm) {
@@ -226,4 +232,9 @@ class DashboardActivity : BaseSplitActivity(),
     override fun onRequestedModule(module: String) {
         loadAndLaunchModule(module)
     }
+
+    override fun onClick(t: UserAccount.UserChildAccount, id: Int) {
+        startAuthActivity()
+    }
+
 }

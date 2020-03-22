@@ -37,7 +37,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import co.app.common.R
 import com.tbruyelle.rxpermissions2.RxPermissions
-import promise.commons.Promise
+import promise.commons.AndroidPromise
 import promise.commons.util.Conditions
 
 inline fun <reified T: AppCompatActivity> Context.startActivity(noinline intentBlock: Intent.() -> Unit = {}) {
@@ -65,7 +65,7 @@ fun Context.launchActivity(className: String) {
 }
 
 fun getString(@StringRes resId: Int): String {
-    val app = Promise.instance().context()
+    val app = AndroidPromise.instance().context()
     return app.getString(resId)
 }
 /**

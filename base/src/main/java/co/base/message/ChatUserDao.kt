@@ -15,7 +15,7 @@ package co.base.message
 
 import androidx.room.Dao
 import androidx.room.Query
-import co.app.common.models.ID
+import co.app.common.ID
 import co.base.data.BaseDao
 
 @Dao

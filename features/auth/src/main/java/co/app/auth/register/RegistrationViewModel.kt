@@ -14,13 +14,13 @@
 package co.app.auth.register
 
 import androidx.lifecycle.MutableLiveData
-import co.app.BaseViewModel
-import co.app.UIResult
+import co.app.common.BaseViewModel
+import co.app.common.UIResult
 import co.app.auth.domain.Session
-import promise.commons.Promise
+import promise.commons.AndroidPromise
 import promise.commons.data.log.LogUtil
 
-class RegistrationViewModel(private val session: Session, private val promise: Promise) : BaseViewModel() {
+class RegistrationViewModel(private val session: Session, private val promise: AndroidPromise) : BaseViewModel() {
 
     val TAG = LogUtil.makeTag(RegistrationViewModel::class.java)
     private val _result = MutableLiveData<UIResult<*>>()

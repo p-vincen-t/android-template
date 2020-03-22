@@ -13,19 +13,51 @@
 
 package co.app.messaging
 
-import android.content.ComponentName
-import android.content.ServiceConnection
-import android.os.IBinder
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import co.app.BaseViewModel
-import co.app.messaging.ChatMessageService.LocalBinder
+import co.app.common.BaseViewModel
+import co.app.domain.message.ChatThread
+import co.app.domain.message.MessageRepository
+import co.app.domain.message.MessagesError
+import promise.commons.AndroidPromise
+import promise.commons.data.log.LogUtil
+import promise.commons.model.List
+import promise.commons.tx.PromiseResult
 
-class MessagingViewModel (messageService: ChatMessageService) : BaseViewModel() {
+class MessagingViewModel(private val messageService: MessageRepository,
+                         private val promise:AndroidPromise) : BaseViewModel() {
 
-    private val binder = MutableLiveData<ChatMessageService>()
+    private val _threads: MutableLiveData<List<ChatThread>> = MutableLiveData()
 
-    fun serviceBinder(): LiveData<ChatMessageService> = binder
+    fun threads(): LiveData<List<ChatThread>> = _threads
 
+    fun loadThreads() {
+        pageThreads(PromiseResult<List<ChatThread>, Throwable>()
+            .withCallback {
+                _threads.value = it
+            }
+            .withErrorCallback {
 
+            }, 0, 20)
+    }
+
+    fun pageThreads(response: PromiseResult<List<ChatThread>, *>, skip: Int, take: Int) {
+        promise.execute( {
+            messageService.getMessageThreads(skip, take, PromiseResult<kotlin.collections.List<ChatThread>, MessagesError>()
+                .withCallback {
+                    LogUtil.d(TAG, "threads", it)
+                    promise.executeOnUi {
+                        response.response(List(it))
+                    }
+                }
+                .withErrorCallback {
+
+                })
+        }, 500)
+    }
+
+    companion object {
+        val TAG : String = LogUtil.makeTag(MessagingViewModel::class.java)
+    }
 }

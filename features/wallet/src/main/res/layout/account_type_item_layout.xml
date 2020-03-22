@@ -17,8 +17,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/shimmersFrameLayout"
+        android:padding="@dimen/medium"
         android:background="@drawable/round_shape_filter"
-        android:layout_margin="@dimen/small">
+        android:layout_margin="@dimen/medium">
     <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

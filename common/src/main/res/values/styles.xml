@@ -1,0 +1,149 @@
+<!--
+  ~ Copyright 2020, {{App}}
+  ~ Licensed under the Apache License, Version 2.0, "{{App}} Inc".
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <style name="AppMaterialTheme" parent="Theme.MaterialComponents.DayNight">
+        <!-- Global color attributes -->
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryVariant">@color/color_primary_variant</item>
+        <item name="colorOnPrimary">@color/color_on_primary</item>
+        <item name="colorSecondary">@color/color_secondary</item>
+        <item name="colorSecondaryVariant">@color/color_secondary_variant</item>
+        <item name="colorOnSecondary">@color/color_on_secondary</item>
+        <item name="colorError">@color/color_error</item>
+        <item name="colorOnError">@color/color_on_error</item>
+        <item name="colorSurface">@color/color_surface</item>
+        <item name="colorOnSurface">@color/color_on_surface</item>
+        <item name="android:colorBackground">@color/color_background</item>
+        <item name="colorOnBackground">@color/color_on_background</item>
+        <item name="android:statusBarColor">@color/color_status_bar</item>
+        <!-- Global type attributes -->
+        <item name="textAppearanceButton">@style/AppTextAppearance.Button</item>
+        <!-- Global shape attributes -->
+        <!-- Chip widget style attribute -->
+        <item name="chipStyle">@style/AppChip</item>
+        <item name="chipStandaloneStyle">@style/AppChip.Standalone</item>
+        <!-- Button widget style attribute -->
+        <item name="materialButtonStyle">@style/AppButton</item>
+        <!-- Text Field widget style attribute -->
+        <item name="textInputStyle">@style/AppTextField</item>
+        <!-- Card widget style attribute -->
+        <item name="materialCardViewStyle">@style/AppCard</item>
+        <!-- Bottom Navigation widget style attribute -->
+        <item name="bottomNavigationStyle">@style/AppBottomNavigation</item>
+    </style>
+
+    <style name="AppTextAppearance.Chip" parent="TextAppearance.MaterialComponents.Chip">
+
+    </style>
+
+    <style name="AppTextAppearance.Button" parent="TextAppearance.MaterialComponents.Button">
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+
+    <!-- NOTE: Chips don't seem to pick up on the theme fontFamily attributes, so these styles are necessary -->
+    <!-- See: https://issuetracker.google.com/issues/127453566 -->
+
+    <style name="AppChip" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="android:textAppearance">@style/AppTextAppearance.Chip</item>
+    </style>
+
+    <style name="AppChip.Standalone" parent="Widget.MaterialComponents.Chip.Entry">
+        <item name="android:textAppearance">@style/AppTextAppearance.Chip</item>
+    </style>
+
+    <style name="AppButton" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">?attr/colorSecondary</item>
+        <item name="android:textColor">@color/button_text_color</item>
+        <item name="iconTint">@color/button_text_color</item>
+        <item name="rippleColor">@color/button_ripple_color</item>
+    </style>
+
+    <style name="AppButton.Outlined" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="backgroundTint">?attr/colorSurface</item>
+        <item name="background">@drawable/outline_bg</item>
+        <item name="android:textColor">@color/button_outlined_text_color</item>
+        <item name="iconTint">@color/button_outlined_text_color</item>
+        <item name="rippleColor">@color/button_outlined_ripple_color</item>
+    </style>
+
+    <style name="AppTextField" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="boxBackgroundColor">@color/text_field_background</item>
+    </style>
+
+    <style name="AppCard" parent="Widget.MaterialComponents.CardView">
+        <item name="cardElevation">8dp</item>
+    </style>
+
+    <style name="AppBottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView.Colored" />
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="AppMaterialTheme">
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+    <style name="AppTheme.BottomAppBar" parent="@style/Widget.MaterialComponents.BottomAppBar">
+        <item name="contentInsetStart">0dp</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
+    </style>
+    <style name="MyActionBar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:background">@color/color_primary</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="colorPrimaryVariant">@color/color_background</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.FlatActionBar" parent="AppTheme">
+        <item name="android:displayOptions">homeAsUp</item>
+        <item name="colorPrimary">@color/color_background</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar">
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:background">@color/color_primary</item>
+    </style>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents" />
+
+    <style name="TextLabelWhite" parent="TextAppearance.MaterialComponents.Body1">
+        <!-- Hint color and label color in FALSE state -->
+        <item name="android:textColorHint">@android:color/white</item>
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="colorControlActivated">@android:color/white</item>
+    </style>
+
+    <style name="FullscreenTheme" parent="AppTheme">
+        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
+        <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
+    </style>
+
+    <style name="FullscreenActionBarStyle" parent="Widget.MaterialComponents.ActionBar.Solid">
+        <item name="android:background">@color/backgroundOverlay</item>
+    </style>
+
+    <!--<style name="AppTheme.Launcher">
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+        &lt;!&ndash; Optional, on Android 5+ you can modify the colorPrimaryDark color to match the windowBackground color for further branding&ndash;&gt;
+        <item name="colorPrimaryDark">@android:color/white</item>
+    </style>-->
+
+</resources>

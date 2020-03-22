@@ -17,7 +17,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import co.app.auth.AuthScope
 import co.app.auth.domain.Session
-import promise.commons.Promise
+import promise.commons.AndroidPromise
 import javax.inject.Inject
 
 /**
@@ -30,7 +30,7 @@ class LoginViewModelFactory @Inject constructor() : ViewModelProvider.Factory {
     @Inject
     lateinit var session: Session
     @Inject
-    lateinit var promise: Promise
+    lateinit var promise: AndroidPromise
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T = when {

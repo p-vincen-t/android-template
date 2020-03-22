@@ -16,8 +16,8 @@ package co.base.message
 import co.app.domain.message.ChatMessage
 import org.apache.commons.cli.MissingArgumentException
 import promise.commons.model.List
-import promise.model.repo.AbstractAsyncIDataStore
-import promise.model.repo.AbstractSyncIDataStore
+import promise.model.AbstractAsyncIDataStore
+import promise.model.AbstractSyncIDataStore
 
 const val SKIP_ARG = "skip_arg"
 const val TAKE_ARG = "take_arg"

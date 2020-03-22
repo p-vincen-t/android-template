@@ -16,14 +16,14 @@ package co.base.search
 import android.content.ContentValues
 import android.database.Cursor
 import promise.commons.model.List
-import promise.db.Column
-import promise.db.FastDatabase
-import promise.db.Model
+import promise.db.*
 
-class SearchRecordTable(database: FastDatabase) : Model<SearchRecord>(database) {
-    override fun getName(): String = "search"
-
-    override fun getColumns(): List<Column<*>> = List.fromArray(queryColumn)
+@Table(
+    tableName = "search"
+)
+class SearchRecordTable(database: FastDatabase): FastTable<SearchRecord>(database) {
+    override val columns: List<out Column<*>>
+        get() = List.fromArray(queryColumn)
 
     override fun deserialize(e: Cursor): SearchRecord = SearchRecord().apply {
         query = e.getString(queryColumn.index)

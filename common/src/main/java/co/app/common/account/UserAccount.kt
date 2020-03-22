@@ -13,9 +13,119 @@
 
 package co.app.common.account
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.net.wifi.WifiManager
+import co.app.common.ID
+import co.app.common.errors.AuthError
+import com.google.gson.Gson
+import org.json.JSONObject
+import promise.commons.AndroidPromise
+import promise.commons.model.List as PromiseList
+import promise.commons.model.function.FilterFunction
+import promise.commons.pref.Preferences
+import promise.commons.tx.PromiseResult
+import promise.commons.util.DoubleConverter
+import promise.model.PreferenceStore
+import promise.model.Store
 import javax.inject.Inject
 
-@AccountScope
-class UserAccount @Inject constructor() {
- var id: String = "1"
+private const val MOBILE_DEVICE_ID_KEY = "device_id"
+const val SessionPrefName = "session_pref"
+
+@SuppressLint("HardwareIds")
+fun getDeviceInfo(promise: AndroidPromise): Device {
+    val manager =
+        promise.context().applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager?
+    val info = manager!!.connectionInfo
+
+    val address = info.macAddress
+    return Device(
+        "mobile",
+        "mobile description",
+        true,
+        address
+    )
 }
+
+private fun devicePreferenceStore(gson: Gson): PreferenceStore<Device> =
+    object: PreferenceStore<Device>(
+        SessionPrefName,
+        object : DoubleConverter<Device, JSONObject, JSONObject> {
+            override fun deserialize(e: JSONObject): Device =
+                gson.fromJson(e.toString(), Device::class.java)
+
+            override fun serialize(t: Device): JSONObject = JSONObject(gson.toJson(t))
+        }) {
+
+        override fun findIndexFunction(t: Device): FilterFunction<JSONObject> =
+            FilterFunction<JSONObject> {
+                return@FilterFunction t.getId() == it.getString("device_id")
+            }
+    }
+
+sealed class UserAccount {
+    var id: ID? = null
+    var names: String = ""
+    var emailAddress: String = ""
+    var phoneNumber: String = ""
+    var device: List<Device> = listOf()
+
+    var childAccounts: List<UserChildAccount> = promise.commons.model.List.generate(2) {
+        UserChildAccount()
+    }
+
+    open fun create(map: JSONObject) {
+        throw IllegalAccessError("Cant create account")
+    }
+
+    fun login(result: PromiseResult<Boolean, in AuthError>) {
+
+    }
+
+    fun registerDevice() {
+
+    }
+
+    inner class UserChildAccount {
+
+    }
+
+    @AccountScope
+    class ReadAccount @Inject constructor(preferences: Preferences, gson: Gson) : UserAccount() {
+        init {
+            id = ID.from(preferences.getString("id"))
+            names = preferences.getString("names")
+            emailAddress = preferences.getString("email_address")
+            phoneNumber = preferences.getString("phone_number")
+            devicePreferenceStore(gson).get("devices", PromiseResult<Store.Extras<Device>, Throwable>()
+                .withCallback {
+                    device = it.all()
+                })
+
+        }
+    }
+
+    class WriteAccount(private val preferences: Preferences,
+                       private val promise: AndroidPromise,
+                       private val gson: Gson) : UserAccount() {
+
+        override fun create(map: JSONObject) {
+            var deviceKey = map.getString(MOBILE_DEVICE_ID_KEY)
+            if (deviceKey.isEmpty()) {
+                deviceKey = "5d63013e46ad7a0010b378ed"
+            }
+            preferences.save(MOBILE_DEVICE_ID_KEY, deviceKey)
+
+            devicePreferenceStore(gson = gson).save("devices",
+                PromiseList.fromArray(
+                getDeviceInfo(promise)
+            ), PromiseResult<Boolean, Throwable>()
+                .withCallback
+             {
+
+             })
+        }
+    }
+}
+

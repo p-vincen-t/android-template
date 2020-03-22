@@ -17,13 +17,13 @@ import com.google.gson.Gson
 import co.app.wallet.base.data.DaggerDataComponent
 import co.app.wallet.base.data.DataComponent
 import okhttp3.OkHttpClient
-import promise.commons.Promise
+import promise.commons.AndroidPromise
 
 open class WalletBase {
 
     lateinit var dataComponent: DataComponent
 
-    fun init(promise: Promise, gson: Gson, okHttpClient: OkHttpClient) {
+    fun init(promise: AndroidPromise, gson: Gson, okHttpClient: OkHttpClient) {
         dataComponent = DaggerDataComponent.factory()
             .create(promise, gson, okHttpClient)
     }

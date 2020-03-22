@@ -13,7 +13,8 @@
 
 package co.app.domain.message
 
-import promise.commons.model.Result
+import co.app.common.ID
+import promise.commons.tx.PromiseResult
 
 const val DELIVERED = 0
 const val SENT = 1
@@ -23,11 +24,16 @@ interface MessageRepository {
 
     fun getMessageThreads(skip: Int,
                           take: Int,
-                          response: Result<List<ChatThread>, MessagesError>)
+                          response: PromiseResult<List<ChatThread>, MessagesError>
+    )
+
+    fun getThread(id: ID, response: PromiseResult<ChatThread, MessagesError>)
+
     fun getMessages(chatThread: ChatThread,
                     skip: Int,
                     take: Int,
-                    response: Result<List<ChatMessage>, MessagesError>)
+                    response: PromiseResult<List<ChatMessage>, MessagesError>)
+
     fun sendMessage(chatMessage: ChatMessage,
-                    result: Result<Int, MessagesError>)
+                    result: PromiseResult<Int, MessagesError>)
 }

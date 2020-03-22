@@ -14,6 +14,7 @@
 package co.base
 
 import androidx.multidex.MultiDexApplication
+import co.app.common.ID
 import co.app.common.NetworkUtils
 import co.app.common.account.AccountComponent
 import co.app.common.account.DaggerAccountComponent
@@ -24,12 +25,14 @@ import co.base.data.DataComponent
 import co.base.repos.DaggerReposComponent
 import co.base.repos.ReposComponent
 import com.facebook.stetho.Stetho
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.instacart.library.truetime.TrueTimeRx
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.Interceptor
 import okhttp3.Response
-import promise.commons.Promise
+import promise.commons.AndroidPromise
 import promise.commons.data.log.LogUtil
 import promise.commons.model.Message
 import javax.inject.Inject
@@ -44,7 +47,7 @@ open class AppBase : MultiDexApplication() {
     lateinit var compositeDisposable: CompositeDisposable
 
     @Inject
-    lateinit var promise: Promise
+    lateinit var promise: AndroidPromise
 
     lateinit var accountComponent: AccountComponent
 
@@ -58,8 +61,13 @@ open class AppBase : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
-        Promise.init(this, 100)
-        appComponent = DaggerAppComponent.create()
+        AndroidPromise.init(this, 100, BuildConfig.DEBUG)
+        appComponent = DaggerAppComponent.factory().create(
+            GsonBuilder()
+                .registerTypeAdapter(ID::class.java, ID.IDTypeAdapter::class.java)
+                .setPrettyPrinting()
+                .create()
+        )
         appComponent.inject(this)
         compositeDisposable.add(
             TrueTimeRx.build()
@@ -82,7 +90,7 @@ open class AppBase : MultiDexApplication() {
 
     fun initUserAccount() {
         accountComponent = DaggerAccountComponent.factory()
-            .create(appComponent.promise())
+            .create(appComponent.gson(), appComponent.promise())
         userAccount = accountComponent.userAccount()
         dataComponent = DaggerDataComponent.factory()
             .create(userAccount, object : Interceptor {
@@ -103,6 +111,11 @@ open class AppBase : MultiDexApplication() {
             userAccount,
             dataComponent
         )
+    }
+
+    override fun onTerminate() {
+        AndroidPromise.instance().terminate()
+        super.onTerminate()
     }
 
     companion object {

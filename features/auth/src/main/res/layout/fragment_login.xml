@@ -28,7 +28,6 @@
     <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/color_surface"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -84,16 +83,6 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.button.MaterialButton
-                    android:id="@+id/forgotPasswordButton"
-                    style="@style/AppButton.Outlined"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:text="Forgot password?"
-                    app:cornerRadius="0dp" />
 
             <com.google.android.material.button.MaterialButton
                     android:layout_width="match_parent"
@@ -103,17 +92,35 @@
                     android:text="@string/action_sign_in"
                     app:cornerRadius="0dp"
                     tools:text="Sign in" />
+            <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+                <com.google.android.material.button.MaterialButton
+                        android:id="@+id/createAccountButton"
+                        style="@style/AppButton.Outlined"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="16dp"
+                        android:layout_weight="1"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:text="@string/create_account" />
+                <com.google.android.material.button.MaterialButton
+                        android:id="@+id/forgotPasswordButton"
+                        style="@style/AppButton.Outlined"
+                        android:layout_width="0dp"
+                        android:padding="16dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="end"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:text="Forgot password?" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.button.MaterialButton
-                    android:id="@+id/createAccountButton"
-                    style="@style/AppButton.Outlined"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:text="@string/create_account"
-                    app:cornerRadius="0dp" />
+
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

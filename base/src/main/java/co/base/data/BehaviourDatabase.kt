@@ -13,40 +13,20 @@
 
 package co.base.data
 
-import android.database.sqlite.SQLiteDatabase
 import co.base.search.SearchRecordTable
-import promise.commons.model.List
+import promise.db.Database
 import promise.db.FastDatabase
-import promise.db.Table
 
-class BehaviourDatabase private constructor(val name: String) : FastDatabase(
-    name,
-    version, null, null
-) {
+@Database(
+    tables = [
+        SearchRecordTable::class
+    ]
+)
+object BehaviourDatabase {
 
-    companion object {
+    val instance: FastDatabase = FastDatabase.createDatabase(BehaviourDatabase::class.java, "behaviour_db")
 
-        const val version = 1
-
-        @Volatile
-        var instance: BehaviourDatabase? = null
-
-        private var LOCK = Any()
-
-        operator fun invoke(name: String): BehaviourDatabase = instance
-            ?: synchronized(LOCK) {
-                instance ?: BehaviourDatabase(
-                    name
-                )
-                    .also {
-                        instance = it
-                    }
-            }
-
-        val searchRecordTable: SearchRecordTable by lazy {
-            SearchRecordTable(instance!!)
-        }
+    val searchRecordTable: SearchRecordTable by lazy {
+        instance.obtain<SearchRecordTable>(SearchRecordTable::class.java)
     }
-
-    override fun tables(): List<Table<*, in SQLiteDatabase>> = List.fromArray(searchRecordTable)
 }

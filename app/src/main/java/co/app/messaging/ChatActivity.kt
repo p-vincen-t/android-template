@@ -23,5 +23,12 @@ class ChatActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
         addBackButton()
+
+
+
+    }
+
+    companion object {
+        const val THREAD_ID = "thread_id"
     }
 }

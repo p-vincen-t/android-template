@@ -13,6 +13,7 @@
 
 package co.app
 
+import android.app.Service
 import android.content.*
 import android.content.res.Configuration
 import android.os.IBinder
@@ -21,7 +22,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
-import co.app.messaging.ChatMessageService
 import co.app.settings.ThemePreference
 import co.base.AppBase
 import co.base.AppBase.Companion.TEMP_PREFERENCE_NAME
@@ -32,33 +32,29 @@ import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import promise.commons.createInstance
 import promise.commons.data.log.LogUtil
+import promise.commons.tx.PromiseCallback
 import java.util.*
 import kotlin.collections.forEach
 import kotlin.collections.set
-import promise.commons.model.Message as PromiseMessage
 
 class App : AppBase(), LifecycleObserver {
 
-    private val serviceConnection: ServiceConnection by lazy {
-        object : ServiceConnection {
-            override fun onServiceDisconnected(name: ComponentName?) {
+    inline fun <reified T: Service> connectChatService(): PromiseCallback<Service> =
+        PromiseCallback { resolve, reject ->
+            val intent = Intent(this, T::class.java)
+            bindService(intent,
+                object : ServiceConnection {
+                    override fun onServiceDisconnected(name: ComponentName?) {
+                        reject(Exception("service disconnected"))
+                    }
 
-            }
-
-            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-                val serviceBinder = service as ChatMessageService.LocalBinder
-                promise.send(PromiseMessage(TAG, serviceBinder.service))
-            }
+                    override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+                        val serviceBinder = service as BindService<Service>.LocalBinder
+                       resolve(serviceBinder.service)
+                    }
+                },
+                Context.BIND_AUTO_CREATE)
         }
-    }
-
-    fun connectChatService() {
-        val intent = Intent(this, ChatMessageService::class.java)
-        startService(intent)
-        bindService(intent,
-            serviceConnection,
-            Context.BIND_AUTO_CREATE)
-    }
 
     val themePreferenceRepo: ThemePreference by lazy {
         ThemePreference()

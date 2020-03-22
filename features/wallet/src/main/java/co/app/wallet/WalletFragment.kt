@@ -19,15 +19,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import co.app.BaseFragment
+import co.app.common.dsl.adapter
+import co.app.common.dsl.prepareAdapter
+import co.app.common.report.ReportHolder
+import co.app.wallet.home.ExpenseStructureReport
 import com.app.wallet.R
 import com.app.wallet.databinding.WalletFragmentBinding
+import kotlinx.android.synthetic.main.wallet_fragment.*
+import promise.ui.adapter.PromiseAdapter
 import javax.inject.Inject
 
 class WalletFragment : BaseFragment() {
 
     @Inject
     lateinit var walletViewModelFactory: WalletViewModelFactory
+
+    private lateinit var promiseAdapter: PromiseAdapter<ReportHolder>
 
     private lateinit var viewModel: WalletViewModel
 
@@ -56,7 +65,11 @@ class WalletFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.initData()
+        viewModel.initData(viewLifecycleOwner)
+
+        promiseAdapter = wallet_reports_recycler_view.prepareAdapter()
+
+        promiseAdapter.add(ReportHolder(ExpenseStructureReport(viewLifecycleOwner)))
     }
 
 }

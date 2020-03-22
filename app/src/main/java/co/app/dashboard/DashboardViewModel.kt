@@ -13,22 +13,22 @@
 
 package co.app.dashboard
 
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import co.app.common.account.UserAccount
-import co.app.common.account.UserChildAccount
-import promise.commons.Promise
+import promise.commons.AndroidPromise
 import promise.commons.model.List
 
-class DashboardViewModel(private val userAccount: UserAccount, private val promise: Promise) : ViewModel() {
+class DashboardViewModel(private val userAccount: UserAccount, private val promise: AndroidPromise) : ViewModel() {
 
-    private val _accountsResult = MutableLiveData<List<UserChildAccount>>()
+    private val _accountsResult = MutableLiveData<List<UserAccount.UserChildAccount>>()
 
-    val accountsResult: LiveData<List<UserChildAccount>> = _accountsResult
+    val accountsResult: LiveData<List<UserAccount.UserChildAccount>> = _accountsResult
 
     fun fetchAccounts() {
-        _accountsResult.value = List.generate(2) { UserChildAccount() }
+        _accountsResult.value = List(userAccount.childAccounts)
     }
 
 }

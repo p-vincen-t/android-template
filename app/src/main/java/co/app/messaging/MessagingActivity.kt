@@ -13,56 +13,96 @@
 
 package co.app.messaging
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
+import androidx.collection.ArrayMap
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import co.app.App
+import androidx.recyclerview.widget.LinearLayoutManager
 import co.app.BaseActivity
 import co.app.R
+import co.app.common.dsl.adapter
+import co.app.common.dsl.startActivity
+import co.app.domain.message.ChatThread
 import kotlinx.android.synthetic.main.activity_messaging.*
-import org.jetbrains.anko.intentFor
-import promise.commons.Promise
 import promise.commons.data.log.LogUtil
-import promise.commons.model.Result
+import promise.ui.adapter.PromiseAdapter
+import promise.ui.Viewable
 import javax.inject.Inject
+import kotlin.reflect.KClass
 
-class MessagingActivity : BaseActivity() {
+class MessagingActivity : BaseActivity(), PromiseAdapter.Listener<ChatThread> {
 
     private lateinit var messagingViewModel: MessagingViewModel
 
     @Inject
     lateinit var messagingViewModelFactory: MessageViewModelFactory
 
+    lateinit var adapter: PromiseAdapter<ChatThread>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_messaging)
         addBackButton()
-        Promise.instance().listen(App.TAG, Result<Any, Throwable>()
-            .withCallBack {
-                if (it is ChatMessageService) {
-                    LogUtil.e(TAG, "service connected")
-                    DaggerChatComponent.factory()
-                        .create(it)
-                        .inject(this)
-                    messagingViewModel = ViewModelProvider(this,
-                        messagingViewModelFactory)[MessagingViewModel::class.java]
-                }
-            })
+        DaggerChatMessageServiceComponent.builder()
+            .reposComponent(app.reposComponent)
+            .build()
+            .inject(this)
 
-        app.connectChatService()
+        messagingViewModel = ViewModelProvider(
+            this,
+            messagingViewModelFactory
+        )[MessagingViewModel::class.java]
+        fab.show()
+    }
 
+    private fun prepareUi() {
+        messagingViewModel.threads().observe(this,  Observer {
+            LogUtil.d(TAG, "threads", it)
+            adapter.add(it)
+        })
+
+        messagingViewModel.loadThreads()
+
+        fab.setOnClickListener {
+            startActivity<ChatActivity>()
+        }
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        fab.setOnClickListener {
-            startActivity(intentFor<ChatActivity>())
+        adapter = adapter(
+            ArrayMap<Class<*>, KClass<out Viewable>>()
+                .apply {
+                    put(
+                        ChatThread::class.java,
+                        ChatThreadViewable::class
+                    )
+                },
+            this
+        ) {
+            args = true
+            /*withPagination(
+                dataSource = DataSource { response, skip, take ->
+                    messagingViewModel.pageThreads(response, skip, take)
+                },
+                loadingView = AppLoaderViewable("Loading chats"),
+                visibleThreshold = 20
+            )*/
+        }
+
+        threads_recycler_view.layoutManager = LinearLayoutManager(this)
+        threads_recycler_view.adapter = adapter
+        prepareUi()
+    }
+
+    override fun onClick(t: ChatThread, id: Int) {
+        startActivity<ChatActivity> {
+            putExtra(ChatActivity.THREAD_ID, t.id)
         }
     }
 
     companion object {
-        val TAG = LogUtil.makeTag(MessagingActivity::class.java)
+        val TAG: String = LogUtil.makeTag(MessagingActivity::class.java)
     }
 
 }

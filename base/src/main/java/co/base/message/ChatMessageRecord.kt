@@ -14,7 +14,7 @@
 package co.base.message
 
 import androidx.room.*
-import co.app.common.models.ID
+import co.app.common.ID
 import co.app.domain.message.ChatMessage
 import co.base.common.PhotoRecord
 

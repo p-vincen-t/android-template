@@ -20,4 +20,5 @@ import dagger.Component
 @Component(dependencies = [ReposComponent::class])
 interface ChatMessageServiceComponent {
     fun inject(chatMessageService: ChatMessageService)
+    fun inject(messageActivity: MessagingActivity)
 }

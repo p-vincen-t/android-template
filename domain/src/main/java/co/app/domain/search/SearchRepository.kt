@@ -14,7 +14,7 @@
 package co.app.domain.search
 
 import androidx.lifecycle.LiveData
-import promise.commons.PromiseCallback
+import promise.commons.tx.PromiseCallback
 
 interface SearchRepository {
     fun search(search: Search): PromiseCallback<LiveData<List<SearchResult>>>

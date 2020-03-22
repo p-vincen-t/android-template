@@ -14,11 +14,12 @@
 package co.app.wallet.home
 
 import android.view.View
+import co.app.common.BindingAdapters
 import co.app.wallet.domain.accounts.WalletAccount
 import com.app.wallet.R
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.account_type_item_layout.*
-import promise.ui.model.Viewable
+import promise.ui.Viewable
 
 class WalletAccountHolder (private val walletAccount: WalletAccount): Viewable, LayoutContainer {
     lateinit var view: View
@@ -29,7 +30,7 @@ class WalletAccountHolder (private val walletAccount: WalletAccount): Viewable, 
         shimmersFrameLayout.stopShimmer()
         shimmersFrameLayout.setShimmer(null)
         accountTitleTextView.text = walletAccount.name()
-        accountBalanceTextView.text = walletAccount.amount().toString()
+        BindingAdapters.bindMoney(accountBalanceTextView, walletAccount.amount())
     }
 
     override fun init(view: View) {

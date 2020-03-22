@@ -12,10 +12,11 @@
  */
 
 package co.app.auth.domain
-import promise.commons.model.Result
+import co.app.common.errors.AuthError
+import promise.commons.tx.PromiseResult
 
 interface Session {
-    fun login(loginRequest: LoginRequest, result: Result<Boolean, in AuthError>)
-    fun resetPassword(resetPasswordRequest: String, result: Result<Boolean, in AuthError>)
-    fun register(registrationRequest: RegistrationRequest, result: Result<Boolean, in AuthError>)
+    fun login(loginRequest: LoginRequest, result: PromiseResult<Boolean, in AuthError>)
+    fun resetPassword(resetPasswordRequest: String, result: PromiseResult<Boolean, in AuthError>)
+    fun register(registrationRequest: RegistrationRequest, result: PromiseResult<Boolean, in AuthError>)
 }

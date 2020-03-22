@@ -15,7 +15,6 @@ package co.app.wallet.domain.accounts
 
 import androidx.lifecycle.LiveData
 import co.app.common.errors.NotFoundError
-import promise.commons.model.Result
 
 interface AccountsRepository {
     fun getAllAccounts(): LiveData<List<WalletAccount>>

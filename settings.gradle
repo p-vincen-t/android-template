@@ -13,7 +13,7 @@
 
 //include ':app', ':base', ':features:blog', ':features:survey', ':domain',   ':common',   'features:request'
 
-include ':app', ':base', ':domain', ':common', ':fleet', ':partner'
+include ':app', ':base', ':domain', ':common'
 //auth
 include ':features:auth', ':domains:auth_domain', ':featuresBase:auth_base'
 //wallet

@@ -18,4 +18,5 @@
     <string name="deposit">Deposit</string>
     <string name="transfer">Trasfer</string>
     <string name="withdraw">Withdraw</string>
+    <string name="more">more</string>
 </resources>

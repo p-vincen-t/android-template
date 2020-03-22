@@ -20,6 +20,15 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context=".search.SearchActivity"
+        android:orientation="vertical"
         tools:showIn="@layout/activity_search">
 
+    <promise.ui.loading.ProgressLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+    </promise.ui.loading.ProgressLayout>
 </androidx.core.widget.NestedScrollView>

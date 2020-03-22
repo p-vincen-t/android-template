@@ -22,7 +22,7 @@ import co.base.search.*
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import promise.model.repo.StoreRepository
+import promise.model.StoreRepository
 
 @Module
 abstract class RepoBinders {

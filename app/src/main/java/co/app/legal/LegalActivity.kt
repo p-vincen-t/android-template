@@ -26,9 +26,6 @@ class LegalActivity : BaseActivity() {
         setContentView(R.layout.activity_legal)
         setSupportActionBar(toolbar)
         addBackButton()
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
+
     }
 }

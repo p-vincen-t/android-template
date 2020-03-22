@@ -16,7 +16,7 @@ package co.app.wallet.base.data.db
 import co.app.wallet.base.record.RecordsDao
 import dagger.Module
 import dagger.Provides
-import promise.commons.Promise
+import promise.commons.AndroidPromise
 
 private const val DB_NAME = "wallet_db"
 
@@ -25,7 +25,7 @@ object DatabaseModule {
 
     @Provides
     @JvmStatic
-    fun provideDatabase(promise: Promise): WalletDatabase =
+    fun provideDatabase(promise: AndroidPromise): WalletDatabase =
         WalletDatabase(
             promise.context(),
             DB_NAME

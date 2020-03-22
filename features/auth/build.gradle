@@ -16,6 +16,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
+apply from: '../../deps.gradle'
 
 androidExtensions {
     experimental = true
@@ -23,24 +24,29 @@ androidExtensions {
 }
 
 android {
+
     dataBinding {
         enabled = true
     }
+
     compileSdkVersion versions.compileSdk
-    buildToolsVersion "29.0.2"
+    buildToolsVersion versions.buildTools
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     testOptions {
         unitTests {
             includeAndroidResources = true
             returnDefaultValues = true
         }
     }
+
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 29
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
         versionCode 1
         versionName "1.0"
     }
@@ -50,16 +56,17 @@ dependencies {
     implementation project(':app')
     implementation project(path: ':common')
     implementation project(path: ':featuresBase:auth_base')
-    implementation 'com.google.dagger:dagger:2.26'
-    kapt 'com.google.dagger:dagger-compiler:2.26'
 
-    implementation 'com.github.android-promise:commons:1.0'
-    implementation 'com.google.android.material:material:1.1.0'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.tapadoo.android:alerter:4.0.2'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.2.0'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation deps.alerter
+    implementation deps.appcompat
+    implementation deps.dagger
+    kapt deps.daggerCompiler
+
+    implementation deps.legacySupport
+    implementation deps.lifeCycleExtensions
+    implementation deps.material
+    implementation deps.multidex
+    implementation deps.navigationFragment
+    implementation deps.navigationUi
+    implementation deps.promiseCommons
 }

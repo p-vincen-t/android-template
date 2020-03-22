@@ -14,22 +14,24 @@
 package co.app.wallet
 
 import androidx.databinding.Bindable
-import co.app.BaseViewModel
+import androidx.lifecycle.LifecycleOwner
+import co.app.common.BaseViewModel
 import co.app.common.account.UserAccount
 import co.app.wallet.domain.accounts.AccountsRepository
 import co.app.wallet.home.AccountsReport
-import promise.commons.Promise
+import promise.commons.AndroidPromise
 
-class WalletViewModel(private val userAccount: UserAccount,
-                      private val promise: Promise,
-                      private val accountsRepository: AccountsRepository) :
+class WalletViewModel(
+    private val userAccount: UserAccount,
+    private val promise: AndroidPromise,
+    private val accountsRepository: AccountsRepository) :
     BaseViewModel() {
 
     @Bindable
     var accountsReport: AccountsReport? = null
 
-    fun initData() {
-        accountsReport = AccountsReport(userAccount, promise, accountsRepository)
+    fun initData(lifecycleOwner: LifecycleOwner) {
+        accountsReport = AccountsReport(lifecycleOwner, userAccount, promise, accountsRepository)
         notifyChanges()
     }
 }

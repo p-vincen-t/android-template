@@ -13,120 +13,56 @@
 
 package co.app.auth.base
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.net.wifi.WifiManager
-import co.app.auth.domain.AuthError
 import co.app.auth.domain.LoginRequest
 import co.app.auth.domain.RegistrationRequest
 import co.app.auth.domain.Session
-import co.app.domain.session.Device
-import com.google.gson.Gson
-import org.json.JSONObject
-import promise.commons.Promise
-import promise.commons.model.Result
-import promise.commons.pref.Preferences
-import promise.commons.util.DoubleConverter
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import co.app.common.account.UserAccount
+import co.app.common.errors.AuthError
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import promise.commons.AndroidPromise
+import promise.commons.tx.PromiseResult
 import javax.inject.Inject
-
-@SuppressLint("HardwareIds")
-private fun getDeviceInfo(promise: Promise): Device {
-
-    val manager =
-        promise.context().applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager?
-    val info = manager!!.connectionInfo
-    val address = info.macAddress
-    return Device(
-        "mobile",
-        "mobile description",
-        true,
-        address
-    )
-}
-
-private const val SESSION_PREFERENCES_NAME = "session_pref"
-
-private const val MOBILE_DEVICE_ID_KEY = "device_id"
 
 @SessionScope
 class SessionImpl @Inject constructor(
     private val authApi: AuthApi,
-    private val gson: Gson,
-    private val promise: Promise
+    private val userAccount: UserAccount,
+    private val promise: AndroidPromise,
+    private val compositeDisposable: CompositeDisposable
 ) : Session {
-
-    private val preferences: Preferences by lazy {
-        Preferences(SESSION_PREFERENCES_NAME)
-    }
-
-   /* private val devicePreferenceStore: PreferenceStore<Device> by lazy {
-        PreferenceStorage(
-            SESSION_PREFERENCES_NAME,
-            object : DoubleConverter<Device, JSONObject, JSONObject> {
-                override fun deserialize(e: JSONObject): Device =
-                    gson.fromJson(e.toString(), Device::class.java)
-
-                override fun serialize(t: Device): JSONObject = JSONObject(gson.toJson(t))
-            })
-    }*/
-
-    private fun login(token: String, result: Result<Boolean, in AuthError>) {
-
-    }
-
-
-    fun registerDevice() {
-
-    }
 
     override fun login(
         loginRequest: LoginRequest,
-        result: Result<Boolean, in AuthError>
+        result: PromiseResult<Boolean, in AuthError>
     ) {
-        var deviceKey = preferences.getString(MOBILE_DEVICE_ID_KEY)
-        if (deviceKey.isEmpty()) {
-            deviceKey = "5d63013e46ad7a0010b378ed"
-        }
-        promise.execute({
-            result.response(true)
-        }, 2000)
-
-        authApi.login(
-            loginRequest
+        compositeDisposable.add(
+            authApi.login(loginRequest)
+                .observeOn(Schedulers.from(promise.executor()))
+                .subscribe {
+                    userAccount.create(it.body()!!)
+                    result.response(true)
+                }
         )
-            .enqueue(object : Callback<String> {
-                override fun onResponse(call: Call<String>, response: Response<String>) {
-
-
-                }
-
-                override fun onFailure(call: Call<String>, t: Throwable) {
-
-                }
-            })
     }
 
     override fun resetPassword(
         resetPasswordRequest: String,
-        result: Result<Boolean, in AuthError>
+        result: PromiseResult<Boolean, in AuthError>
     ) {
-        authApi.resetPassword(resetPasswordRequest).enqueue(object : Callback<String> {
-            override fun onResponse(call: Call<String>, response: Response<String>) {
-
-            }
-
-            override fun onFailure(call: Call<String>, t: Throwable) {
-
-            }
-        })
+        compositeDisposable.add(
+            authApi.resetPassword(resetPasswordRequest)
+                .observeOn(Schedulers.from(promise.executor()))
+                .subscribe {
+                    userAccount.create(it.body()!!)
+                    result.response(true)
+                }
+        )
     }
 
     override fun register(
         registrationRequest: RegistrationRequest,
-        result: Result<Boolean, in AuthError>
+        result: PromiseResult<Boolean, in AuthError>
     ) {
 
     }

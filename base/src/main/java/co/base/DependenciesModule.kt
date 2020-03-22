@@ -17,7 +17,7 @@ import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
-import promise.commons.Promise
+import promise.commons.AndroidPromise
 
 @Module
 object DependenciesModule {
@@ -25,17 +25,10 @@ object DependenciesModule {
     @Provides
     @JvmStatic
     @AppScope
-    fun provideCompositeDisposable(): CompositeDisposable = CompositeDisposable()
+    fun provideCompositeDisposable(promise: AndroidPromise): CompositeDisposable = promise.compositeDisposable
 
     @Provides
     @JvmStatic
-    fun promise(): Promise = Promise.instance()
+    fun promise(): AndroidPromise = AndroidPromise.instance()
 
-    @Provides
-    @AppScope
-    @JvmStatic
-    fun provideGson(): Gson {
-        return Gson()
-    }
-
-}
+  }

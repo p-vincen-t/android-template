@@ -12,7 +12,8 @@
   ~ limitations under the License.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- <item
          android:id="@+id/navigation_home"
@@ -25,18 +26,22 @@
          android:icon="@drawable/ic_dashboard_black_24dp"
          android:title="@string/di" />
  -->
-    <item
+       <item
             android:id="@+id/navigation_main"
             android:icon="@drawable/ic_home_grey_24dp"
-            android:title="@string/home" />
+            android:title="@string/home"
+            android:checked="true"
+            app:showAsAction="withText"/>
 
     <item
             android:id="@+id/navigation_recent_activities"
             android:icon="@drawable/ic_history_grey_24dp"
-            android:title="@string/recent" />
+            android:title="@string/recent"
+            app:showAsAction="withText"/>
 
     <item
             android:id="@+id/navigation_wallet"
             android:icon="@drawable/ic_account_wallet_grey_24dp"
-            android:title="@string/wallet" />
+            android:title="@string/wallet"
+            app:showAsAction="withText"/>
 </menu>

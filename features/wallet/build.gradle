@@ -16,6 +16,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
+apply from: '../../deps.gradle'
 
 androidExtensions {
     experimental = true
@@ -28,18 +29,20 @@ android {
         enabled = true
     }
 
-    buildToolsVersion "29.0.2"
-    compileSdkVersion 29
-    defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
-    }
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    defaultConfig {
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        versionCode 1
+        versionName "1.0"
+    }
+
 
     testOptions {
         unitTests {
@@ -51,18 +54,21 @@ android {
 
 dependencies {
     implementation project(':app')
-    implementation 'com.google.code.gson:gson:2.8.6'
+
     implementation project(path: ':featuresBase:wallet_base')
-    implementation 'com.github.android-promise:commons:1.0'
-    implementation 'com.github.android-promise:ui:1.0-rc04'
-    implementation 'com.google.dagger:dagger:2.26'
-    kapt 'com.google.dagger:dagger-compiler:2.26'
-    implementation 'com.google.android.material:material:1.1.0'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.tapadoo.android:alerter:4.0.2'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
+    implementation deps.alerter
+    implementation deps.appcompat
+    implementation deps.dagger
+    kapt deps.daggerCompiler
+    implementation deps.gson
+    implementation deps.facebookShimmer
+    implementation deps.legacySupport
+    implementation deps.lifeCycleExtensions
+    implementation deps.material
+    implementation deps.mpaChart
+    implementation deps.multidex
+    implementation deps.promiseCommons
+    implementation deps.promiseUi
 
 }

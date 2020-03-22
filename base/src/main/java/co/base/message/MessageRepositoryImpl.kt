@@ -13,13 +13,18 @@
 
 package co.base.message
 
+import co.app.common.AppUser
+import co.app.common.ID
+import co.app.common.photo.Photo
 import co.app.domain.message.ChatMessage
 import co.app.domain.message.ChatThread
 import co.app.domain.message.MessageRepository
 import co.app.domain.message.MessagesError
 import co.base.repos.RepoScope
-import promise.commons.model.Result
-import promise.model.repo.StoreRepository
+import promise.commons.data.log.LogUtil
+import promise.commons.tx.PromiseResult
+import promise.model.StoreRepository
+import java.util.*
 import javax.inject.Inject
 
 @RepoScope
@@ -28,21 +33,45 @@ class MessageRepositoryImpl @Inject constructor(private val repository: StoreRep
     override fun getMessageThreads(
         skip: Int,
         take: Int,
-        response: Result<List<ChatThread>, MessagesError>
+        response: PromiseResult<List<ChatThread>, MessagesError>
     ) {
+        LogUtil.d(TAG, "called get threads")
+        val appUser = AppUser(
+            ID.from(UUID.randomUUID().toString()), "username",
+            Photo()
+        )
+            response.response(promise.commons.model.List.generate(40) {
+                ChatThread(
+                    ID.from(UUID.randomUUID().toString()),appUser,
+                    ChatMessage(appUser, "message", Date().time))
+            })
+    }
 
+    override fun getThread(id: ID, response: PromiseResult<ChatThread, MessagesError>) {
+        LogUtil.d(TAG, "called get thread")
+        val appUser = AppUser(
+            ID.from(UUID.randomUUID().toString()), "username",
+            Photo()
+        )
+        response.response(ChatThread(
+            ID.from(UUID.randomUUID().toString()),appUser,
+            ChatMessage(appUser, "message", Date().time)))
     }
 
     override fun getMessages(
         chatThread: ChatThread,
         skip: Int,
         take: Int,
-        response: Result<List<ChatMessage>, MessagesError>
+        response: PromiseResult<List<ChatMessage>, MessagesError>
     ) {
 
     }
 
-    override fun sendMessage(chatMessage: ChatMessage, result: Result<Int, MessagesError>) {
+    override fun sendMessage(chatMessage: ChatMessage, result: PromiseResult<Int, MessagesError>) {
 
+    }
+
+    companion object {
+        val TAG: String = LogUtil.makeTag(MessageRepositoryImpl::class.java)
     }
 }

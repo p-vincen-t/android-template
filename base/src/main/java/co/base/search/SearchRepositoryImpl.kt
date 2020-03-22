@@ -22,8 +22,8 @@ import co.app.domain.search.SearchRepository
 import co.app.domain.search.SearchResult
 import co.base.message.SEARCH_ARG
 import co.base.repos.RepoScope
-import promise.commons.PromiseCallback
-import promise.model.repo.StoreRepository
+import promise.commons.tx.PromiseCallback
+import promise.model.StoreRepository
 import javax.inject.Inject
 
 @RepoScope

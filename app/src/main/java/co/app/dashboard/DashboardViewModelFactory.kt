@@ -16,7 +16,7 @@ package co.app.dashboard
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import co.app.common.account.UserAccount
-import promise.commons.Promise
+import promise.commons.AndroidPromise
 import javax.inject.Inject
 
 /**
@@ -29,16 +29,14 @@ class DashboardViewModelFactory @Inject constructor() : ViewModelProvider.Factor
     @Inject
     lateinit var userAccount: UserAccount
     @Inject
-    lateinit var promise: Promise
+    lateinit var promise: AndroidPromise
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(DashboardViewModel::class.java)) {
-            return DashboardViewModel(
-                userAccount = userAccount,
-                promise = promise
-            ) as T
-        }
+        if (modelClass.isAssignableFrom(DashboardViewModel::class.java)) return DashboardViewModel(
+            userAccount = userAccount,
+            promise = promise
+        ) as T
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

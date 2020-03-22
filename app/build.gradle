@@ -18,6 +18,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'com.google.firebase.crashlytics'
 apply from: '../artifacts.gradle'
+apply from: '../deps.gradle'
 
 androidExtensions {
     experimental = true
@@ -25,24 +26,30 @@ androidExtensions {
 }
 
 android {
+
     dataBinding {
         enabled = true
     }
+
     compileSdkVersion versions.compileSdk
-    buildToolsVersion "29.0.2"
+    buildToolsVersion versions.buildTools
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
     testOptions {
         unitTests {
             includeAndroidResources = true
             returnDefaultValues = true
         }
     }
+
     dynamicFeatures = [
             ':features:auth',
             ':features:wallet'
@@ -50,76 +57,47 @@ android {
             //":partner"
     ]
     //dynamicFeatures = [ ':features:request', ":features:blog", ":features:survey"]
-
-
 }
 
 dependencies {
     // core app libs
-    implementation 'com.github.android-promise:commons:1.0'
-    implementation "androidx.preference:preference-ktx:1.1.0"
-    implementation 'com.google.android.material:material:1.1.0'
-    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
-
-    implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-
-    implementation "com.google.android.play:core:${versions.playcore}"
-    implementation "androidx.biometric:biometric:1.0.1"
-    //rx libs
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    //navigation fot fragments
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.2.1'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.2.1'
-    //fire base libs
-    implementation 'com.google.firebase:firebase-analytics:17.2.2'
-    implementation 'com.google.firebase:firebase-core:17.2.2'
-    implementation 'com.google.firebase:firebase-messaging:20.1.0'
-    // utils
-    implementation 'com.tapadoo.android:alerter:4.0.2'
-    implementation 'com.github.florent37:shapeofview:v1.0.7'
-    implementation 'com.github.ybq:Android-SpinKit:1.2.0'
-    implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
-    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
-    implementation 'com.google.android:flexbox:0.3.2'
-    implementation 'com.github.android-promise:ui:1.0-rc04'
-    implementation 'joda-time:joda-time:2.10.5'
-    implementation "org.jetbrains.anko:anko-commons:${versions.anko}"
-    implementation "org.jetbrains.anko:anko-sdk25:${versions.anko}"
-    // sdk15, sdk19, sdk21, sdk23 are also available
-    implementation "org.jetbrains.anko:anko-appcompat-v7:${versions.anko}"
-    implementation "org.jetbrains.anko:anko-sdk25-coroutines:${versions.anko}"
-    implementation "org.jetbrains.anko:anko-appcompat-v7-coroutines:${versions.anko}"
-
-    def paging_version = "2.1.1"
-
-    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
-    // For Kotlin use paging-runtime-ktx
-
-    // alternatively - without Android dependencies for testing
-    testImplementation "androidx.paging:paging-common:$paging_version"
-    // For Kotlin use paging-common-ktx
-
-    // optional - RxJava support
-    implementation "androidx.paging:paging-rxjava2:$paging_version"
-
-    implementation 'com.github.dev4vin:android-promise-location:1.0.2'
-    implementation 'com.google.android.gms:play-services-location:17.0.0'
-    implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation 'com.google.code.gson:gson:2.8.6'
-    kapt 'com.google.dagger:dagger-compiler:2.26'
-    testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    // app libraries
     implementation project(path: ':base')
     implementation project(path: ':common')
-    // Add the Firebase SDK for Crashlytics.
-    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta01'
-
-    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+    implementation deps.alerter
+    implementation deps.appcompat
+    implementation deps.badgeView
+    implementation deps.biometric
+    implementation deps.constraintLayout
+    kapt deps.daggerCompiler
+    androidTestImplementation deps.expresso
+    implementation deps.facebookShimmer
+    implementation deps.firebaseAnalytics
+    implementation deps.firebaseCore
+    implementation deps.firebaseMessaging
+    implementation deps.firebaseCrashLytics
+    implementation deps.flexBox
+    implementation deps.gson
+    implementation deps.jodaTime
+    testImplementation deps.junit
+    implementation deps.legacySupport
+    implementation deps.lifeCycleExtensions
+    implementation deps.lifeCycleViewModel
+    implementation deps.material
+    implementation deps.multidex
+    implementation deps.navigationFragment
+    implementation deps.navigationUi
+    implementation deps.picasso
+    implementation deps.playCore
+    implementation deps.playServicesLocation
+    implementation deps.preferences
+    implementation deps.promiseLocation
+    implementation deps.promiseCommons
+    implementation deps.promiseUi
+    androidTestImplementation deps.testRunner
+    implementation deps.textDrawable
+    implementation deps.recyclerView
+    implementation deps.rxAndroid
+    implementation deps.shapeOfView
+    implementation deps.spinkit
+    implementation deps.vectorDrawables
 }

@@ -14,23 +14,27 @@
 package co.app.auth.base
 
 import co.app.auth.domain.Session
+import co.app.common.account.AccountModule
+import co.base.AppComponent
 import com.google.gson.Gson
 import dagger.BindsInstance
 import dagger.Component
 import okhttp3.OkHttpClient
-import promise.commons.Promise
+import promise.commons.AndroidPromise
 
 @SessionScope
-@Component( modules = [SessionModule::class, ApiModule::class])
+@Component( dependencies = [AppComponent::class], modules = [SessionModule::class, AccountModule::class, ApiModule::class])
 interface SessionComponent {
+
     fun session(): Session
-    fun promise(): Promise
+    fun promise(): AndroidPromise
 
     @Component.Factory
     interface Factory {
-        fun create(@BindsInstance promise: Promise,
-                   @BindsInstance gson: Gson,
+        fun create(
                    @BindsInstance okHttpClient: OkHttpClient,
-                   @BindsInstance url:String): SessionComponent
+                   @BindsInstance url:String,
+                   appComponent: AppComponent
+        ): SessionComponent
     }
 }

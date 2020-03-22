@@ -17,18 +17,14 @@ import android.view.View
 import androidx.databinding.Bindable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import co.app.BaseViewModel
-import co.app.UIResult
-import co.app.ViewForm
-import co.app.auth.domain.AuthError
+import co.app.common.errors.AuthError
 import co.app.auth.domain.LoginRequest
 import co.app.auth.domain.Session
-import co.app.isIdentifierValid
-import co.app.isPasswordValid
-import promise.commons.Promise
-import promise.commons.model.Result
+import co.app.common.*
+import promise.commons.AndroidPromise
+import promise.commons.tx.PromiseResult
 
-class LoginViewModel(private val session: Session, private val promise: Promise) : BaseViewModel(),
+class LoginViewModel(private val session: Session, private val promise: AndroidPromise) : BaseViewModel(),
     ViewForm {
 
     private val _result = MutableLiveData<UIResult<*>>()
@@ -80,13 +76,13 @@ class LoginViewModel(private val session: Session, private val promise: Promise)
                     LoginRequest().apply {
                         identifier = identifier
                         password = password
-                    }, Result<Boolean, AuthError>()
-                        .withCallBack {
+                    }, PromiseResult<Boolean, AuthError>()
+                        .withCallback {
                             promise.executeOnUi {
                                 _result.value = UIResult.Success<Boolean>(it)
                             }
                         }
-                        .withErrorCallBack {
+                        .withErrorCallback {
                             promise.executeOnUi {
                                 _result.value = UIResult.Error<AuthError>(it)
                                 dataValid = true

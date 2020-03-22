@@ -14,16 +14,39 @@
 package co.app.search
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LifecycleOwner
+import co.app.BaseActivity
 import co.app.R
+import co.app.domain.search.Search
 import kotlinx.android.synthetic.main.activity_search.*
+import promise.commons.data.log.LogUtil
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : BaseActivity(), SearchForm.Listener {
+
+    lateinit var searchForm: SearchForm
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         setSupportActionBar(toolbar)
+        addBackButton()
     }
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        LogUtil.e(TAG, "search form init")
+        searchForm = SearchForm(this, search_fab, this)
+        search_report.report = searchForm
+    }
+
+    override fun onSearch(search: Search) {
+        toolbar_layout.title = search.query
+        LogUtil.e(TAG, "search query", search.query)
+    }
+
+    companion object {
+        val TAG = LogUtil.makeTag(SearchActivity::class.java)
+    }
+
 }

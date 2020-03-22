@@ -13,11 +13,12 @@
 
 package co.base.common
 
-import co.app.common.models.Photo
+import co.app.common.photo.Photo
 
 class PhotoRecord {
     var url: String? = null
     var type = "OFFLINE"
 
-    fun toPhoto(): Photo = Photo().url(url).type(type)
+    fun toPhoto(): Photo = Photo()
+        .url(url).type(type)
 }

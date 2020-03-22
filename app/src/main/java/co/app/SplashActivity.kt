@@ -14,9 +14,9 @@
 package co.app
 
 import android.os.Bundle
+import co.app.common.dsl.startActivity
 import co.app.dashboard.DashboardActivity
-import org.jetbrains.anko.intentFor
-import promise.commons.Promise
+import promise.commons.AndroidPromise
 import javax.inject.Inject
 
 /**
@@ -26,7 +26,7 @@ import javax.inject.Inject
 class SplashActivity : BaseActivity() {
 
     @Inject
-    lateinit var promise: Promise
+    lateinit var promise: AndroidPromise
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +40,7 @@ class SplashActivity : BaseActivity() {
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         promise.executeOnUi({
-            startActivity(intentFor<DashboardActivity>())
+            startActivity<DashboardActivity>()
             finish()
         }, 3000)
     }

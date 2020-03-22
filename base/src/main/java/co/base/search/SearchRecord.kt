@@ -16,26 +16,22 @@ package co.base.search
 import android.os.Parcel
 import android.os.Parcelable
 import co.app.domain.search.Search
-import promise.model.SModel
+import promise.commons.model.Identifiable
 
-class SearchRecord() : SModel() {
+class SearchRecord() : Parcelable, Identifiable<Int> {
 
     var query: String = ""
 
-    fun toSearch(): Search {
-        return Search()
-    }
+    fun toSearch(): Search = Search()
 
     constructor(parcel: Parcel) : this() {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        super.writeToParcel(parcel, flags)
+
     }
 
-    override fun describeContents(): Int {
-        return 0
-    }
+    override fun describeContents(): Int = 0
 
     companion object CREATOR : Parcelable.Creator<SearchRecord> {
 
@@ -44,12 +40,16 @@ class SearchRecord() : SModel() {
                 query = search.query
             }
 
-        override fun createFromParcel(parcel: Parcel): SearchRecord {
-            return SearchRecord(parcel)
-        }
+        override fun createFromParcel(parcel: Parcel): SearchRecord = SearchRecord(parcel)
 
-        override fun newArray(size: Int): Array<SearchRecord?> {
-            return arrayOfNulls(size)
-        }
+        override fun newArray(size: Int): Array<SearchRecord?> = arrayOfNulls(size)
+    }
+
+    var uId = 0
+
+    override fun getId(): Int = uId
+
+    override fun setId(t: Int) {
+        this.uId = t
     }
 }

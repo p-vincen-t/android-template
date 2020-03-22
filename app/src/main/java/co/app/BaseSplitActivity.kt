@@ -108,7 +108,6 @@ abstract class BaseSplitActivity : BaseActivity() {
         loadAndLaunchModule(App.AUTH_FEATURE_NAME)
     }
 
-
     /**
      * Load a feature by module name.
      * @param name The name of the feature module to load.

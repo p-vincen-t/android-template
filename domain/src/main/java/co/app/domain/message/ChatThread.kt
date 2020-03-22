@@ -13,6 +13,11 @@
 
 package co.app.domain.message
 
-import co.app.common.models.AppUser
+import co.app.common.AppUser
+import co.app.common.ID
 
-data class ChatThread(var user: AppUser, var lastChatMessage: ChatMessage)
+data class ChatThread(var id: ID, var user: AppUser, var lastChatMessage: ChatMessage) {
+    override fun toString(): String {
+        return user.toString() + lastChatMessage.toString()
+    }
+}

@@ -19,17 +19,16 @@ import co.base.message.MessageThreadRecordDao
 import co.base.search.SearchRecordTable
 import dagger.Module
 import dagger.Provides
-import promise.commons.Promise
+import promise.commons.AndroidPromise
 
 private const val DB_NAME = "app_db"
-private const val BEHAVIOUR_DB_NAME = "behaviour_db"
 
 @Module
 object DatabaseModule {
 
     @Provides
     @JvmStatic
-    fun provideDatabase(promise: Promise): AppDatabase =
+    fun provideDatabase(promise: AndroidPromise): AppDatabase =
         AppDatabase(
             promise.context(),
             DB_NAME
@@ -38,15 +37,7 @@ object DatabaseModule {
     @Provides
     @JvmStatic
     @DataScope
-    fun provideBehaviorDatabase(): BehaviourDatabase =
-        BehaviourDatabase(
-            BEHAVIOUR_DB_NAME
-        )
-
-    @Provides
-    @JvmStatic
-    @DataScope
-    fun provideSearchRecordTable(database: BehaviourDatabase): SearchRecordTable =
+    fun provideSearchRecordTable(): SearchRecordTable =
         BehaviourDatabase.searchRecordTable
 
     @Provides
@@ -55,9 +46,11 @@ object DatabaseModule {
 
     @Provides
     @JvmStatic
-    fun provideChatMessageDao(database: AppDatabase): ChatMessageRecordDao = database.chatMessageDao()
+    fun provideChatMessageDao(database: AppDatabase): ChatMessageRecordDao =
+        database.chatMessageDao()
 
     @Provides
     @JvmStatic
-    fun provideMessageThreadDao(database: AppDatabase): MessageThreadRecordDao = database.messageThreadDao()
+    fun provideMessageThreadDao(database: AppDatabase): MessageThreadRecordDao =
+        database.messageThreadDao()
 }

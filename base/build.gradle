@@ -14,13 +14,14 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply from: '../deps.gradle'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
     defaultConfig {
-        minSdkVersion 17
-        targetSdkVersion 29
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -51,52 +52,37 @@ android {
 }
 
 dependencies {
-    implementation 'com.google.dagger:dagger:2.26'
-    kapt 'com.google.dagger:dagger-compiler:2.26'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.17'
-    implementation 'com.github.android-promise:commons:1.0'
-    implementation 'com.github.android-promise:database:1.0.1-alpha01'
-    implementation 'com.github.instacart.truetime-android:library-extension-rx:3.4'
-    implementation 'com.github.android-promise:model:1.0'
-    implementation "androidx.preference:preference-ktx:1.1.0"
-    implementation 'androidx.core:core-ktx:1.2.0'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.17'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    api project(path: ':domain')
     implementation project(path: ':common')
+    api project(path: ':domain')
 
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.3.1'
-    implementation 'com.squareup.retrofit2:retrofit:2.7.1'
-    implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
-    implementation 'com.squareup.retrofit2:converter-scalars:2.7.1'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.7.1'
-
-    debugImplementation 'com.squareup.okhttp3:mockwebserver:4.3.1'
-    debugImplementation 'com.facebook.stetho:stetho:1.5.1'
-    debugImplementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
-
-    def room_version = "2.2.4"
-
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
-    // For Kotlin use kapt instead of annotationProcessor
-
-    // optional - Kotlin Extensions and Coroutines support for Room
-    implementation "androidx.room:room-ktx:$room_version"
-
-    // optional - RxJava support for Room
-    implementation "androidx.room:room-rxjava2:$room_version"
-
-    // Test helpers
-    testImplementation "androidx.room:room-testing:$room_version"
-
-    testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
+    implementation deps.appcompat
+    implementation deps.dagger
+    kapt deps.daggerCompiler
+    debugImplementation deps.facebookStetho
+    debugImplementation deps.facebookStethoOkHttp
+    implementation deps.kotlin
+    testImplementation deps.junit
+    implementation deps.okHttpInterceptor
+    debugImplementation deps.okHttpMockWebServer
+    implementation deps.multidex
+    implementation deps.preferences
+    implementation deps.promiseCommons
+    implementation deps.promiseDatabase
+    implementation deps.promiseModel
+    androidTestImplementation deps.testRunner
+    implementation deps.rxJava
+    implementation deps.trueTime
+    implementation deps.androidxCore
+    implementation deps.lifeCycleExtensions
+    implementation deps.retrofit
+    implementation deps.retrofitAdapterRxJava
+    implementation deps.retrofitConverterGson
+    kapt deps.roomCompiler
+    implementation deps.room
+    implementation deps.roomRuntime
+    implementation deps.roomRxJava
+    implementation deps.rxAndroid
+    implementation deps.rxJava
 }
 repositories {
     mavenCentral()

@@ -14,11 +14,13 @@
 package co.app
 
 import android.annotation.SuppressLint
+import android.location.Location
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import promise.commons.Promise
+import promise.commons.AndroidPromise
+import promise.location.PromiseLocation
 import javax.inject.Inject
 
 /**
@@ -31,6 +33,9 @@ open class BaseActivity : AppCompatActivity() {
      * adds the back button
      *
      */
+
+    private lateinit var promiseLocation: PromiseLocation
+
     fun addBackButton() {
         val actionBar = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
@@ -40,6 +45,8 @@ open class BaseActivity : AppCompatActivity() {
         val actionBar = supportActionBar
         actionBar?.elevation = 0f
     }
+
+    fun onLocationAcquired(location: Location) {}
 
     /**
      * the main application for providing app component
@@ -52,6 +59,13 @@ open class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         app = application as App
+    }
+
+    fun requestLocation() {
+        promiseLocation = PromiseLocation.with(this)
+        promiseLocation.location().once().start {
+            onLocationAcquired(location = it)
+        }
     }
 
     /**
@@ -72,7 +86,7 @@ open class BaseActivity : AppCompatActivity() {
      * @param after last action to execute
      * @param wait interval before executing after
      */
-    fun executeBeforeAfterOnUi(promise: Promise, before: () -> Unit, after: () -> Unit, wait: Long? = null) {
+    fun executeBeforeAfterOnUi(promise: AndroidPromise, before: () -> Unit, after: () -> Unit, wait: Long? = null) {
         promise.executeOnUi(before)
         promise.executeOnUi(after, wait ?: 500)
     }
@@ -84,7 +98,7 @@ open class BaseActivity : AppCompatActivity() {
      * @param after last action to execute
      * @param wait interval before executing after
      */
-    fun executeBeforeAfter(promise: Promise, before: () -> Unit, after: () -> Unit, wait: Long? = null) {
+    fun executeBeforeAfter(promise: AndroidPromise, before: () -> Unit, after: () -> Unit, wait: Long? = null) {
         promise.execute(before)
         promise.execute(after, wait ?: 500)
     }

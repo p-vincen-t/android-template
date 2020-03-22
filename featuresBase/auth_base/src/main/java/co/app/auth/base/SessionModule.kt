@@ -20,7 +20,7 @@ import dagger.Module
 import dagger.Provides
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
-import promise.commons.Promise
+import promise.commons.AndroidPromise
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -39,7 +39,7 @@ object ApiModule {
     fun provideRetrofit(
         client: OkHttpClient,
         gson: Gson,
-        promise: Promise,
+        promise: AndroidPromise,
         url: String
     ): Retrofit {
         return Retrofit.Builder()

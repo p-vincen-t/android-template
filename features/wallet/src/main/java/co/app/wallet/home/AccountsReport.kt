@@ -13,26 +13,21 @@
 
 package co.app.wallet.home
 
+import android.view.View
 import androidx.appcompat.widget.Toolbar
-import androidx.collection.ArrayMap
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.app.common.account.UserAccount
-import co.app.common.errors.NotFoundError
-import co.app.report.Report
-import co.app.report.ReportMeta
-import co.app.views.ReportView
+import co.app.common.report.Report
+import co.app.common.report.ReportMeta
+import co.app.common.report.ReportView
 import co.app.wallet.domain.accounts.AccountsRepository
-import co.app.wallet.domain.accounts.WalletAccount
 import com.app.wallet.R
-import promise.commons.Promise
+import promise.commons.AndroidPromise
 import promise.commons.data.log.LogUtil
-import promise.commons.model.Result
-import promise.ui.PromiseAdapter
-import promise.ui.model.Viewable
-import kotlin.reflect.KClass
+import promise.ui.adapter.PromiseAdapter
 import promise.commons.model.List as PromiseList
 
 @ReportMeta(
@@ -40,14 +35,15 @@ import promise.commons.model.List as PromiseList
     menu = R.menu.accounts_menu
 )
 class AccountsReport(
+    private val lifecycleOwner: LifecycleOwner,
     private val userAccount: UserAccount,
-    private val promise: Promise,
+    private val promise: AndroidPromise,
     private val accountsRepository: AccountsRepository
 ) : Report {
 
     private lateinit var walletAdapter: PromiseAdapter<WalletAccountHolder>
 
-    override fun bind(reportView: ReportView) {
+    override fun bind(reportView: ReportView, view: View) {
         reportView.onMenuItemClickListener = Toolbar.OnMenuItemClickListener {
             if (it.itemId == R.id.action_settings) {
                 LogUtil.e(TAG, "settings clicked")
@@ -70,7 +66,7 @@ class AccountsReport(
             }, true
         )
         accountsListRecyclerView.adapter = walletAdapter
-        accountsRepository.getAllAccounts().observeForever {
+        accountsRepository.getAllAccounts().observe(lifecycleOwner, Observer{
             promise.executeOnUi {
                 LogUtil.e(TAG, "accounts loaded: ", it)
                 walletAdapter.args = null
@@ -80,7 +76,7 @@ class AccountsReport(
                     )
                 )
             }
-        }
+        })
     }
 
     override fun layout(): Int = R.layout.account_list_report

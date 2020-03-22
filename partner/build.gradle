@@ -15,8 +15,6 @@ apply plugin: 'com.android.dynamic-feature'
 
 android {
     compileSdkVersion 29
-    
-
 
     defaultConfig {
         minSdkVersion 21

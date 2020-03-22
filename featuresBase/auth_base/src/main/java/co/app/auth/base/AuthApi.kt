@@ -15,7 +15,9 @@ package co.app.auth.base
 
 import co.app.auth.domain.LoginRequest
 import co.app.auth.domain.RegistrationRequest
-import retrofit2.Call
+import io.reactivex.Observable
+import org.json.JSONObject
+import retrofit2.Response
 import retrofit2.http.*
 
 /**
@@ -29,7 +31,7 @@ interface AuthApi {
     @Headers("HOST: AUTH")
     fun login(
         @Body loginRequest: LoginRequest
-    ): Call<String>
+    ): Observable<Response<JSONObject>>
 
     /**
      * reset password api
@@ -40,7 +42,7 @@ interface AuthApi {
     @FormUrlEncoded
     @POST("reset")
     @Headers("HOST: AUTH")
-    fun resetPassword(@Field("identifier") identifier: String): Call<String>
+    fun resetPassword(@Field("identifier") identifier: String): Observable<Response<JSONObject>>
 
     /**
      * registration api
@@ -51,6 +53,6 @@ interface AuthApi {
     @FormUrlEncoded
     @POST("register")
     @Headers("HOST: AUTH")
-    fun register(@Body registrationRequest: RegistrationRequest): Call<String>
+    fun register(@Body registrationRequest: RegistrationRequest): Observable<Response<JSONObject>>
 
 }

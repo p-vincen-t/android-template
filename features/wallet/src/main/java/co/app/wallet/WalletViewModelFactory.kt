@@ -13,12 +13,13 @@
 
 package co.app.wallet
 
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import co.app.common.account.UserAccount
 import co.app.dashboard.DashboardScope
 import co.app.wallet.domain.accounts.AccountsRepository
-import promise.commons.Promise
+import promise.commons.AndroidPromise
 import javax.inject.Inject
 
 /**
@@ -31,7 +32,7 @@ class WalletViewModelFactory @Inject constructor() : ViewModelProvider.Factory {
     @Inject
     lateinit var userAccount: UserAccount
     @Inject
-    lateinit var promise: Promise
+    lateinit var promise: AndroidPromise
 
     @Inject
     lateinit var accountsRegistrar: AccountsRepository

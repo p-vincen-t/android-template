@@ -14,7 +14,7 @@
 package co.base.data
 
 import androidx.room.TypeConverter
-import co.app.common.models.ID
+import co.app.common.ID
 import java.util.*
 
 class TypeConverters {
@@ -39,9 +39,5 @@ class TypeConverters {
     }
 
     @TypeConverter
-    fun stringToID(date: String): ID {
-        val id = ID()
-        id.id = date
-        return id
-    }
+    fun stringToID(date: String): ID = ID.from(date)
 }

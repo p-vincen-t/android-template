@@ -28,10 +28,10 @@ class ModuleRegistrar : ModuleRegister {
         ModuleRegistrar.app = app
         sessionComponent = DaggerSessionComponent.factory()
             .create(
-                app.promise,
-                app.gson(),
                 app.okHttpClient(),
-                app.apiUrl())
+                app.apiUrl(),
+                app.appComponent
+            )
 
     }
 

@@ -13,19 +13,21 @@
 
 package co.app.common.account
 
+import com.google.gson.Gson
 import dagger.BindsInstance
 import dagger.Component
-import promise.commons.Promise
+import promise.commons.AndroidPromise
 
 @AccountScope
-@Component
+@Component(modules = [AccountProvider::class])
 interface AccountComponent {
     fun userAccount(): UserAccount
 
-    fun promise(): Promise
+    fun promise(): AndroidPromise
 
     @Component.Factory
     interface Factory {
-        fun create(@BindsInstance promise: Promise): AccountComponent
+        fun create(@BindsInstance gson: Gson,
+                   @BindsInstance promise: AndroidPromise): AccountComponent
     }
 }

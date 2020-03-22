@@ -13,6 +13,7 @@
 
 package co.app.settings
 
+import android.content.SharedPreferences
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LiveData
@@ -24,13 +25,15 @@ class ThemePreference {
     private val sharedPreferences: Preferences by lazy {
         Preferences.Builder().EMPTY_STRING(PREFERENCE_THEME_DEF_VAL)
             .build()
-            .preferenceChange { _, key ->
-                when (key) {
-                    PREFERENCE_THEME_KEY -> {
-                        _nightModeLive.value = _appTheme
+            .preferenceChange(object: Preferences.PreferenceChange {
+                override fun onChange(preferences: SharedPreferences?, key: String?) {
+                    when (key) {
+                        PREFERENCE_THEME_KEY -> {
+                            _nightModeLive.value = _appTheme
+                        }
                     }
                 }
-            }
+            })
     }
 
     fun setTheme() {

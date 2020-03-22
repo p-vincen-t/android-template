@@ -18,13 +18,13 @@ import androidx.lifecycle.MutableLiveData
 import co.app.wallet.base.data.DataScope
 import co.app.wallet.domain.accounts.AccountsRepository
 import co.app.wallet.domain.accounts.WalletAccount
-import promise.commons.Promise
+import promise.commons.AndroidPromise
 import promise.commons.data.log.LogUtil
 import javax.inject.Inject
 import promise.commons.model.List as PromiseList
 
 @DataScope
-class AccountsRepositoryImpl @Inject constructor(private val promise: Promise) :
+class AccountsRepositoryImpl @Inject constructor(private val promise: AndroidPromise) :
     AccountsRepository {
     override fun getAllAccounts(): LiveData<List<WalletAccount>> {
         val mutableLiveData = MutableLiveData<List<WalletAccount>>()

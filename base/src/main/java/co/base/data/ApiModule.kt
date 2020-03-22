@@ -23,14 +23,13 @@ import io.reactivex.schedulers.Schedulers
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.logging.HttpLoggingInterceptor
-import promise.commons.Promise
+import promise.commons.AndroidPromise
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
-
 
 @Module
 object ApiModule {
@@ -40,7 +39,7 @@ object ApiModule {
     @Provides
     fun provideOkHttpClient(
         userAccount: UserAccount,
-        promise: Promise,
+        promise: AndroidPromise,
         interceptor: Interceptor
     ): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor()
@@ -66,9 +65,7 @@ object ApiModule {
                 private fun responseCount(response: Response): Int {
                     var newResponse = response
                     var result = 1
-                    while (newResponse.priorResponse.also { newResponse = it!! } != null) {
-                        result++
-                    }
+                    while (newResponse.priorResponse.also { newResponse = it!! } != null) result++
                     return result
                 }
 
@@ -79,9 +76,10 @@ object ApiModule {
                     // If we've failed 3 times, give up.
                     if (responseCount(response) >= 3) return null
                     val credential = Credentials.basic("client-type", "android")
+                    val credential2 = Credentials.basic("token", if (userAccount.id != null) userAccount.id!!.id!! else "")
                     return response.request.newBuilder()
-                        .header("Client", credential)
-                        .header("api-key", userAccount.id)
+                        .header("device", credential)
+                        .header("user", credential2)
                         .header("Content-Type", "application/json; charset=utf-8")
                         .build()
                 }
@@ -105,7 +103,7 @@ object ApiModule {
     fun provideRetrofit(
         client: OkHttpClient,
         gson: Gson,
-        promise: Promise,
+        promise: AndroidPromise,
         apiUrl: HttpUrl
     ): Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create(gson))

@@ -12,11 +12,16 @@
   ~ limitations under the License.
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".dashboard.RecentActivitiesFragment">
+        android:orientation="vertical"
+        tools:context=".dashboard.recents.RecentActivitiesFragment">
 
+    <co.app.common.report.ReportView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/recents_report"/>
 
-</FrameLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

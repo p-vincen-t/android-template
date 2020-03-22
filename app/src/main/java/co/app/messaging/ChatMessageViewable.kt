@@ -16,7 +16,7 @@ package co.app.messaging
 import android.view.View
 import co.app.R
 import co.app.domain.message.ChatMessage
-import promise.ui.model.Viewable
+import promise.ui.Viewable
 
 class SenderMessageViewable constructor(private val chatMessage: ChatMessage): Viewable {
     override fun layout(): Int = R.layout.sender_chat

@@ -15,9 +15,13 @@ package co.app
 
 import co.base.AppComponent
 import dagger.Component
+import promise.commons.AndroidPromise
 
 @Component(dependencies = [AppComponent::class])
 @UiScope
 interface UiComponent {
+
+    fun promise(): AndroidPromise
+
     fun inject(splashActivity: SplashActivity)
 }

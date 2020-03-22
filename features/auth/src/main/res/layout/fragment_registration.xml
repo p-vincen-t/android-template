@@ -28,9 +28,7 @@
     <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/color_surface"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:orientation="vertical">
 
         <ProgressBar
                 android:layout_width="wrap_content"
@@ -40,7 +38,7 @@
                 android:layout_marginTop="64dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="64dp"
-                tools:visibility="visible" />
+                tools:visibility="gone" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"

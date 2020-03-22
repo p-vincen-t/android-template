@@ -18,6 +18,7 @@ import co.app.domain.message.MessageRepository
 import co.base.data.DataComponent
 import dagger.BindsInstance
 import dagger.Component
+import promise.commons.AndroidPromise
 
 @RepoScope
 @Component(
@@ -27,6 +28,8 @@ import dagger.Component
 interface ReposComponent {
 
     fun messageRepository(): MessageRepository
+
+    fun promise(): AndroidPromise
 
     @Component.Factory
     interface Factory {

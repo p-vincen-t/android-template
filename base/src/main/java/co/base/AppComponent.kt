@@ -14,17 +14,22 @@
 package co.base
 
 import com.google.gson.Gson
+import dagger.BindsInstance
 import dagger.Component
 import io.reactivex.disposables.CompositeDisposable
-import promise.commons.Promise
+import promise.commons.AndroidPromise
 
 @Component(modules = [DependenciesModule::class])
 @AppScope
 interface AppComponent {
-    fun promise(): Promise
+    fun promise(): AndroidPromise
     fun compositeDisposable(): CompositeDisposable
     fun gson(): Gson
-
     fun inject(appBase: AppBase)
+
+    @Component.Factory
+    interface Factory {
+        fun create(@BindsInstance gson: Gson): AppComponent
+    }
 
 }

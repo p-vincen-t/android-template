@@ -14,24 +14,19 @@
 package co.app.messaging
 
 import android.content.Intent
-import android.os.Binder
-import android.os.IBinder
-import co.app.BaseService
+import co.app.BindService
 import co.app.domain.message.ChatMessage
+import co.app.domain.message.ChatThread
 import co.app.domain.message.MessageRepository
+import co.app.domain.message.MessagesError
 import promise.commons.data.log.LogUtil
+import promise.commons.tx.PromiseCallback
+import promise.commons.tx.PromiseResult
 import javax.inject.Inject
 
-class ChatMessageService : BaseService() {
+class ChatMessageService : BindService<ChatMessageService>() {
 
-    inner class LocalBinder : Binder() {
-        val service: ChatMessageService
-            get() = this@ChatMessageService
-    }
-
-    private val binder: Binder by lazy {
-        LocalBinder()
-    }
+    override fun getService(): ChatMessageService = this
 
     @Inject
     lateinit var messageRepository: MessageRepository
@@ -45,6 +40,17 @@ class ChatMessageService : BaseService() {
 
     }
 
+    fun getThreads(skip: Int, take: Int): PromiseCallback<List<ChatThread>> = PromiseCallback { resolve, reject ->
+        messageRepository.getMessageThreads(skip, take,
+            PromiseResult<List<ChatThread>, MessagesError>()
+                .withCallback {
+                    resolve(it)
+                }
+                .withErrorCallback {
+                    reject(it)
+                })
+    }
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         LogUtil.e(TAG, "service started")
         return START_STICKY
@@ -52,9 +58,8 @@ class ChatMessageService : BaseService() {
 
     fun onMessageReceived(chatMessage: ChatMessage) {}
 
-    override fun onBind(intent: Intent): IBinder = binder
 
     companion object {
-        val TAG = LogUtil.makeTag(ChatMessageService::class.java)
+        val TAG: String = LogUtil.makeTag(ChatMessageService::class.java)
     }
 }

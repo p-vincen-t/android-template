@@ -16,8 +16,8 @@ package co.base.message
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import co.app.common.models.AppUser
-import co.app.common.models.ID
+import co.app.common.AppUser
+import co.app.common.ID
 import co.base.common.PhotoRecord
 
 @Entity(tableName = "chat_users")

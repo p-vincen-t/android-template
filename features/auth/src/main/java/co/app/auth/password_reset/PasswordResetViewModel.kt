@@ -13,12 +13,12 @@
 
 package co.app.auth.password_reset
 
-import co.app.BaseViewModel
+import co.app.common.BaseViewModel
 import co.app.auth.domain.Session
-import promise.commons.Promise
+import promise.commons.AndroidPromise
 import promise.commons.data.log.LogUtil
 
-class PasswordResetViewModel(private val session: Session, private val promise: Promise) : BaseViewModel() {
+class PasswordResetViewModel(private val session: Session, private val promise: AndroidPromise) : BaseViewModel() {
 
     val TAG = LogUtil.makeTag(PasswordResetViewModel::class.java)
 

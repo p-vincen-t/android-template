@@ -12,8 +12,8 @@
  */
 
 package co.app.domain.message
-import co.app.common.models.AppUser
-import co.app.common.models.Photo
+import co.app.common.AppUser
+import co.app.common.photo.Photo
 import co.app.domain.search.Search
 import co.app.domain.search.SearchResult
 import co.app.domain.search.notNullIsContainedIn
@@ -22,6 +22,10 @@ data class ChatMessage(var sender: AppUser, var message: String = "", var sentTi
     override fun onSearch(search: Search): Boolean =
         search.query.notNullIsContainedIn(sender.userName) &&
                 search.query.notNullIsContainedIn(message)
+
+    override fun toString(): String {
+        return message
+    }
 
     var photos: List<Photo>? = null
     var chatMessageReply: ChatMessage? = null

@@ -24,7 +24,7 @@ import dagger.Component
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import promise.commons.Promise
+import promise.commons.AndroidPromise
 
 @DataScope
 @Component(
@@ -34,7 +34,7 @@ import promise.commons.Promise
 
 interface DataComponent {
     fun gson(): Gson
-    fun promise(): Promise
+    fun promise(): AndroidPromise
     fun chatMessageDao(): ChatMessageRecordDao
     fun chatUserDao(): ChatUserDao
     fun searchRecordTable(): SearchRecordTable

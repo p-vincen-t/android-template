@@ -21,6 +21,13 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context=".messaging.MessagingActivity">
 
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/threads_recycler_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:clipToPadding="false"
+            android:padding="8dp" />
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"

@@ -21,7 +21,7 @@ import com.google.gson.Gson
 import dagger.BindsInstance
 import dagger.Component
 import okhttp3.OkHttpClient
-import promise.commons.Promise
+import promise.commons.AndroidPromise
 
 @Component(
     modules = [ApiModule::class,
@@ -36,7 +36,7 @@ interface DataComponent {
     @Component.Factory
     interface Factory {
         fun create(
-            @BindsInstance promise: Promise,
+            @BindsInstance promise: AndroidPromise,
             @BindsInstance gson: Gson,
             @BindsInstance okHttpClient: OkHttpClient
         ): DataComponent

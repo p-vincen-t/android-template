@@ -14,19 +14,32 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply from: '../../deps.gradle'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 29
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+            returnDefaultValues = true
+        }
     }
 
     buildTypes {
@@ -45,31 +58,26 @@ dependencies {
 
     implementation project(path: ':common')
     implementation project(path: ':domain')
-    implementation 'com.github.android-promise:commons:1.0'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
-    implementation 'com.google.dagger:dagger:2.26'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.17'
-    implementation "androidx.preference:preference-ktx:1.1.0"
-    implementation 'androidx.core:core-ktx:1.2.0'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.3.1'
-    implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
-    implementation 'com.squareup.retrofit2:converter-scalars:2.7.1'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.7.1'
-
     api project(path: ':domains:auth_domain')
     api project(path: ':base')
-    api 'com.google.code.gson:gson:2.8.6'
-    api 'com.squareup.retrofit2:retrofit:2.7.1'
 
-    kapt 'com.google.dagger:dagger-compiler:2.26'
-    debugImplementation 'com.squareup.retrofit2:retrofit-mock:2.7.1'
+    implementation deps.appcompat
+    implementation deps.androidxCore
+    implementation deps.dagger
+    kapt deps.daggerCompiler
+    api deps.gson
+    testImplementation deps.junit
+    implementation deps.kotlin
+    androidTestImplementation deps.mockito
+    testImplementation deps.mockitoCore
+    implementation deps.okHttpInterceptor
+    implementation deps.preferences
+    implementation deps.promiseCommons
+    api deps.retrofit
+    implementation deps.retrofitAdapterRxJava
+    implementation deps.retrofitConverterGson
+    implementation deps.rxAndroid
+    implementation deps.rxJava
+    androidTestImplementation deps.testRunner
 
-    testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    // required if you want to use Mockito for Android tests
-    androidTestImplementation 'org.mockito:mockito-android:2.7.22'
-    testImplementation 'org.mockito:mockito-core:2.19.0'
 }

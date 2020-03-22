@@ -13,6 +13,6 @@
 
 package co.app.messaging
 
-import co.app.BaseViewModel
+import co.app.common.BaseViewModel
 
 class ChatViewModel constructor(private val messageService: ChatMessageService) : BaseViewModel()

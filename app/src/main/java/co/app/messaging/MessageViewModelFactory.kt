@@ -15,20 +15,22 @@ package co.app.messaging
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import co.app.domain.message.MessageRepository
+import promise.commons.AndroidPromise
 import javax.inject.Inject
 
 @ChatScope
 class MessageViewModelFactory @Inject constructor() : ViewModelProvider.Factory {
 
+    @Inject lateinit var messageRepository: MessageRepository
+
     @Inject
-    lateinit var chatMessageService: ChatMessageService
+    lateinit var promise: AndroidPromise
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T = when {
-        modelClass.isAssignableFrom(ChatViewModel::class.java) -> ChatViewModel(
-            chatMessageService
-        ) as T
         modelClass.isAssignableFrom(MessagingViewModel::class.java) -> MessagingViewModel(
-            chatMessageService
+            messageRepository,
+            promise
         ) as T
         else -> throw IllegalArgumentException("Unknown ViewModel class")
     }
