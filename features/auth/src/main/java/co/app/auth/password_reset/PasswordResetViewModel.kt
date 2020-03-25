@@ -13,7 +13,7 @@
 
 package co.app.auth.password_reset
 
-import co.app.common.BaseViewModel
+import co.app.BaseViewModel
 import co.app.auth.domain.Session
 import promise.commons.AndroidPromise
 import promise.commons.data.log.LogUtil

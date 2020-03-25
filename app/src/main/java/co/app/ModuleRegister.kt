@@ -13,6 +13,16 @@
 
 package co.app
 
+import android.content.Context
+import co.app.common.search.SearchResult
+import promise.ui.Viewable
+import promise.ui.adapter.DiffAdapter
+import kotlin.reflect.KClass
+
 interface ModuleRegister {
+
     fun register(app: App)
+
+    fun registerSearchViewables(context: Context): Pair<Map<Class<out SearchResult>,
+            KClass<out Viewable>>, DiffAdapter.Listener<in SearchResult>>
 }

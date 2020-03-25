@@ -16,7 +16,29 @@ package co.app.domain.message
 import co.app.common.AppUser
 import co.app.common.ID
 
-data class ChatThread(var id: ID, var user: AppUser, var lastChatMessage: ChatMessage) {
+/**
+ * entails a user with the last message sent
+ */
+data class ChatThread(
+    /**
+     * the id of the thread
+     */
+    var id: ID,
+    /**
+     * the user who sent the message
+     */
+    var user: AppUser,
+    /**
+     * the description of the message, product or service
+     */
+
+    var productOrServiceDescription: String,
+    /**
+     * the last sent message
+     */
+    var lastChatMessage: ChatMessage
+) {
+
     override fun toString(): String {
         return user.toString() + lastChatMessage.toString()
     }

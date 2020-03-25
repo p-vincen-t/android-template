@@ -14,7 +14,7 @@
 package co.app
 
 import android.os.Bundle
-import co.app.common.dsl.startActivity
+import co.app.dsl.startActivity
 import co.app.dashboard.DashboardActivity
 import promise.commons.AndroidPromise
 import javax.inject.Inject

@@ -13,7 +13,7 @@
 
 package co.base.common
 
-import co.app.common.photo.Photo
+import co.app.common.Photo
 
 class PhotoRecord {
     var url: String? = null

@@ -18,10 +18,12 @@ import android.location.Location
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import co.app.attachment.AttachmentModel
+import co.app.attachment.AttachmentPicker
+import co.app.common.Attachment
 import promise.commons.AndroidPromise
+import promise.commons.model.List
 import promise.location.PromiseLocation
-import javax.inject.Inject
 
 /**
  * the base activity for all activities
@@ -33,6 +35,7 @@ open class BaseActivity : AppCompatActivity() {
      * adds the back button
      *
      */
+    private var pickerDialog: AttachmentPicker? = null
 
     private lateinit var promiseLocation: PromiseLocation
 
@@ -46,12 +49,48 @@ open class BaseActivity : AppCompatActivity() {
         actionBar?.elevation = 0f
     }
 
-    fun onLocationAcquired(location: Location) {}
+    open fun onLocationAcquired(location: Location) {}
+
+    fun requestAttachment(requestType: Int) {
+        when (requestType) {
+            ATTACHMENT_TYPE_PHOTO -> {
+                pickerDialog = AttachmentPicker.Builder()
+                    .setTitle("Pick a photo")
+                    .setListType(AttachmentPicker.TYPE_GRID, 3)
+                    .setItems(
+                        List.fromArray(
+                            AttachmentModel.camera(), AttachmentModel.gallery()
+                        )
+                    )
+                    .create()
+            }
+            ATTACHMENT_TYPE_DOCUMENT -> {
+                pickerDialog = AttachmentPicker.Builder()
+                    .setTitle("Pick a photo")
+                    .setListType(AttachmentPicker.TYPE_GRID, 3)
+                    .setItems(
+                        List.fromArray(
+                            AttachmentModel.files()
+                        )
+                    )
+                    .create()
+            }
+            else -> throw IllegalArgumentException("arg not allowed $requestType")
+        }
+        pickerDialog?.setPickerCloseListener {
+            onAttachmentAcquired(it)
+        }
+        pickerDialog?.show(supportFragmentManager, app.appComponent.settings(),"picker")
+
+    }
+
+    open fun onAttachmentAcquired(attachment: Attachment) {}
 
     /**
      * the main application for providing app component
      */
     lateinit var app: App
+
     /**
      * promise for execution of back ground threads and results on the ui thread
      */
@@ -86,7 +125,12 @@ open class BaseActivity : AppCompatActivity() {
      * @param after last action to execute
      * @param wait interval before executing after
      */
-    fun executeBeforeAfterOnUi(promise: AndroidPromise, before: () -> Unit, after: () -> Unit, wait: Long? = null) {
+    fun executeBeforeAfterOnUi(
+        promise: AndroidPromise,
+        before: () -> Unit,
+        after: () -> Unit,
+        wait: Long? = null
+    ) {
         promise.executeOnUi(before)
         promise.executeOnUi(after, wait ?: 500)
     }
@@ -98,8 +142,26 @@ open class BaseActivity : AppCompatActivity() {
      * @param after last action to execute
      * @param wait interval before executing after
      */
-    fun executeBeforeAfter(promise: AndroidPromise, before: () -> Unit, after: () -> Unit, wait: Long? = null) {
+    fun executeBeforeAfter(
+        promise: AndroidPromise,
+        before: () -> Unit,
+        after: () -> Unit,
+        wait: Long? = null
+    ) {
         promise.execute(before)
         promise.execute(after, wait ?: 500)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        pickerDialog?.onPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    companion object {
+        const val ATTACHMENT_TYPE_PHOTO = 0x101
+        const val ATTACHMENT_TYPE_DOCUMENT = 0x102
     }
 }

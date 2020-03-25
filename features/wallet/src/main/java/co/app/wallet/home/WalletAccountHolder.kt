@@ -14,7 +14,7 @@
 package co.app.wallet.home
 
 import android.view.View
-import co.app.common.BindingAdapters
+import co.app.BindingAdapters
 import co.app.wallet.domain.accounts.WalletAccount
 import com.app.wallet.R
 import kotlinx.android.extensions.LayoutContainer

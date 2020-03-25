@@ -13,7 +13,7 @@
 
 package co.base.data
 
-import co.app.common.account.UserAccount
+import co.app.common.UserAccount
 import com.google.gson.Gson
 import co.base.AppComponent
 import co.base.message.ChatMessageRecordDao

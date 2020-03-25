@@ -13,7 +13,7 @@
 
 package co.base.data
 
-import co.app.common.account.UserAccount
+import co.app.common.UserAccount
 import co.base.BuildConfig
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.Gson

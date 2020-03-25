@@ -18,9 +18,15 @@ import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
 import promise.commons.AndroidPromise
+import promise.commons.pref.Preferences
 
 @Module
 object DependenciesModule {
+
+    @Provides
+    @JvmStatic
+    @AppScope
+    fun providePreferences(): Preferences = Preferences()
 
     @Provides
     @JvmStatic

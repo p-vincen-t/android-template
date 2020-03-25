@@ -22,9 +22,9 @@ import android.text.style.StyleSpan
 import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
-import co.app.common.report.Report
-import co.app.common.report.ReportMeta
-import co.app.common.report.ReportView
+import co.app.report.Report
+import co.app.report.ReportMeta
+import co.app.report.ReportView
 import com.app.wallet.R
 import androidx.appcompat.widget.Toolbar
 import com.github.mikephil.charting.animation.Easing

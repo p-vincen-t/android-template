@@ -15,13 +15,19 @@ package co.base.repos
 
 import co.app.domain.message.ChatMessage
 import co.app.domain.message.MessageRepository
-import co.app.domain.search.Search
-import co.app.domain.search.SearchRepository
-import co.base.message.*
-import co.base.search.*
+import co.app.common.search.Search
+import co.app.common.search.SearchRepository
+import co.base.message.AsyncMessageRepo
+import co.base.message.ChatMessageRecordDao
+import co.base.message.ChatUserDao
+import co.base.message.MessageRepositoryImpl
+import co.base.search.SearchRecordTable
+import co.base.search.SearchRepositoryImpl
+import co.base.search.SyncSearchRepo
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import promise.model.Repository
 import promise.model.StoreRepository
 
 @Module
@@ -38,21 +44,20 @@ object ReposModule {
 
     @Provides
     @JvmStatic
-    fun provideMessageRepo(chatMessageRecordDao: ChatMessageRecordDao,
-                           chatUserDao: ChatUserDao): StoreRepository<ChatMessage> =
-        StoreRepository.of(
-            SyncMessageRepo::class,
+    fun provideMessageRepo(
+        chatMessageRecordDao: ChatMessageRecordDao,
+        chatUserDao: ChatUserDao
+    ): Repository<ChatMessage> =
+        StoreRepository.async(
             AsyncMessageRepo::class,
-            arrayOf(chatMessageRecordDao),
             arrayOf(chatMessageRecordDao, chatUserDao)
         )
 
     @Provides
     @JvmStatic
-    fun provideSearchRepo(searchRecordTable: SearchRecordTable): StoreRepository<Search> =
-        StoreRepository.of(
+    fun provideSearchRepo(searchRecordTable: SearchRecordTable): Repository<Search> =
+        StoreRepository.sync(
             SyncSearchRepo::class,
-            AsyncSearchRepo::class,
             arrayOf(searchRecordTable)
         )
 }

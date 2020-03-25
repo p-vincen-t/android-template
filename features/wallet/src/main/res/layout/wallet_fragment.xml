@@ -37,7 +37,7 @@
                 app:cardBackgroundColor="@color/color_surface"
                 app:cardCornerRadius="0dp">
 
-            <co.app.common.report.ReportView
+            <co.app.report.ReportView
                     android:id="@+id/accountsReportView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

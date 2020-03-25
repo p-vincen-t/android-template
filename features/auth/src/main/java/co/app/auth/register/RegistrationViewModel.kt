@@ -14,8 +14,8 @@
 package co.app.auth.register
 
 import androidx.lifecycle.MutableLiveData
-import co.app.common.BaseViewModel
-import co.app.common.UIResult
+import co.app.BaseViewModel
+import co.app.UIResult
 import co.app.auth.domain.Session
 import promise.commons.AndroidPromise
 import promise.commons.data.log.LogUtil

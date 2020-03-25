@@ -15,14 +15,15 @@ package co.base.search
 
 import android.os.Parcel
 import android.os.Parcelable
-import co.app.domain.search.Search
+import co.app.common.search.Search
 import promise.commons.model.Identifiable
 
 class SearchRecord() : Parcelable, Identifiable<Int> {
 
     var query: String = ""
 
-    fun toSearch(): Search = Search()
+    fun toSearch(): Search =
+        Search()
 
     constructor(parcel: Parcel) : this() {
     }

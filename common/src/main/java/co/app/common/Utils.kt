@@ -13,8 +13,11 @@
 
 package co.app.common
 
+import android.os.Looper
+import androidx.collection.ArrayMap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 
 fun <T> LiveData<T>.toDistinct(): LiveData<T> {
@@ -36,3 +39,24 @@ fun <T> LiveData<T>.toDistinct(): LiveData<T> {
     })
     return distinctLiveData
 }
+
+fun <T> MutableLiveData<List<T>>.addValue(t: T) {
+    val values = if (value != null) value.toMutableList() else mutableListOf<T>()
+    values.add(t)
+    if (Thread.currentThread() == Looper.getMainLooper().thread) value = values
+    else postValue(values)
+}
+
+fun <T> MutableLiveData<List<T>>.addValue(t: List<T>) {
+    val values = if (value != null) value.toMutableList() else mutableListOf<T>()
+    values.addAll(t)
+    if (Thread.currentThread() == Looper.getMainLooper().thread) value = values
+    else postValue(values)
+}
+
+fun <K, V> Map<K, V>.toArrayMay(): ArrayMap<K, V> {
+    val array = ArrayMap<K, V>()
+    for((t, u) in this) array[t] = u
+    return array
+}
+

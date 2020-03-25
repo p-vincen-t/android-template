@@ -19,10 +19,10 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import co.app.common.account.UserAccount
-import co.app.common.report.Report
-import co.app.common.report.ReportMeta
-import co.app.common.report.ReportView
+import co.app.common.UserAccount
+import co.app.report.Report
+import co.app.report.ReportMeta
+import co.app.report.ReportView
 import co.app.wallet.domain.accounts.AccountsRepository
 import com.app.wallet.R
 import promise.commons.AndroidPromise

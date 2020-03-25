@@ -14,7 +14,6 @@
 package co.app.legal
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import co.app.BaseActivity
 import co.app.R
 import kotlinx.android.synthetic.main.activity_legal.*

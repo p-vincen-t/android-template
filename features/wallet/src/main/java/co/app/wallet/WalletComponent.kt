@@ -13,9 +13,8 @@
 
 package co.app.wallet
 
-import co.app.common.account.AccountComponent
+import co.base.account.AccountComponent
 import co.app.dashboard.DashboardScope
-import co.app.wallet.WalletFragment
 import co.app.wallet.domain.accounts.AccountsRepository
 import dagger.BindsInstance
 import dagger.Component

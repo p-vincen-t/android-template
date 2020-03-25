@@ -17,10 +17,10 @@ import android.view.View
 import androidx.databinding.Bindable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import co.app.*
 import co.app.common.errors.AuthError
 import co.app.auth.domain.LoginRequest
 import co.app.auth.domain.Session
-import co.app.common.*
 import promise.commons.AndroidPromise
 import promise.commons.tx.PromiseResult
 

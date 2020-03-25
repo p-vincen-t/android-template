@@ -16,16 +16,15 @@ package co.base
 import androidx.multidex.MultiDexApplication
 import co.app.common.ID
 import co.app.common.NetworkUtils
-import co.app.common.account.AccountComponent
-import co.app.common.account.DaggerAccountComponent
-import co.app.common.account.UserAccount
+import co.base.account.AccountComponent
+import co.base.account.DaggerAccountComponent
+import co.app.common.UserAccount
 import co.app.common.errors.NetworkError
 import co.base.data.DaggerDataComponent
 import co.base.data.DataComponent
 import co.base.repos.DaggerReposComponent
 import co.base.repos.ReposComponent
 import com.facebook.stetho.Stetho
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.instacart.library.truetime.TrueTimeRx
 import io.reactivex.disposables.CompositeDisposable
@@ -40,6 +39,8 @@ import javax.inject.Inject
 const val NETWORK_ERROR_MESSAGE = "network_error_message"
 
 open class AppBase : MultiDexApplication() {
+
+    lateinit var TAG: String
 
     lateinit var userAccount: UserAccount
 
@@ -62,9 +63,14 @@ open class AppBase : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
         AndroidPromise.init(this, 100, BuildConfig.DEBUG)
+        TAG = LogUtil.makeTag(AppBase::class.java)
+        // TrueTimeRx.build().initialize()
+        AndroidPromise.instance().execute {
+
+        }
         appComponent = DaggerAppComponent.factory().create(
             GsonBuilder()
-                .registerTypeAdapter(ID::class.java, ID.IDTypeAdapter::class.java)
+                .registerTypeAdapter(ID::class.java, ID.IDTypeAdapter())
                 .setPrettyPrinting()
                 .create()
         )
@@ -119,7 +125,6 @@ open class AppBase : MultiDexApplication() {
     }
 
     companion object {
-        val TAG: String = LogUtil.makeTag(AppBase::class.java)
         const val TEMP_PREFERENCE_NAME = "prefs_temp"
     }
 }

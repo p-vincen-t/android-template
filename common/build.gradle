@@ -13,15 +13,9 @@
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
 apply from: '../deps.gradle'
-apply plugin: 'kotlin-android-extensions'
 
 android {
-
-    dataBinding {
-        enabled = true
-    }
 
     compileSdkVersion versions.compileSdk
     buildToolsVersion versions.buildTools
@@ -54,21 +48,14 @@ android {
 }
 
 dependencies {
-    implementation deps.androidxCore
     androidTestImplementation deps.androidxJunit
     implementation deps.appcompat
-    implementation deps.dagger
-    kapt deps.daggerCompiler
-    androidTestImplementation deps.expresso
+    implementation deps.constraintLayout
     implementation deps.gson
+    implementation deps.jodaTime
     testImplementation deps.junit
     implementation deps.kotlin
-    implementation deps.legacySupport
-    implementation deps.material
     implementation deps.promiseCommons
     implementation deps.promiseModel
-    implementation deps.promiseUi
-    implementation deps.trueTime
     implementation deps.rxJava
-    implementation deps.rxPermissions
 }

@@ -13,14 +13,18 @@
 
 package co.base.message
 
+import co.app.common.AppUser
+import co.app.common.ID
+import co.app.common.Photo
 import co.app.domain.message.ChatMessage
 import org.apache.commons.cli.MissingArgumentException
 import promise.commons.model.List
 import promise.model.AbstractAsyncIDataStore
-import promise.model.AbstractSyncIDataStore
+import java.util.*
 
 const val SKIP_ARG = "skip_arg"
 const val TAKE_ARG = "take_arg"
+const val CHAT_THREAD = "chat_thread"
 const val SEARCH_ARG = "search_arg"
 
 class AsyncMessageRepo constructor(
@@ -28,21 +32,21 @@ class AsyncMessageRepo constructor(
     private val chatUserDao: ChatUserDao
 ) : AbstractAsyncIDataStore<ChatMessage>() {
     @Throws(MissingArgumentException::class)
-    override fun all(
-        res: (List<out ChatMessage>, Any?) -> Unit,
+    override fun findAll(
+        res: (List<out ChatMessage>?) -> Unit,
         err: ((Exception) -> Unit)?,
         args: Map<String, Any?>?
     ) {
         when {
             args == null -> {
-                res(List<ChatMessage>(chatMessageRecordDao.getDistinctMessages().value!!.map {
+                res(List(chatMessageRecordDao.getDistinctMessages().value!!.map {
                     it.toChatMessage(chatUserDao)
-                }), null)
+                }))
             }
             args.containsKey(SEARCH_ARG) -> {
-                res(List<ChatMessage>(chatMessageRecordDao.getDistinctMessages().value!!.map {
+                res(List(chatMessageRecordDao.getDistinctMessages().value!!.map {
                     it.toChatMessage(chatUserDao)
-                }), null)
+                }))
                 /*res(List<ChatMessage>(chatMessageRecordDao.searchMessages(args[SEARCH_ARG].toString())
                     .map {
                         it.toChatMessage(chatUserDao)
@@ -50,11 +54,46 @@ class AsyncMessageRepo constructor(
                 )*/
             }
             args.containsKey(SKIP_ARG) && args.containsKey(TAKE_ARG) -> {
+               /* val messages = chatMessageRecordDao.getDistinctMessages().value!!.map {
+                    it.toChatMessage(chatUserDao)
+                }*/
+                val appUser = AppUser(
+                    ID.from(UUID.randomUUID().toString()), "username",
+                    Photo()
+                )
+                val appUser2 = AppUser(
+                    ID.from(UUID.randomUUID().toString()), "username2",
+                    Photo()
+                )
+
+                //res(List(messages), null)
+               res(List.generate(args[TAKE_ARG] as Int) {
+                   ChatMessage(if (it % 2 == 0) appUser else appUser2, "message", Date().time)
+               })
+
+            }
+
+            args.containsKey(SKIP_ARG) && args.containsKey(TAKE_ARG)  && args.containsKey(
+                CHAT_THREAD)-> {
+                /* val messages = chatMessageRecordDao.getDistinctMessages().value!!.map {
+                     it.toChatMessage(chatUserDao)
+                 }*/
+                val appUser = AppUser(
+                    ID.from(UUID.randomUUID().toString()), "username",
+                    Photo()
+                )
+                val appUser2 = AppUser(
+                    ID.from(UUID.randomUUID().toString()), "username2",
+                    Photo()
+                )
+
+                //res(List(messages), null)
+                res(List.generate(args[TAKE_ARG] as Int) {
+                    ChatMessage(if (it % 2 == 0) appUser else appUser2, "message", Date().time)
+                })
 
             }
         }
     }
-}
 
-class SyncMessageRepo constructor(private val chatMessageRecordDao: ChatMessageRecordDao) :
-    AbstractSyncIDataStore<ChatMessage>()
+}

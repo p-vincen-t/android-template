@@ -25,7 +25,7 @@ class ThemePreference {
     private val sharedPreferences: Preferences by lazy {
         Preferences.Builder().EMPTY_STRING(PREFERENCE_THEME_DEF_VAL)
             .build()
-            .preferenceChange(object: Preferences.PreferenceChange {
+            .preferenceChange(object : Preferences.PreferenceChange {
                 override fun onChange(preferences: SharedPreferences?, key: String?) {
                     when (key) {
                         PREFERENCE_THEME_KEY -> {

@@ -13,4 +13,4 @@
 
 package co.app.domain.message
 
-class MessagesError : Exception()
+class MessagesError(val t: Throwable) : Exception(t)

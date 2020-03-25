@@ -13,10 +13,9 @@
 
 package co.app.wallet
 
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import co.app.common.account.UserAccount
+import co.app.common.UserAccount
 import co.app.dashboard.DashboardScope
 import co.app.wallet.domain.accounts.AccountsRepository
 import promise.commons.AndroidPromise

@@ -18,7 +18,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import co.app.R
 import kotlinx.android.synthetic.main.recent_activities_fragment.*
@@ -42,7 +41,7 @@ class RecentActivitiesFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(RecentsViewModel::class.java)
 
-        recents_report.report =  RecentReport(viewLifecycleOwner)
+        recents_report.report = RecentReport(viewLifecycleOwner)
     }
 
 }

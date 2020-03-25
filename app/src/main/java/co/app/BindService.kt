@@ -20,7 +20,7 @@ import android.os.Binder
 import android.os.IBinder
 
 @SuppressLint("Registered")
-abstract class BindService<T: Service> : Service() {
+abstract class BindService<T : Service> : Service() {
 
     inner class LocalBinder : Binder() {
         val service: T

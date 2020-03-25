@@ -15,7 +15,7 @@ package co.app.dashboard
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import co.app.common.account.UserAccount
+import co.app.common.UserAccount
 import promise.commons.AndroidPromise
 import javax.inject.Inject
 
@@ -28,6 +28,7 @@ class DashboardViewModelFactory @Inject constructor() : ViewModelProvider.Factor
 
     @Inject
     lateinit var userAccount: UserAccount
+
     @Inject
     lateinit var promise: AndroidPromise
 

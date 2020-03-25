@@ -61,6 +61,7 @@ dependencies {
     debugImplementation deps.facebookStetho
     debugImplementation deps.facebookStethoOkHttp
     implementation deps.kotlin
+    implementation deps.jodaTime
     testImplementation deps.junit
     implementation deps.okHttpInterceptor
     debugImplementation deps.okHttpMockWebServer

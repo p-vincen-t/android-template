@@ -17,7 +17,6 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.collection.ArrayMap
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -25,21 +24,20 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import co.app.App.Companion.WALLET_FEATURE_NAME
 import co.app.App.Companion.WALLET_FRAGMENT
 import co.app.BaseSplitActivity
 import co.app.PlaceHolderModuleFragment
 import co.app.R
-import co.app.common.account.UserAccount
-import co.app.common.dsl.adapter
-import co.app.common.dsl.prepareAdapter
-import co.app.common.dsl.startActivity
+import co.app.common.UserAccount
 import co.app.dashboard.main.MainFragment
 import co.app.dashboard.recents.RecentActivitiesFragment
 import co.app.databinding.ActivityDashboardBinding
+import co.app.dsl.listItems
+import co.app.dsl.startActivity
 import co.app.legal.LegalActivity
-import co.app.messaging.MessagingActivity
+import co.app.messaging.MessagingAndNotificationsActivity
+import co.app.photo.PhotoView
 import co.app.search.SearchActivity
 import co.app.settings.SettingsActivity
 import com.allenliu.badgeview.BadgeFactory
@@ -50,12 +48,9 @@ import kotlinx.android.synthetic.main.app_bar_dashboard.*
 import kotlinx.android.synthetic.main.content_dashboard.*
 import promise.commons.AndroidPromise
 import promise.commons.createInstance
-import promise.ui.Viewable
-import promise.ui.adapter.PromiseAdapter
 import javax.inject.Inject
-import kotlin.reflect.KClass
 
-class DashboardActivity : BaseSplitActivity(), PromiseAdapter.Listener<UserAccount.UserChildAccount>,
+class DashboardActivity : BaseSplitActivity(),
 
     PlaceHolderModuleFragment.OnFragmentInteractionListener {
 
@@ -64,8 +59,6 @@ class DashboardActivity : BaseSplitActivity(), PromiseAdapter.Listener<UserAccou
 
     @Inject
     lateinit var promise: AndroidPromise
-
-    private lateinit var accountsAdapter: PromiseAdapter<UserAccount.UserChildAccount>
 
     private lateinit var dashboardViewModel: DashboardViewModel
 
@@ -147,25 +140,22 @@ class DashboardActivity : BaseSplitActivity(), PromiseAdapter.Listener<UserAccou
             .bind(messages_imageView)
 
         messages_imageView.setOnClickListener {
-            startActivity<MessagingActivity>()
+            startActivity<MessagingAndNotificationsActivity>()
         }
 
         bottom_nav_view.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
         viewpager.adapter = SectionsPagerAdapter(supportFragmentManager)
 
-        accountsAdapter = accounts_list.prepareAdapter(
-            viewableClasses = ArrayMap<Class<*>, KClass<out Viewable>>()
-                .apply {
-                    put(
-                        UserAccount.UserChildAccount::class.java,
-                        NavigationAccountViewHolder::class
-                    )
-                }
-        ) {
-            args = null
-        }
-        dashboardViewModel.accountsResult.observe(this, Observer {
-            accountsAdapter.add(it)
+        dashboardViewModel.accountsResult.observe(this, Observer { accounts ->
+            accounts_list.listItems(accounts, R.layout.account_nav_layout,
+                bind = { v: View, account: UserAccount.UserChildAccount, _: Int ->
+                    val accountImageView: PhotoView =
+                        v.findViewById(R.id.account_imageView)
+                    accountImageView.setPhoto(account.photo)
+                },
+                itemClick = { _: UserAccount.UserChildAccount, _: Int ->
+                    startAuthActivity()
+                })
         })
         dashboardViewModel.fetchAccounts()
 
@@ -233,8 +223,5 @@ class DashboardActivity : BaseSplitActivity(), PromiseAdapter.Listener<UserAccou
         loadAndLaunchModule(module)
     }
 
-    override fun onClick(t: UserAccount.UserChildAccount, id: Int) {
-        startAuthActivity()
-    }
 
 }

@@ -16,14 +16,15 @@ package co.app.dashboard.recents
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import co.app.R
-import co.app.common.report.Report
-import co.app.common.report.ReportMeta
-import co.app.common.report.ReportView
+import co.app.report.Report
+import co.app.report.ReportMeta
+import co.app.report.ReportView
 
 @ReportMeta(
     header = "Recent"
 )
-class RecentReport(private val lifecycleOwner: LifecycleOwner) : Report {
+class RecentReport(private val lifecycleOwner: LifecycleOwner) :
+    Report {
 
     override fun bind(reportView: ReportView, view: View) {
     }

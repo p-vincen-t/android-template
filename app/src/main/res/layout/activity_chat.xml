@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2020, {{App}}
   ~ Licensed under the Apache License, Version 2.0, "{{App}} Inc".
   ~ you may not use this file except in compliance with the License.
@@ -11,49 +10,157 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
+<layout>
 
-<com.google.android.flexbox.FlexboxLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".messaging.ChatActivity"
-        app:flexDirection="column">
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/chats_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_flexGrow="1"/>
+    <data>
 
-    <androidx.cardview.widget.CardView
+        <import type="co.app.messaging.chat.ChatViewModel" />
+
+        <variable
+                name="viewModel"
+                type="ChatViewModel" />
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardElevation="@dimen/big"
-            app:cardBackgroundColor="@color/color_surface"
-            app:cardCornerRadius="0dp">
-        <com.google.android.flexbox.FlexboxLayout
+            android:layout_height="match_parent"
+            app:flexDirection="column"
+            tools:context=".messaging.chat.ChatActivity">
+
+        <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/color_surface">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                <com.github.florent37.shapeofview.shapes.CircleView
+                        android:id="@+id/circle_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical">
+
+                    <co.app.photo.PhotoView
+                            android:id="@+id/account_photo"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_margin="@dimen/medium"
+                            android:background="@color/color_primary"
+                            app:placeHolderImageSrc="@drawable/user_default_photo_image" />
+
+                </com.github.florent37.shapeofview.shapes.CircleView>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/username_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/circle_view"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                            tools:text="Username" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/description_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/username_text_view"
+                            android:layout_toEndOf="@+id/circle_view"
+                            android:gravity="center"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
+                            tools:text="descrition" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <promise.ui.loading.LoadingLayout
+                android:id="@+id/loading_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:orientation="horizontal">
-            <androidx.appcompat.widget.AppCompatEditText
-                    android:layout_width="wrap_content"
-                    app:layout_flexGrow="1"
-                    android:hint="@string/write_a_message"
-                    android:background="@null"
-                    android:layout_height="wrap_content"/>
-            <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    app:srcCompat="@drawable/ic_attach_file_secondary_24dp"
-                    android:layout_height="wrap_content"/>
-            <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    app:srcCompat="@drawable/ic_send_secondary_24dp"
-                    android:layout_height="wrap_content"/>
-        </com.google.android.flexbox.FlexboxLayout>
-    </androidx.cardview.widget.CardView>
+                android:layout_above="@id/send_card_view"
+                android:layout_below="@id/toolbar"
+                android:paddingBottom="@dimen/medium">
 
-</com.google.android.flexbox.FlexboxLayout>
+            <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/chats_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+            </ScrollView>
+
+        </promise.ui.loading.LoadingLayout>
+
+        <androidx.cardview.widget.CardView
+                android:id="@+id/send_card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                app:cardBackgroundColor="@color/color_surface"
+                app:cardCornerRadius="0dp"
+                app:cardElevation="@dimen/big">
+
+            <com.google.android.flexbox.FlexboxLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    app:alignItems="baseline">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_flexGrow="1">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/attached_files_recycler_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            tools:itemCount="3"
+                            tools:listitem="@layout/chat_attached_file_item" />
+
+                    <androidx.emoji.widget.EmojiAppCompatEditText
+                            android:id="@+id/message_edit_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:hint="@string/write_a_message"
+                            android:padding="@dimen/medium"
+                            android:text="@={viewModel.message}" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatImageView
+
+                        android:id="@+id/attach_file_image_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:padding="@dimen/medium"
+                        app:srcCompat="@drawable/ic_attach_file_secondary_24dp" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/send_image_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:padding="@dimen/medium"
+                        app:srcCompat="@drawable/ic_send_secondary_24dp" />
+            </com.google.android.flexbox.FlexboxLayout>
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+</layout>

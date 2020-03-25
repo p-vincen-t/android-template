@@ -13,7 +13,9 @@
 
 package co.app.domain.message
 
+import androidx.lifecycle.LiveData
 import co.app.common.ID
+import promise.commons.tx.Either
 import promise.commons.tx.PromiseResult
 
 const val DELIVERED = 0
@@ -21,19 +23,44 @@ const val SENT = 1
 const val NOT_SENT = 2
 
 interface MessageRepository {
+    /**
+     *  listen on ui
+     */
+    val messages: LiveData<List<ChatMessage>>
 
-    fun getMessageThreads(skip: Int,
-                          take: Int,
-                          response: PromiseResult<List<ChatThread>, MessagesError>
-    )
+    /**
+     * listen on ui
+     */
+    val chatThreads: LiveData<List<ChatThread>>
 
-    fun getThread(id: ID, response: PromiseResult<ChatThread, MessagesError>)
+    /**
+     * call on ui
+     */
+    fun getChatThreads(skip: Int, take: Int): Either<Any, MessagesError>
 
-    fun getMessages(chatThread: ChatThread,
-                    skip: Int,
-                    take: Int,
-                    response: PromiseResult<List<ChatMessage>, MessagesError>)
+    /**
+     * call on ui
+     */
+    fun getChatMessages(chatThread: ChatThread, skip: Int, take: Int): Either<Any, MessagesError>
 
-    fun sendMessage(chatMessage: ChatMessage,
-                    result: PromiseResult<Int, MessagesError>)
+    /**
+     * call on service
+     */
+    fun getMessageChatThreads(skip: Int, take: Int): Either<List<ChatThread>, MessagesError>
+
+    /**
+     * call on both ui and service
+     */
+    fun getChatThread(id: ID) : Either<ChatThread, MessagesError>
+
+    /**
+     * call on service
+     */
+    fun getMessages(chatThread: ChatThread, skip: Int, take: Int): Either<List<ChatMessage>, MessagesError>
+
+    /**
+     * call on both ui and service
+     */
+    fun sendMessage(chatMessage: ChatMessage): Either<Int, MessagesError>
+
 }

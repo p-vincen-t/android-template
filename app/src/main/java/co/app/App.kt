@@ -18,6 +18,9 @@ import android.content.*
 import android.content.res.Configuration
 import android.os.IBinder
 import androidx.collection.ArrayMap
+import androidx.core.provider.FontRequest
+import androidx.emoji.text.EmojiCompat
+import androidx.emoji.text.FontRequestEmojiCompatConfig
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
@@ -32,29 +35,31 @@ import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import promise.commons.createInstance
 import promise.commons.data.log.LogUtil
-import promise.commons.tx.PromiseCallback
 import java.util.*
-import kotlin.collections.forEach
 import kotlin.collections.set
 
 class App : AppBase(), LifecycleObserver {
 
-    inline fun <reified T: Service> connectChatService(): PromiseCallback<Service> =
-        PromiseCallback { resolve, reject ->
-            val intent = Intent(this, T::class.java)
-            bindService(intent,
-                object : ServiceConnection {
-                    override fun onServiceDisconnected(name: ComponentName?) {
-                        reject(Exception("service disconnected"))
-                    }
+    inline fun <reified T : Service> connectChatService(
+        noinline result: (T) -> Unit,
+        noinline error: ((Throwable) -> Unit)? = null
+    ) {
+        val intent = Intent(this, T::class.java)
+        bindService(
+            intent,
+            object : ServiceConnection {
+                override fun onServiceDisconnected(name: ComponentName?) {
+                    error?.invoke(Exception("service disconnected"))
+                }
 
-                    override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-                        val serviceBinder = service as BindService<Service>.LocalBinder
-                       resolve(serviceBinder.service)
-                    }
-                },
-                Context.BIND_AUTO_CREATE)
-        }
+                override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+                    val serviceBinder = service as BindService<Service>.LocalBinder
+                    result(serviceBinder.service as T)
+                }
+            },
+            Context.BIND_AUTO_CREATE
+        )
+    }
 
     val themePreferenceRepo: ThemePreference by lazy {
         ThemePreference()
@@ -79,10 +84,22 @@ class App : AppBase(), LifecycleObserver {
         super.onCreate()
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
         themePreferenceRepo.setTheme()
+        registerModule("")
         promise.execute {
             manager.installedModules.forEach {
                 registerModule(it)
             }
+            EmojiCompat.init(
+                FontRequestEmojiCompatConfig(
+                    this,
+                    FontRequest(
+                        "com.google.android.gms.fonts",
+                        "com.google.android.gms",
+                        "Noto Color Emoji Compat",
+                        R.array.com_google_android_gms_fonts_certs
+                    )
+                ).setReplaceAll(true)
+            )
         }
     }
 
@@ -116,8 +133,6 @@ class App : AppBase(), LifecycleObserver {
     fun apiUrl(): String = apiUrl
 
     companion object {
-
-        val TAG: String = LogUtil.makeTag(App::class.java)
 
         private const val PACKAGE_NAME = BuildConfig.PACKAGE_NAME
         const val MESSAGING_FEATURE_NAME = "messaging"

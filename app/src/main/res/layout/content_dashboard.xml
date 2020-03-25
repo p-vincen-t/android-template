@@ -33,8 +33,9 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/big">
 
-            <co.app.common.photo.PhotoView
+            <co.app.photo.PhotoView
                     android:id="@+id/account_photo"
+                    app:placeHolderImageSrc="@drawable/user_default_photo_image"
                     android:layout_width="36dp"
                     android:layout_height="36dp" />
 
@@ -42,14 +43,14 @@
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/title_text_view"
-                android:layout_toEndOf="@+id/circle_view"
-                android:layout_toStartOf="@id/messages_imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:layout_toStartOf="@id/messages_imageView"
+                android:layout_toEndOf="@+id/circle_view"
                 android:gravity="center"
                 android:text="Today"
-                android:layout_width="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:layout_height="wrap_content"/>
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
         <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/messages_imageView"
@@ -61,10 +62,10 @@
                 app:srcCompat="@drawable/ic_message_grey_24dp" />
     </RelativeLayout>
 
-    <co.app.common.NonSwipableViewPager
+    <co.app.NonSwipableViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="0dp" />
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2020, {{App}}
   ~ Licensed under the Apache License, Version 2.0, "{{App}} Inc".
   ~ you may not use this file except in compliance with the License.
@@ -12,23 +11,24 @@
   ~ limitations under the License.
   -->
 
-<androidx.core.widget.NestedScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context=".search.SearchActivity"
-        android:orientation="vertical"
         tools:showIn="@layout/activity_search">
 
-    <promise.ui.loading.ProgressLayout
+    <promise.ui.loading.LoadingLayout
+            android:id="@+id/loading_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/search_results_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-    </promise.ui.loading.ProgressLayout>
+                android:layout_height="wrap_content" />
+    </promise.ui.loading.LoadingLayout>
 </androidx.core.widget.NestedScrollView>

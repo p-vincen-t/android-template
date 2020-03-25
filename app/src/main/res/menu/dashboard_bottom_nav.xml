@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2020, {{App}}
   ~ Licensed under the Apache License, Version 2.0, "{{App}} Inc".
   ~ you may not use this file except in compliance with the License.
@@ -26,22 +25,22 @@
          android:icon="@drawable/ic_dashboard_black_24dp"
          android:title="@string/di" />
  -->
-       <item
+    <item
             android:id="@+id/navigation_main"
+            android:checked="true"
             android:icon="@drawable/ic_home_grey_24dp"
             android:title="@string/home"
-            android:checked="true"
-            app:showAsAction="withText"/>
+            app:showAsAction="withText" />
 
     <item
             android:id="@+id/navigation_recent_activities"
             android:icon="@drawable/ic_history_grey_24dp"
             android:title="@string/recent"
-            app:showAsAction="withText"/>
+            app:showAsAction="withText" />
 
     <item
             android:id="@+id/navigation_wallet"
             android:icon="@drawable/ic_account_wallet_grey_24dp"
             android:title="@string/wallet"
-            app:showAsAction="withText"/>
+            app:showAsAction="withText" />
 </menu>

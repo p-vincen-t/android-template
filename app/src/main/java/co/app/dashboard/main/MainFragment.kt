@@ -20,8 +20,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import co.app.BaseFragment
 import co.app.R
-import co.app.common.dsl.prepareAdapter
-import co.app.common.report.ReportHolder
+import co.app.dsl.prepareAdapter
+import co.app.report.ReportHolder
 import co.app.dashboard.recents.RecentReport
 import kotlinx.android.synthetic.main.main_fragment.*
 import promise.ui.adapter.PromiseAdapter
@@ -51,7 +51,13 @@ class MainFragment : BaseFragment() {
         //reports_loader.showLoading(AppLoaderProgress("Loading, please wait...") , null)
 
         reports_loader.showContent()
-        dataAdapter.add(ReportHolder(RecentReport(viewLifecycleOwner)))
+        dataAdapter.add(
+            ReportHolder(
+                RecentReport(
+                    viewLifecycleOwner
+                )
+            )
+        )
 
     }
 

@@ -14,9 +14,8 @@
 package co.app.auth.base
 
 import co.app.auth.domain.Session
-import co.app.common.account.AccountModule
+import co.base.account.AccountModule
 import co.base.AppComponent
-import com.google.gson.Gson
 import dagger.BindsInstance
 import dagger.Component
 import okhttp3.OkHttpClient

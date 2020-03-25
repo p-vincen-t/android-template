@@ -3,15 +3,15 @@
         xmlns:tools="http://schemas.android.com/tools"
         package="co.app">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-feature
             android:name="android.hardware.camera"
@@ -41,37 +41,38 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="false"
             android:theme="@style/AppTheme"
-            tools:replace="android:supportsRtl"
-            tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+            tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute"
+            android:requestLegacyExternalStorage="true"
+            tools:replace="android:supportsRtl">
+        <activity
+                android:name=".messaging.MessagingAndNotificationsActivity"
+                android:label="@string/title_activity_messaging_and_notifications"
+                android:theme="@style/AppTheme.NoActionBar"/>
         <activity
                 android:name=".search.SearchActivity"
                 android:label="@string/title_activity_search"
-                android:theme="@style/AppTheme.NoActionBar"/>
+                android:theme="@style/AppTheme.NoActionBar" />
 
         <service
-                android:name=".messaging.ChatMessageService"
+                android:name=".messaging.chat.ChatService"
                 android:enabled="true"
                 android:exported="false" />
 
         <activity
                 android:name=".SplashActivity"
                 android:configChanges="orientation|keyboardHidden|screenSize"
-                android:label="@string/title_activity_splash"
+                android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-                android:name=".messaging.MessagingActivity"
-                android:label="@string/title_activity_main">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".messaging.ContactsActivity" />
-        <activity android:name=".messaging.ChatActivity" />
+
+        <activity android:name=".messaging.chat.ChatActivity"
+                android:label=""
+                android:theme="@style/AppTheme.NoActionBar"/>
 
         <meta-data
                 android:name="com.google.firebase.messaging.default_notification_color"
@@ -89,6 +90,7 @@
         <uses-library
                 android:name="org.apache.http.legacy"
                 android:required="false" />
+
         <activity
                 android:name=".legal.LegalActivity"
                 android:label="@string/title_activity_legal"
@@ -99,13 +101,8 @@
         <activity
                 android:name=".dashboard.DashboardActivity"
                 android:label="@string/app_name"
-                android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+                android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".photo.CameraXActivity" />
     </application>
 
 </manifest>

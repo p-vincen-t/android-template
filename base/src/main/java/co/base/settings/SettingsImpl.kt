@@ -1,0 +1,26 @@
+/*
+ * Copyright 2020, {{App}}
+ * Licensed under the Apache License, Version 2.0, "{{App}} Inc".
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package co.base.settings
+
+import co.app.domain.Settings
+import co.base.AppScope
+import promise.commons.pref.Preferences
+import javax.inject.Inject
+
+@AppScope
+class SettingsImpl @Inject constructor(private val preferences: Preferences): Settings {
+    override val useAppCamera: Boolean
+        get() = preferences.getBoolean("useAppCamera")
+
+}

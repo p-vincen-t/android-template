@@ -13,11 +13,30 @@
 
 package co.app.common
 
-import co.app.common.ID
-import co.app.common.photo.Photo
+import co.app.common.search.Search
+import co.app.common.search.SearchResult
 
-class AppUser(var userId: ID, var userName: String, var photo: Photo) {
-    override fun toString(): String {
-        return userName
+class AppUser(var userId: ID, var userName: String, var photo: Photo):
+    SearchResult {
+    override fun toString(): String = userName
+
+    override fun onSearch(search: Search): Boolean {
+        TODO("Not yet implemented")
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        other as AppUser
+        if (userId != other.userId) return false
+        if (userName != other.userName) return false
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = userId.hashCode()
+        result = 31 * result + userName.hashCode()
+        return result
+    }
+
 }

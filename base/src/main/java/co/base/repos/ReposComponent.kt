@@ -13,7 +13,7 @@
 
 package co.base.repos
 
-import co.app.common.account.UserAccount
+import co.app.common.UserAccount
 import co.app.domain.message.MessageRepository
 import co.base.data.DataComponent
 import dagger.BindsInstance

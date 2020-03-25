@@ -13,6 +13,7 @@
 
 package co.app
 
+import co.app.attachment.AttachmentPicker
 import co.base.AppComponent
 import dagger.Component
 import promise.commons.AndroidPromise
@@ -24,4 +25,5 @@ interface UiComponent {
     fun promise(): AndroidPromise
 
     fun inject(splashActivity: SplashActivity)
+
 }

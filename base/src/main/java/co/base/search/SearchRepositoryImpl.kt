@@ -13,48 +13,62 @@
 
 package co.base.search
 
-import androidx.collection.ArrayMap
+import android.util.ArrayMap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import co.app.domain.message.ChatMessage
-import co.app.domain.search.Search
-import co.app.domain.search.SearchRepository
-import co.app.domain.search.SearchResult
-import co.base.message.SEARCH_ARG
+import co.app.common.addValue
+import co.app.common.search.Search
+import co.app.common.search.SearchRepository
+import co.app.common.search.SearchResult
 import co.base.repos.RepoScope
-import promise.commons.tx.PromiseCallback
-import promise.model.StoreRepository
+import promise.commons.tx.AsyncEither
+import promise.commons.tx.Either
+import promise.model.Repository
 import javax.inject.Inject
 
 @RepoScope
 class SearchRepositoryImpl
-@Inject constructor(private val searchRepo: StoreRepository<Search>,
-                    private val messageRepo: StoreRepository<ChatMessage>) : SearchRepository {
+@Inject constructor(
+    private val searchRepo: Repository<Search>
+) : SearchRepository() {
 
-    private val recentSearches: MutableLiveData<List<SearchResult>> by lazy { MutableLiveData<List<SearchResult>>() }
 
-    override fun search(search: Search): PromiseCallback<LiveData<List<SearchResult>>> =
-        PromiseCallback {resolve, _ ->
-            recentSearches.postValue(promise.commons.model.List())
-            resolve(recentSearches)
-            messageRepo.all(ArrayMap<String, Any>().apply {
-                put(SEARCH_ARG, search.query)
-            }, { messages, _ ->
-                val list: promise.commons.model.List<SearchResult> = promise.commons.model.List(recentSearches.value ?: promise.commons.model.List())
-                list.addAll(messages)
-                recentSearches.postValue(list)
-                searchRepo.save(search, null)
+    private val recentSearchResultsMutable: MutableLiveData<Map<String, List<SearchResult>>> =
+        MutableLiveData()
+
+    private val recentSearchMutable: MutableLiveData<List<Search>> = MutableLiveData()
+
+    override val searchResults: LiveData<Map<String, List<SearchResult>>>
+        get() = recentSearchResultsMutable
+
+    override fun recentSearchQueries(): LiveData<List<Search>> = recentSearchMutable
+
+    override fun search(search: Search): Either<Any, Throwable> = AsyncEither { resolve, reject ->
+        resolve("searching ${searchRepositories.size} repositories")
+        val lock = Any()
+        val results: promise.commons.model.List<Map<String, List<SearchResult>>> =
+            promise.commons.model.List()
+        searchRepositories.forEach { repository ->
+            repository.onSearch(search).fold({
+                synchronized(lock) {
+                    results.add(it)
+                    val mapResults = ArrayMap<String, List<SearchResult>>()
+                    results.forEach {
+                        mapResults.putAll(it)
+                    }
+                    recentSearchResultsMutable.postValue(mapResults)
+                }
+            }, {
+                reject(it)
             })
         }
+        recentSearchMutable.addValue(search)
+        searchRepo.save(search, null)
+    }
 
-    override fun getRecentSearches(): PromiseCallback<LiveData<List<SearchResult>>> =
-        PromiseCallback { resolve, reject ->
-            resolve(recentSearches)
-
-        }
-
-    override fun clearHistory(): PromiseCallback<Boolean> = PromiseCallback { resolve, reject ->
+    override fun clearHistory(): Either<Boolean, Throwable> = AsyncEither { resolve, reject ->
         searchRepo.clear(null, {
+            recentSearchMutable.postValue(listOf())
             resolve(true)
         }, {
             reject(it)

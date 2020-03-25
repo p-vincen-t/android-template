@@ -74,7 +74,7 @@ class ID() : Parcelable {
         override fun newArray(size: Int): Array<ID?> = arrayOfNulls(size)
     }
 
-    inner class IDTypeAdapter : TypeAdapter<ID>() {
+    class IDTypeAdapter : TypeAdapter<ID>() {
 
         @Throws(IOException::class)
         override fun read(reader: JsonReader): ID {

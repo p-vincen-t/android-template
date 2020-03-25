@@ -19,11 +19,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import co.app.BaseFragment
-import co.app.common.dsl.adapter
-import co.app.common.dsl.prepareAdapter
-import co.app.common.report.ReportHolder
+import co.app.dsl.prepareAdapter
+import co.app.report.ReportHolder
 import co.app.wallet.home.ExpenseStructureReport
 import com.app.wallet.R
 import com.app.wallet.databinding.WalletFragmentBinding
@@ -69,7 +67,13 @@ class WalletFragment : BaseFragment() {
 
         promiseAdapter = wallet_reports_recycler_view.prepareAdapter()
 
-        promiseAdapter.add(ReportHolder(ExpenseStructureReport(viewLifecycleOwner)))
+        promiseAdapter.add(
+            ReportHolder(
+                ExpenseStructureReport(
+                    viewLifecycleOwner
+                )
+            )
+        )
     }
 
 }

@@ -67,8 +67,14 @@ dependencies {
     implementation deps.appcompat
     implementation deps.badgeView
     implementation deps.biometric
+    implementation deps.cameraXExtensions
+    implementation deps.cameraXLifeCycle
+    implementation deps.cameraXView
     implementation deps.constraintLayout
+    implementation deps.coroutines
     kapt deps.daggerCompiler
+    implementation deps.emoji
+    implementation deps.emojiCompat
     androidTestImplementation deps.expresso
     implementation deps.facebookShimmer
     implementation deps.firebaseAnalytics
@@ -81,6 +87,7 @@ dependencies {
     testImplementation deps.junit
     implementation deps.legacySupport
     implementation deps.lifeCycleExtensions
+    implementation deps.lifeCycleRuntime
     implementation deps.lifeCycleViewModel
     implementation deps.material
     implementation deps.multidex
@@ -97,6 +104,7 @@ dependencies {
     implementation deps.textDrawable
     implementation deps.recyclerView
     implementation deps.rxAndroid
+    implementation deps.rxPermissions
     implementation deps.shapeOfView
     implementation deps.spinkit
     implementation deps.vectorDrawables

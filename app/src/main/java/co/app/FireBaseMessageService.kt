@@ -16,7 +16,7 @@ package co.app
 import android.content.Intent
 import android.util.Log
 import co.app.domain.message.ChatMessage
-import co.app.messaging.ChatMessageService
+import co.app.messaging.chat.ChatService
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
@@ -43,8 +43,8 @@ class FireBaseMessageService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
         val chatMessage: ChatMessage
-        val intent = Intent(this, ChatMessageService::class.java)
-       // bin
+        val intent = Intent(this, ChatService::class.java)
+        // bin
 
     }
 

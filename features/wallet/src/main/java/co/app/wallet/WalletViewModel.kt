@@ -15,8 +15,8 @@ package co.app.wallet
 
 import androidx.databinding.Bindable
 import androidx.lifecycle.LifecycleOwner
-import co.app.common.BaseViewModel
-import co.app.common.account.UserAccount
+import co.app.BaseViewModel
+import co.app.common.UserAccount
 import co.app.wallet.domain.accounts.AccountsRepository
 import co.app.wallet.home.AccountsReport
 import promise.commons.AndroidPromise

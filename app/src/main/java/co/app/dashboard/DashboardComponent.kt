@@ -13,7 +13,7 @@
 
 package co.app.dashboard
 
-import co.app.common.account.AccountComponent
+import co.base.account.AccountComponent
 import dagger.Component
 
 @Component(dependencies = [AccountComponent::class])

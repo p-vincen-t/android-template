@@ -18,18 +18,19 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.LifecycleOwner
 import co.app.R
-import co.app.common.report.Report
-import co.app.common.report.ReportMeta
-import co.app.common.report.ReportView
-import co.app.domain.search.Search
+import co.app.report.Report
+import co.app.report.ReportMeta
+import co.app.report.ReportView
+import co.app.common.search.Search
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import promise.commons.data.log.LogUtil
 
 @ReportMeta
- class SearchForm(
+class SearchForm(
     private val lifecycleOwner: LifecycleOwner,
     private val searchFab: FloatingActionButton,
-    private val listener: Listener) : Report {
+    private val listener: Listener
+) : Report {
 
     private lateinit var parentView: View
 
@@ -37,7 +38,7 @@ import promise.commons.data.log.LogUtil
         LogUtil.d(SearchActivity.TAG, "search form bind")
         parentView = view
         val searchView: SearchView = view.findViewById(R.id.searchView)
-        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(text: String?): Boolean {
                 if (TextUtils.isEmpty(text)) {
                     if (searchFab.isShown) searchFab.hide()
@@ -49,6 +50,7 @@ import promise.commons.data.log.LogUtil
                 })
                 return true
             }
+
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (TextUtils.isEmpty(newText)) {
                     if (searchFab.isShown) searchFab.hide()

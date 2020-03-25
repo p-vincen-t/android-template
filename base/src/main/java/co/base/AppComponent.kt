@@ -13,19 +13,22 @@
 
 package co.base
 
+import co.app.domain.Settings
+import co.base.settings.SettingsProvider
 import com.google.gson.Gson
 import dagger.BindsInstance
 import dagger.Component
 import io.reactivex.disposables.CompositeDisposable
 import promise.commons.AndroidPromise
 
-@Component(modules = [DependenciesModule::class])
+@Component(modules = [DependenciesModule::class, SettingsProvider::class])
 @AppScope
 interface AppComponent {
     fun promise(): AndroidPromise
     fun compositeDisposable(): CompositeDisposable
     fun gson(): Gson
     fun inject(appBase: AppBase)
+    fun settings(): Settings
 
     @Component.Factory
     interface Factory {

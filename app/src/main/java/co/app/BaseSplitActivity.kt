@@ -19,9 +19,9 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.widget.Toast
-import co.app.common.dsl.dialog
-import co.app.common.dsl.showProgress
-import co.app.common.dsl.startActivity
+import co.app.dsl.dialog
+import co.app.dsl.showProgress
+import co.app.dsl.startActivity
 import com.google.android.play.core.splitcompat.SplitCompat
 import com.google.android.play.core.splitinstall.*
 import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
@@ -39,6 +39,7 @@ abstract class BaseSplitActivity : BaseActivity() {
     private val manager: SplitInstallManager by lazy {
         SplitInstallManagerFactory.create(this)
     }
+
     /** Listener used to handle changes in state for install requests. */
     private val listener = SplitInstallStateUpdatedListener { state ->
         val multiInstall = state.moduleNames().size > 1
