@@ -16,6 +16,7 @@ package co.base.message
 import co.app.common.AppUser
 import co.app.common.ID
 import co.app.common.Photo
+import co.app.common.search.Search
 import co.app.domain.message.ChatMessage
 import org.apache.commons.cli.MissingArgumentException
 import promise.commons.model.List
@@ -44,9 +45,24 @@ class AsyncMessageRepo constructor(
                 }))
             }
             args.containsKey(SEARCH_ARG) -> {
-                res(List(chatMessageRecordDao.getDistinctMessages().value!!.map {
-                    it.toChatMessage(chatUserDao)
-                }))
+                val search = args[SEARCH_ARG] as Search
+                if (search.query.endsWith("k")) {
+                    res(List())
+                    return
+                }
+                val appUser = AppUser(
+                    ID.from(UUID.randomUUID().toString()), "username",
+                    Photo()
+                )
+                val appUser2 = AppUser(
+                    ID.from(UUID.randomUUID().toString()), "username2",
+                    Photo()
+                )
+
+                //res(List(messages), null)
+                res(List.generate(30) {
+                    ChatMessage(if (it % 2 == 0) appUser else appUser2, "message", Date().time)
+                })
                 /*res(List<ChatMessage>(chatMessageRecordDao.searchMessages(args[SEARCH_ARG].toString())
                     .map {
                         it.toChatMessage(chatUserDao)

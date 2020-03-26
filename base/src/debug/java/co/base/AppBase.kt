@@ -16,10 +16,10 @@ package co.base
 import androidx.multidex.MultiDexApplication
 import co.app.common.ID
 import co.app.common.NetworkUtils
-import co.base.account.AccountComponent
-import co.base.account.DaggerAccountComponent
 import co.app.common.UserAccount
 import co.app.common.errors.NetworkError
+import co.base.account.AccountComponent
+import co.base.account.DaggerAccountComponent
 import co.base.data.DaggerDataComponent
 import co.base.data.DataComponent
 import co.base.repos.DaggerReposComponent
@@ -42,7 +42,10 @@ open class AppBase : MultiDexApplication() {
 
     lateinit var TAG: String
 
-    lateinit var userAccount: UserAccount
+    fun userAccount(): UserAccount = accountComponent.userAccount()
+
+    private var dataComponent: DataComponent? = null
+    private var reposComponent: ReposComponent? = null
 
     @Inject
     lateinit var compositeDisposable: CompositeDisposable
@@ -50,31 +53,50 @@ open class AppBase : MultiDexApplication() {
     @Inject
     lateinit var promise: AndroidPromise
 
-    lateinit var accountComponent: AccountComponent
+    val accountComponent: AccountComponent by lazy {
+        DaggerAccountComponent.factory()
+            .create(appComponent.gson(), appComponent.promise())
+    }
 
-    lateinit var reposComponent: ReposComponent
+    fun reposComponent(): ReposComponent = reposComponent ?: DaggerReposComponent.factory().create(
+        userAccount(),
+        dataComponent()
+    ).also {
+        reposComponent = it
+    }
 
-    lateinit var appComponent: AppComponent
-
-    lateinit var dataComponent: DataComponent
-
-    lateinit var apiUrl: String
-
-    override fun onCreate() {
-        super.onCreate()
-        AndroidPromise.init(this, 100, BuildConfig.DEBUG)
-        TAG = LogUtil.makeTag(AppBase::class.java)
-        // TrueTimeRx.build().initialize()
-        AndroidPromise.instance().execute {
-
-        }
-        appComponent = DaggerAppComponent.factory().create(
+    val appComponent: AppComponent by lazy {
+        DaggerAppComponent.factory().create(
             GsonBuilder()
                 .registerTypeAdapter(ID::class.java, ID.IDTypeAdapter())
                 .setPrettyPrinting()
                 .create()
         )
-        appComponent.inject(this)
+    }
+
+    fun dataComponent(): DataComponent = dataComponent ?: DaggerDataComponent.factory()
+        .create(userAccount(), object : Interceptor {
+            override fun intercept(chain: Interceptor.Chain): Response {
+                if (NetworkUtils.getConnectivityStatus(this@AppBase.applicationContext) == NetworkUtils.TYPE_NOT_CONNECTED) {
+                    val exception = NetworkError().apply {
+                        request = chain.request().url
+                    }
+                    LogUtil.e(TAG, "Connection error: ", exception)
+                    appComponent.promise().send(Message(NETWORK_ERROR_MESSAGE, exception))
+                    throw exception
+                }
+                return chain.proceed(chain.request())
+            }
+        }, appComponent).also { dataComponent = it }
+
+    fun apiUrl(): String = dataComponent().apiUrl().toString()
+
+    fun initUserAccount() {
+        dataComponent = null
+        reposComponent = null
+    }
+
+    fun initComponents() {
         compositeDisposable.add(
             TrueTimeRx.build()
                 .initializeRx("time.google.com")
@@ -88,35 +110,14 @@ open class AppBase : MultiDexApplication() {
                     }
                 ) { throwable: Throwable -> throwable.printStackTrace() }
         )
-        initUserAccount()
-        if (BuildConfig.DEBUG) {
-            Stetho.initializeWithDefaults(this)
-        }
+        if (BuildConfig.DEBUG) Stetho.initializeWithDefaults(this)
     }
 
-    fun initUserAccount() {
-        accountComponent = DaggerAccountComponent.factory()
-            .create(appComponent.gson(), appComponent.promise())
-        userAccount = accountComponent.userAccount()
-        dataComponent = DaggerDataComponent.factory()
-            .create(userAccount, object : Interceptor {
-                override fun intercept(chain: Interceptor.Chain): Response {
-                    if (NetworkUtils.getConnectivityStatus(this@AppBase.applicationContext) == NetworkUtils.TYPE_NOT_CONNECTED) {
-                        val exception = NetworkError().apply {
-                            request = chain.request().url
-                        }
-                        LogUtil.e(TAG, "Connection error: ", exception)
-                        appComponent.promise().send(Message(NETWORK_ERROR_MESSAGE, exception))
-                        throw exception
-                    }
-                    return chain.proceed(chain.request())
-                }
-            }, appComponent)
-        apiUrl = dataComponent.apiUrl().toString()
-        reposComponent = DaggerReposComponent.factory().create(
-            userAccount,
-            dataComponent
-        )
+    override fun onCreate() {
+        super.onCreate()
+        AndroidPromise.init(this, 100, BuildConfig.DEBUG)
+        TAG = LogUtil.makeTag(AppBase::class.java)
+        appComponent.inject(this)
     }
 
     override fun onTerminate() {

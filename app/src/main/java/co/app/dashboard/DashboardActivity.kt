@@ -106,7 +106,9 @@ class DashboardActivity : BaseSplitActivity(),
         )
         setSupportActionBar(bottom_app_bar)
 
-        DaggerDashboardComponent.builder().accountComponent(app.accountComponent).build()
+        DaggerDashboardComponent.factory().create(
+            app.reposComponent().searchRepository(), app.accountComponent
+        )
             .inject(this)
 
         dashboardViewModel = ViewModelProvider(this, dashboardViewModelFactory).get(

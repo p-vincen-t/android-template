@@ -24,7 +24,8 @@ import promise.ui.adapter.DiffAdapter
 import kotlin.reflect.KClass
 
 class SearchResultViewable(
-    private val pair: Pair<String, List<SearchResult>>,
+    private val pair: Pair<Int, List<SearchResult>>,
+    private val viewMapper: Map<Class<*>, KClass<out Viewable>>,
     private val adapterListener: DiffAdapter.Listener<SearchResult>
 ) : Viewable, LayoutContainer {
 
@@ -32,11 +33,12 @@ class SearchResultViewable(
 
     override fun layout(): Int = R.layout.search_result_item
 
-    override fun bind(view: View?, args: Any) {
-        val mapViewable = args as Map<Class<*>, KClass<out Viewable>>
-        search_title.text = pair.first
+    override fun bind(view: View?, args1: Any) {
+        search_title.setText(pair.first)
         val adapter =
-            search_results_list.prepareListAdapter(adapterListener, viewableClasses = mapViewable)
+            search_results_list.prepareListAdapter(adapterListener, viewableClasses = viewMapper) {
+                args = args1
+            }
         adapter.add(promise.commons.model.List(pair.second))
     }
 

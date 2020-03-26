@@ -15,6 +15,7 @@ package co.app.domain.message
 
 import androidx.lifecycle.LiveData
 import co.app.common.ID
+import co.app.common.search.SearchableRepository
 import promise.commons.tx.Either
 import promise.commons.tx.PromiseResult
 
@@ -22,7 +23,7 @@ const val DELIVERED = 0
 const val SENT = 1
 const val NOT_SENT = 2
 
-interface MessageRepository {
+interface MessageRepository: SearchableRepository {
     /**
      *  listen on ui
      */

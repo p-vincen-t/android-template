@@ -14,6 +14,7 @@
 package co.base.repos
 
 import co.app.common.UserAccount
+import co.app.common.search.SearchRepository
 import co.app.domain.message.MessageRepository
 import co.base.data.DataComponent
 import dagger.BindsInstance
@@ -28,6 +29,8 @@ import promise.commons.AndroidPromise
 interface ReposComponent {
 
     fun messageRepository(): MessageRepository
+
+    fun searchRepository():  SearchRepository
 
     fun promise(): AndroidPromise
 

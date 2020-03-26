@@ -25,6 +25,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
+import co.app.app.ModuleRegister
 import co.app.settings.ThemePreference
 import co.base.AppBase
 import co.base.AppBase.Companion.TEMP_PREFERENCE_NAME
@@ -84,8 +85,8 @@ class App : AppBase(), LifecycleObserver {
         super.onCreate()
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
         themePreferenceRepo.setTheme()
-        registerModule("")
         promise.execute {
+            registerModule("app")
             manager.installedModules.forEach {
                 registerModule(it)
             }
@@ -108,7 +109,7 @@ class App : AppBase(), LifecycleObserver {
         if (modules.containsKey(module)) return
         val registrar =
             createInstance(Class.forName("$PACKAGE_NAME.$module.ModuleRegistrar").kotlin) as ModuleRegister
-        registrar.register(this)
+        registrar.onRegister(this)
         modules[module] = registrar
     }
 
@@ -128,9 +129,7 @@ class App : AppBase(), LifecycleObserver {
 
     fun gson(): Gson = appComponent.gson()
 
-    fun okHttpClient(): OkHttpClient = dataComponent.okHttpClient()
-
-    fun apiUrl(): String = apiUrl
+    fun okHttpClient(): OkHttpClient = dataComponent().okHttpClient()
 
     companion object {
 

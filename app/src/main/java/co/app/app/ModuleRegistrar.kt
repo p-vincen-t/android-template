@@ -11,29 +11,37 @@
  * limitations under the License.
  */
 
-package co.app
+package co.app.app
 
 import android.content.Context
 import androidx.collection.ArrayMap
+import co.app.App
 import co.app.common.search.SearchResult
+import co.app.domain.message.ChatMessage
+import co.app.messaging.chat.ChatMessageViewable
 import promise.commons.data.log.LogUtil
 import promise.ui.Viewable
 import promise.ui.adapter.DiffAdapter
+import java.lang.ref.WeakReference
 import kotlin.reflect.KClass
 
 class ModuleRegistrar : ModuleRegister {
-    override fun register(app: App) {
-        LogUtil.d("Register", "app registered")
+    override fun onRegister(app: App) {
+        LogUtil.d("Register", "app registering")
+        app.initComponents()
+        registerSearchableRepository(app.reposComponent().messageRepository())
     }
 
-    override fun registerSearchViewables(context: Context):
-            Pair<Map<Class<out SearchResult>, KClass<out Viewable>>, DiffAdapter.Listener<in SearchResult>> =
-        Pair(ArrayMap<Class<out SearchResult>, KClass<out Viewable>>()
-            .apply {
-
-            }, object: DiffAdapter.Listener<SearchResult>{
+    override fun onRegisterSearchableViews(context: WeakReference<Context>):
+            Pair<Pair<String, Map<Class<*>, KClass<out Viewable>>>, DiffAdapter.Listener<SearchResult>> =
+        Pair(Pair("app",
+            ArrayMap<Class<*>, KClass<out Viewable>>()
+                .apply {
+                    put(ChatMessage::class.java, ChatMessageViewable::class)
+                }), object : DiffAdapter.Listener<SearchResult> {
             override fun onClick(t: SearchResult, id: Int) {
 
             }
         })
+
 }

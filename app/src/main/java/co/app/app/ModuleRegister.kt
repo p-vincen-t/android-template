@@ -11,18 +11,26 @@
  * limitations under the License.
  */
 
-package co.app
+package co.app.app
 
 import android.content.Context
+import co.app.App
+import co.app.common.search.SearchRepository
 import co.app.common.search.SearchResult
+import co.app.common.search.SearchableRepository
 import promise.ui.Viewable
 import promise.ui.adapter.DiffAdapter
+import java.lang.ref.WeakReference
 import kotlin.reflect.KClass
 
 interface ModuleRegister {
 
-    fun register(app: App)
+    fun onRegister(app: App)
 
-    fun registerSearchViewables(context: Context): Pair<Map<Class<out SearchResult>,
-            KClass<out Viewable>>, DiffAdapter.Listener<in SearchResult>>
+    fun onRegisterSearchableViews(context: WeakReference<Context>):
+            Pair<Pair<String, Map<Class<*>, KClass<out Viewable>>>, DiffAdapter.Listener<SearchResult>>?
+
+    fun registerSearchableRepository(searchableRepository: SearchableRepository) {
+        SearchRepository.registerSearchableRepository(searchableRepository)
+    }
 }

@@ -13,7 +13,9 @@
 
 package co.app.wallet.domain.accounts
 
-interface WalletAccount {
+import co.app.common.search.SearchResult
+
+interface WalletAccount: SearchResult {
     fun name(): String
     fun amount(): Double
 }

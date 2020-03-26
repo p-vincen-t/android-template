@@ -13,17 +13,28 @@
 
 package co.app.auth
 
+import android.content.Context
 import co.app.App
-import co.app.ModuleRegister
+import co.app.app.ModuleRegister
 import co.app.auth.base.DaggerSessionComponent
 import co.app.auth.base.SessionComponent
+import co.app.common.search.SearchResult
 import promise.commons.data.log.LogUtil
+import promise.ui.Viewable
+import promise.ui.adapter.DiffAdapter
+import java.lang.ref.WeakReference
+import kotlin.reflect.KClass
+
 
 class ModuleRegistrar : ModuleRegister {
 
+    override fun onRegisterSearchableViews(context: WeakReference<Context>): Pair<Pair<String, Map<Class<*>,
+            KClass<out Viewable>>>, DiffAdapter.Listener<SearchResult>>? =
+        null
+
     lateinit var sessionComponent: SessionComponent
 
-    override fun register(app: App) {
+    override fun onRegister(app: App) {
         LogUtil.e("Auth", "registering auth module : ")
         ModuleRegistrar.app = app
         sessionComponent = DaggerSessionComponent.factory()

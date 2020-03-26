@@ -13,21 +13,30 @@
 
 package co.app.search
 
-import android.text.TextUtils
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.LifecycleOwner
 import co.app.R
+import co.app.common.search.Search
 import co.app.report.Report
 import co.app.report.ReportMeta
 import co.app.report.ReportView
-import co.app.common.search.Search
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
+import promise.commons.AndroidPromise
 import promise.commons.data.log.LogUtil
+import java.util.concurrent.TimeUnit
+
 
 @ReportMeta
 class SearchForm(
     private val lifecycleOwner: LifecycleOwner,
+    private val androidPromise: AndroidPromise,
+    private val compositeDisposable: CompositeDisposable,
     private val searchFab: FloatingActionButton,
     private val listener: Listener
 ) : Report {
@@ -38,31 +47,18 @@ class SearchForm(
         LogUtil.d(SearchActivity.TAG, "search form bind")
         parentView = view
         val searchView: SearchView = view.findViewById(R.id.searchView)
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(text: String?): Boolean {
-                if (TextUtils.isEmpty(text)) {
-                    if (searchFab.isShown) searchFab.hide()
-                    return false
+        compositeDisposable.add(
+            RxSearchObservable.fromView(searchView)
+                .debounce(500, TimeUnit.MILLISECONDS)
+                .distinctUntilChanged()
+                .subscribeOn(Schedulers.from(androidPromise.executor()))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    listener.onSearch(Search().apply {
+                        query = it
+                    })
                 }
-                if (!searchFab.isShown) searchFab.show()
-                listener.onSearch(Search().apply {
-                    query = "$text submitted"
-                })
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if (TextUtils.isEmpty(newText)) {
-                    if (searchFab.isShown) searchFab.hide()
-                    return false
-                }
-                if (!searchFab.isShown) searchFab.show()
-                listener.onSearch(Search().apply {
-                    query = newText!!
-                })
-                return true
-            }
-        })
+        )
 
         searchFab.setOnClickListener {
 
@@ -75,4 +71,24 @@ class SearchForm(
         fun onSearch(search: Search)
     }
 
+}
+
+object RxSearchObservable {
+
+    fun fromView(searchView: SearchView): Observable<String> {
+        val subject = PublishSubject.create<String>()
+        searchView.setOnQueryTextListener(object :
+            SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(s: String): Boolean {
+                subject.onComplete()
+                return true
+            }
+
+            override fun onQueryTextChange(text: String): Boolean {
+                subject.onNext(text)
+                return true
+            }
+        })
+        return subject
+    }
 }

@@ -53,7 +53,7 @@ class ChatThreadFragment : BaseFragment(), PromiseAdapter.Listener<ChatThread> {
         super.onViewCreated(view, savedInstanceState)
 
         DaggerChatComponent.builder()
-            .reposComponent(app.reposComponent)
+            .reposComponent(app.reposComponent())
             .build()
             .inject(this)
 

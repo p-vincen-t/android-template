@@ -13,19 +13,35 @@
 
 package co.app.wallet.base.accounts
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import co.app.common.search.Search
+import co.app.common.search.SearchResult
 import co.app.wallet.base.data.DataScope
 import co.app.wallet.domain.accounts.AccountsRepository
 import co.app.wallet.domain.accounts.WalletAccount
 import promise.commons.AndroidPromise
 import promise.commons.data.log.LogUtil
+import promise.commons.tx.AsyncEither
+import promise.commons.tx.Either
+import java.lang.ref.WeakReference
 import javax.inject.Inject
 import promise.commons.model.List as PromiseList
 
 @DataScope
+
 class AccountsRepositoryImpl @Inject constructor(private val promise: AndroidPromise) :
     AccountsRepository {
+
+    override fun onSearch(
+        context: WeakReference<Context>,
+        search: Search
+    ): Either<Map<Pair<String, Int>, List<SearchResult>>, Throwable> =
+        AsyncEither { resolve, reject ->
+
+        }
+
     override fun getAllAccounts(): LiveData<List<WalletAccount>> {
         val mutableLiveData = MutableLiveData<List<WalletAccount>>()
         promise.execute({
@@ -33,6 +49,9 @@ class AccountsRepositoryImpl @Inject constructor(private val promise: AndroidPro
                 object : WalletAccount {
                     override fun name(): String = "Other account"
                     override fun amount(): Double = 50000.0
+                    override fun onSearch(search: Search): Boolean {
+                        return true
+                    }
                 }
             }
             )

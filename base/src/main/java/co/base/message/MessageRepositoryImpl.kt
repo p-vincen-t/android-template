@@ -13,6 +13,7 @@
 
 package co.base.message
 
+import android.content.Context
 import androidx.collection.ArrayMap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,12 +21,10 @@ import co.app.common.AppUser
 import co.app.common.ID
 import co.app.common.Photo
 import co.app.common.search.Search
-import co.app.common.search.SearchRepository
 import co.app.common.search.SearchResult
-import co.app.common.search.SearchableRepository
 import co.app.domain.message.*
+import co.base.R
 import co.base.repos.RepoScope
-import co.base.search.SearchRepositoryImpl
 import org.joda.time.DateTime
 import org.joda.time.Period
 import org.joda.time.format.PeriodFormat
@@ -34,24 +33,25 @@ import promise.commons.tx.AsyncEither
 import promise.commons.tx.Either
 import promise.commons.tx.Right
 import promise.model.Repository
+import java.lang.ref.WeakReference
 import java.util.*
 import javax.inject.Inject
 
 @RepoScope
 class MessageRepositoryImpl @Inject constructor(private val repository: Repository<ChatMessage>) :
-    MessageRepository, SearchableRepository {
+    MessageRepository {
 
-    init {
-        SearchRepository.registerSearchableRepository(this)
-    }
-
-    override fun onSearch(search: Search): Either<Map<String, List<SearchResult>>, Throwable> =
+    override fun onSearch(
+        context: WeakReference<Context>,
+        search: Search
+    ): Either<Map<Pair<String, Int>, List<SearchResult>>, Throwable> =
         AsyncEither { resolve, _ ->
-            val map = ArrayMap<String, List<SearchResult>>()
+            LogUtil.e("messages", "serching")
+            val map = ArrayMap<Pair<String, Int>, List<SearchResult>>()
             repository.findAll(ArrayMap<String, Any>().apply {
-                put(SEARCH_ARG, search.query)
+                put(SEARCH_ARG, search)
             }, { messages ->
-                map["Messages"] = messages
+                map[Pair("app", R.string.messages)] = messages
                 resolve(map)
             })
         }

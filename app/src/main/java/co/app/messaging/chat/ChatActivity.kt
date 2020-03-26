@@ -72,7 +72,7 @@ class ChatActivity : BaseActivity(), PromiseAdapter.Listener<ChatMessage>, View.
         setSupportActionBar(toolbar)
         addBackButton()
         DaggerChatComponent.builder()
-            .reposComponent(app.reposComponent)
+            .reposComponent(app.reposComponent())
             .build()
             .inject(this)
         chatViewModel = ViewModelProvider(this, chatViewModelFactory)[ChatViewModel::class.java]

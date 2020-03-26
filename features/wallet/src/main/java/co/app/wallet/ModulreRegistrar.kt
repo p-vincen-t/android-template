@@ -13,21 +13,43 @@
 
 package co.app.wallet
 
+import android.content.Context
+import android.util.ArrayMap
 import co.app.App
-import co.app.ModuleRegister
-import co.base.account.AccountComponent
+import co.app.app.ModuleRegister
+import co.app.common.search.SearchResult
 import co.app.wallet.base.WalletBase
+import co.base.account.AccountComponent
+import promise.ui.Viewable
+import promise.ui.adapter.DiffAdapter
+import java.lang.ref.WeakReference
+import kotlin.reflect.KClass
 
 class ModuleRegistrar : WalletBase(), ModuleRegister {
 
     lateinit var accountsComponent: AccountComponent
 
-    override fun register(app: App) {
+    override fun onRegister(app: App) {
         Companion.app = app
-        init(app.promise,
+        init(
+            app.promise,
             app.gson(),
-            app.okHttpClient())
+            app.okHttpClient()
+        )
         accountsComponent = app.accountComponent
+        registerSearchableRepository(dataComponent.accountsRepository())
+    }
+
+    override fun onRegisterSearchableViews(context: WeakReference<Context>): Pair<Pair<String, Map<Class<*>,
+            KClass<out Viewable>>>, DiffAdapter.Listener<SearchResult>>? {
+        return Pair(Pair("wallet", ArrayMap<Class<*>,
+                KClass<out Viewable>>().apply {
+
+        }), object : DiffAdapter.Listener<SearchResult> {
+            override fun onClick(t: SearchResult, id: Int) {
+
+            }
+        })
     }
 
     companion object {

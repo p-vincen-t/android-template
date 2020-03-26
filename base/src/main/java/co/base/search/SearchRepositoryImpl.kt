@@ -13,6 +13,7 @@
 
 package co.base.search
 
+import android.content.Context
 import android.util.ArrayMap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -21,9 +22,12 @@ import co.app.common.search.Search
 import co.app.common.search.SearchRepository
 import co.app.common.search.SearchResult
 import co.base.repos.RepoScope
+import promise.commons.data.log.LogUtil
 import promise.commons.tx.AsyncEither
 import promise.commons.tx.Either
 import promise.model.Repository
+import java.lang.Exception
+import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 @RepoScope
@@ -33,38 +37,45 @@ class SearchRepositoryImpl
 ) : SearchRepository() {
 
 
-    private val recentSearchResultsMutable: MutableLiveData<Map<String, List<SearchResult>>> =
+    private val recentSearchResultsMutable: MutableLiveData<Map<Pair<String, Int>, List<SearchResult>>> =
         MutableLiveData()
 
     private val recentSearchMutable: MutableLiveData<List<Search>> = MutableLiveData()
 
-    override val searchResults: LiveData<Map<String, List<SearchResult>>>
+    override val searchResults: LiveData<Map<Pair<String, Int>, List<SearchResult>>>
         get() = recentSearchResultsMutable
 
     override fun recentSearchQueries(): LiveData<List<Search>> = recentSearchMutable
 
-    override fun search(search: Search): Either<Any, Throwable> = AsyncEither { resolve, reject ->
-        resolve("searching ${searchRepositories.size} repositories")
-        val lock = Any()
-        val results: promise.commons.model.List<Map<String, List<SearchResult>>> =
-            promise.commons.model.List()
-        searchRepositories.forEach { repository ->
-            repository.onSearch(search).fold({
-                synchronized(lock) {
-                    results.add(it)
-                    val mapResults = ArrayMap<String, List<SearchResult>>()
-                    results.forEach {
-                        mapResults.putAll(it)
+    override fun search(context: WeakReference<Context>, search: Search): Either<Any, Throwable> =
+        AsyncEither { resolve, reject ->
+            if (searchRepositories.isEmpty()) {
+                reject(Exception("Search bot ready yet"))
+                return@AsyncEither
+            }
+            resolve(Any())
+            LogUtil.e(TAG, "searching ${searchRepositories.size} repositories")
+            recentSearchResultsMutable.postValue(emptyMap())
+            val lock = Any()
+            val results: promise.commons.model.List<Map<Pair<String, Int>, List<SearchResult>>> =
+                promise.commons.model.List()
+            searchRepositories.forEach { repository ->
+                repository.onSearch(context, search).fold({
+                    synchronized(lock) {
+                        results.add(it)
+                        val mapResults = ArrayMap<Pair<String, Int>, List<SearchResult>>()
+                        if (it.isNotEmpty()) results.forEach {
+                            mapResults.putAll(it)
+                        }
+                        recentSearchResultsMutable.postValue(mapResults)
                     }
-                    recentSearchResultsMutable.postValue(mapResults)
-                }
-            }, {
-                reject(it)
-            })
+                }, {
+                    reject(it)
+                })
+            }
+            recentSearchMutable.addValue(search)
+            searchRepo.save(search, null)
         }
-        recentSearchMutable.addValue(search)
-        searchRepo.save(search, null)
-    }
 
     override fun clearHistory(): Either<Boolean, Throwable> = AsyncEither { resolve, reject ->
         searchRepo.clear(null, {
@@ -73,5 +84,9 @@ class SearchRepositoryImpl
         }, {
             reject(it)
         })
+    }
+
+    companion object {
+        val TAG: String = LogUtil.makeTag(SearchRepositoryImpl::class.java)
     }
 }

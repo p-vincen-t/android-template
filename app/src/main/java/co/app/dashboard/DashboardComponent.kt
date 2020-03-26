@@ -13,7 +13,10 @@
 
 package co.app.dashboard
 
+import co.app.common.search.SearchRepository
+import co.app.search.SearchActivity
 import co.base.account.AccountComponent
+import dagger.BindsInstance
 import dagger.Component
 
 @Component(dependencies = [AccountComponent::class])
@@ -21,4 +24,14 @@ import dagger.Component
 interface DashboardComponent {
 
     fun inject(dashboardActivity: DashboardActivity)
+
+    fun inject(searchActivity: SearchActivity)
+
+    @Component.Factory
+    interface Factory {
+        fun create(
+            @BindsInstance searchRepository: SearchRepository,
+            accountComponent: AccountComponent
+        ): DashboardComponent
+    }
 }

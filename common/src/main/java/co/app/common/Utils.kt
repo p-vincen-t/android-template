@@ -41,14 +41,14 @@ fun <T> LiveData<T>.toDistinct(): LiveData<T> {
 }
 
 fun <T> MutableLiveData<List<T>>.addValue(t: T) {
-    val values = if (value != null) value.toMutableList() else mutableListOf<T>()
+    val values = if (value != null) value!!.toMutableList() else mutableListOf<T>()
     values.add(t)
     if (Thread.currentThread() == Looper.getMainLooper().thread) value = values
     else postValue(values)
 }
 
 fun <T> MutableLiveData<List<T>>.addValue(t: List<T>) {
-    val values = if (value != null) value.toMutableList() else mutableListOf<T>()
+    val values = if (value != null) value!!.toMutableList() else mutableListOf<T>()
     values.addAll(t)
     if (Thread.currentThread() == Looper.getMainLooper().thread) value = values
     else postValue(values)

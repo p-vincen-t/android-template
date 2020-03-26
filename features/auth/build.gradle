@@ -69,4 +69,5 @@ dependencies {
     implementation deps.navigationFragment
     implementation deps.navigationUi
     implementation deps.promiseCommons
+    implementation deps.promiseUi
 }

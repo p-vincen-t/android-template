@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.app
+package co.app.app
 
 import android.view.MenuItem
 

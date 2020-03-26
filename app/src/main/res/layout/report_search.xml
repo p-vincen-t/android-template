@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright 2020, {{App}}
   ~ Licensed under the Apache License, Version 2.0, "{{App}} Inc".
@@ -11,7 +12,14 @@
   ~ limitations under the License.
   -->
 
-<resources>
-    <string name="app_name">NesstBase</string>
-    <string name="messages">Messages</string>
-</resources>
+<promise.ui.loading.LoadingLayout
+        android:id="@+id/loading_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_results_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+</promise.ui.loading.LoadingLayout>

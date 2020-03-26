@@ -15,8 +15,9 @@ package co.app.wallet.domain.accounts
 
 import androidx.lifecycle.LiveData
 import co.app.common.errors.NotFoundError
+import co.app.common.search.SearchableRepository
 
-interface AccountsRepository {
+interface AccountsRepository: SearchableRepository {
     fun getAllAccounts(): LiveData<List<WalletAccount>>
 
 }

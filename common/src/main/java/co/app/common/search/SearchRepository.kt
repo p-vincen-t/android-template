@@ -13,8 +13,10 @@
 
 package co.app.common.search
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import promise.commons.tx.Either
+import java.lang.ref.WeakReference
 
 abstract class SearchRepository {
 
@@ -27,8 +29,8 @@ abstract class SearchRepository {
         }
     }
 
-    abstract val searchResults: LiveData<Map<String, List<SearchResult>>>
+    abstract val searchResults: LiveData<Map<Pair<String, Int>, List<SearchResult>>>
     abstract fun recentSearchQueries(): LiveData<List<Search>>
-    abstract fun search(search: Search): Either<Any, Throwable>
+    abstract fun search(context: WeakReference<Context>, search: Search): Either<Any, Throwable>
     abstract fun clearHistory(): Either<Boolean, Throwable>
 }

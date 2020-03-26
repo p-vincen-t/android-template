@@ -30,7 +30,7 @@ class ChatService : BindService<ChatService>() {
     override fun onCreate() {
         super.onCreate()
         DaggerChatComponent.builder()
-            .reposComponent(app.reposComponent)
+            .reposComponent(app.reposComponent())
             .build()
             .inject(this)
 

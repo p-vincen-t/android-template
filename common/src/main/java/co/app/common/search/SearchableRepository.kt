@@ -13,8 +13,10 @@
 
 package co.app.common.search
 
+import android.content.Context
 import promise.commons.tx.Either
+import java.lang.ref.WeakReference
 
 interface SearchableRepository {
-    fun onSearch(search: Search): Either<Map<String, List<SearchResult>>, Throwable>
+    fun onSearch(context: WeakReference<Context>, search: Search): Either<Map<Pair<String, Int>, List<SearchResult>>, Throwable>
 }
