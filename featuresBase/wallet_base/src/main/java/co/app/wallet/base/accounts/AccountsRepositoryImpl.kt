@@ -37,7 +37,7 @@ class AccountsRepositoryImpl @Inject constructor(private val promise: AndroidPro
     override fun onSearch(
         context: WeakReference<Context>,
         search: Search
-    ): Either<Map<Pair<String, Int>, List<SearchResult>>, Throwable> =
+    ): Either<Map<Pair<String, Int>, List<SearchResult>>> =
         AsyncEither { resolve, reject ->
 
         }

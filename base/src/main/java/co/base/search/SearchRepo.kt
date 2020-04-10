@@ -14,19 +14,17 @@
 package co.base.search
 
 import co.app.common.search.Search
+import co.app.common.search.SearchDatabase
 import promise.commons.model.List
-import promise.model.IdentifiableList
 import promise.model.AbstractSyncIDataStore
 
-class SyncSearchRepo(private val searchRecordTable: SearchRecordTable) : AbstractSyncIDataStore<Search>() {
+class SyncSearchRepo(private val searchDatabase: SearchDatabase) : AbstractSyncIDataStore<Search>() {
     override fun save(t: List<out Search>, args: Map<String, Any?>?): Any? {
-        return searchRecordTable.save(IdentifiableList(t.map {
-            SearchRecord.from(it)
-        }))
+        return searchDatabase.save(t)
     }
 
     override fun save(t: Search, args: Map<String, Any?>?): Search {
-        searchRecordTable.save(SearchRecord.from(t))
+        searchDatabase.save(t)
         return t
     }
 }

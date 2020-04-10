@@ -16,14 +16,12 @@ package co.base
 import androidx.multidex.MultiDexApplication
 import co.app.common.ID
 import co.app.common.NetworkUtils
-import co.app.common.UserAccount
+import co.app.common.account.UserAccount
 import co.app.common.errors.NetworkError
 import co.base.account.AccountComponent
 import co.base.account.DaggerAccountComponent
-import co.base.data.DaggerDataComponent
-import co.base.data.DataComponent
-import co.base.repos.DaggerReposComponent
-import co.base.repos.ReposComponent
+import co.base.DaggerDataComponent
+import co.base.DaggerReposComponent
 import com.facebook.stetho.Stetho
 import com.google.gson.GsonBuilder
 import com.instacart.library.truetime.TrueTimeRx
@@ -42,7 +40,7 @@ open class AppBase : MultiDexApplication() {
 
     lateinit var TAG: String
 
-    fun userAccount(): UserAccount = accountComponent.userAccount()
+    fun userAccount(): UserAccount? = accountComponent.userAccount()
 
     private var dataComponent: DataComponent? = null
     private var reposComponent: ReposComponent? = null

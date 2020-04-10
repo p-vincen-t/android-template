@@ -33,7 +33,7 @@ class ThreadsViewModel(
 
     fun pageThreads(skip: Int, take: Int) =
         messageRepository.getChatThreads(skip, take)
-            .foldOnUI(PromiseResult<Any, MessagesError>()
+            .foldOnUI(PromiseResult<Any, Throwable>()
                 .withCallback {
                     LogUtil.d(TAG, "threads", it)
                 })

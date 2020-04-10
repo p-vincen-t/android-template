@@ -22,11 +22,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import co.app.BaseActivity
 import co.app.R
-import co.app.common.AppUser
+import co.app.common.account.AppUser
 import co.app.common.Attachment
 import co.app.common.ID
 import co.app.dsl.prepareAdapter
-import co.app.common.Photo
+import co.app.common.photo.Photo
 import co.app.photo.PhotoView
 import co.app.databinding.ActivityChatBinding
 import co.app.domain.message.ChatMessage
@@ -108,11 +108,11 @@ class ChatActivity : BaseActivity(), PromiseAdapter.Listener<ChatMessage>, View.
             val id: ID = intent.getParcelableExtra(THREAD_ID)!!
             chatViewModel.messageRepository.getChatThread(id)
                 .foldOnUI({
-                    appUser = it.user
+                    appUser = it!!.user
                     chatViewModel.messageRepository.getChatMessages(it, 0, 10).fold({}, {})
                     username_text_view.text = appUser.userName
                     description_text_view.text = it.productOrServiceDescription
-                    account_photo.setPhoto(it.user.photo)
+                    account_photo.setPhoto(it.user.photo!!)
                 }, {})
         } else throw IllegalStateException("show only if there's existing messages")
         photosAdapter =

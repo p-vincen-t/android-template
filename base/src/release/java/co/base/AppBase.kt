@@ -37,7 +37,7 @@ const val NETWORK_ERROR_MESSAGE = "network_error_message"
 
 open class AppBase : MultiDexApplication() {
 
-    lateinit var userAccount: UserAccount
+    lateinit var userAccount: UserAccount?
 
     @Inject
     lateinit var compositeDisposable: CompositeDisposable

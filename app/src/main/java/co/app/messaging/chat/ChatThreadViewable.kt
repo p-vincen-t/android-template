@@ -30,7 +30,7 @@ class ChatThreadViewable(private val chatThread: ChatThread) : Viewable, LayoutC
         message_text_view.text = chatThread.lastChatMessage.message
         username_text_view.text = chatThread.user.userName
         description_text_view.text = chatThread.productOrServiceDescription
-        profile_photo_photo_view.setPhoto(chatThread.user.photo)
+        profile_photo_photo_view.setPhoto(chatThread.user.photo!!)
         time_text_view.text = chatThread.lastChatMessage.sentTimeString
     }
 

@@ -21,12 +21,11 @@ import co.app.common.addValue
 import co.app.common.search.Search
 import co.app.common.search.SearchRepository
 import co.app.common.search.SearchResult
-import co.base.repos.RepoScope
+import co.base.RepoScope
 import promise.commons.data.log.LogUtil
 import promise.commons.tx.AsyncEither
 import promise.commons.tx.Either
 import promise.model.Repository
-import java.lang.Exception
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
@@ -47,10 +46,10 @@ class SearchRepositoryImpl
 
     override fun recentSearchQueries(): LiveData<List<Search>> = recentSearchMutable
 
-    override fun search(context: WeakReference<Context>, search: Search): Either<Any, Throwable> =
+    override fun search(context: WeakReference<Context>, search: Search): Either<Any> =
         AsyncEither { resolve, reject ->
             if (searchRepositories.isEmpty()) {
-                reject(Exception("Search bot ready yet"))
+                reject(Exception("Search not ready, data sources not registered"))
                 return@AsyncEither
             }
             resolve(Any())
@@ -60,11 +59,12 @@ class SearchRepositoryImpl
             val results: promise.commons.model.List<Map<Pair<String, Int>, List<SearchResult>>> =
                 promise.commons.model.List()
             searchRepositories.forEach { repository ->
-                repository.onSearch(context, search).fold({
+                repository.onSearch(context, search).fold({ result ->
                     synchronized(lock) {
-                        results.add(it)
+                        if (result == null) return@synchronized
+                        if (result.isNotEmpty()) results.add(result)
                         val mapResults = ArrayMap<Pair<String, Int>, List<SearchResult>>()
-                        if (it.isNotEmpty()) results.forEach {
+                        results.forEach {
                             mapResults.putAll(it)
                         }
                         recentSearchResultsMutable.postValue(mapResults)
@@ -77,7 +77,7 @@ class SearchRepositoryImpl
             searchRepo.save(search, null)
         }
 
-    override fun clearHistory(): Either<Boolean, Throwable> = AsyncEither { resolve, reject ->
+    override fun clearHistory(): Either<Boolean> = AsyncEither { resolve, reject ->
         searchRepo.clear(null, {
             recentSearchMutable.postValue(listOf())
             resolve(true)

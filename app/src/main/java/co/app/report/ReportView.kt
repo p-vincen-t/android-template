@@ -29,13 +29,13 @@ class ReportView : LinearLayoutCompat, ViewHolder {
 
     private var _header: String? = null
     private var _menu: Int = 0
-    private var _report: co.app.report.Report? = null
+    private var _report: Report? = null
     private var _onMenuItemClicked: Toolbar.OnMenuItemClickListener? = null
     private lateinit var toolbar: MaterialToolbar
     private lateinit var fragmentContainer: FrameLayout
 
     fun setArgs(
-        report: co.app.report.Report,
+        report: Report,
         header: String,
         menu: Int = 0,
         menuListener: Toolbar.OnMenuItemClickListener? = null
@@ -60,7 +60,7 @@ class ReportView : LinearLayoutCompat, ViewHolder {
     /**
      * The font color
      */
-    private var header: String
+    var header: String
         get() = _header ?: ""
         set(value) {
             _header = value
@@ -77,7 +77,7 @@ class ReportView : LinearLayoutCompat, ViewHolder {
     /**
      * In the example view, this dimension is the font size.
      */
-    private var menu: Int
+    var menu: Int
         get() = _menu
         set(value) {
             _menu = value
@@ -88,7 +88,7 @@ class ReportView : LinearLayoutCompat, ViewHolder {
         if (_menu != 0) toolbar.inflateMenu(_menu)
     }
 
-    var report: co.app.report.Report?
+    var report: Report?
         get() = _report
         set(value) {
             _report = value

@@ -13,24 +13,30 @@
 
 package co.base.message
 
-import androidx.lifecycle.LiveData
-import androidx.room.*
-import co.app.common.toDistinct
-import co.base.data.BaseDao
+import androidx.room.Dao
+import androidx.room.Query
+import androidx.room.Transaction
+import co.app.common.ID
+import co.base.BaseDao
 
 @Dao
-abstract class ChatMessageRecordDao: BaseDao<ChatMessageRecord> {
+interface ChatMessageRecordDao : BaseDao<ChatMessageRecord> {
 
     @Query("SELECT * FROM chats")
-    protected abstract fun getMessages(): LiveData<List<ChatMessageRecord>>
+    @Transaction
+    fun getMessages(): List<ChatMessageToChatMessageOneToOneRelationship>
 
-    fun getDistinctMessages(): LiveData<List<ChatMessageRecord>> = getMessages().toDistinct()
+    @Query("SELECT * FROM chats WHERE senderId == :userId ORDER BY sentTime DESC")
+    @Transaction
+    fun getMessages(userId: ID): List<ChatMessageToChatMessageOneToOneRelationship>
 
     @Query("SELECT * FROM chats WHERE id >= :skip LIMIT :take")
-    protected abstract fun getPaginatedMessages(skip: Int, take: Int): LiveData<List<ChatMessageRecord>>
+     fun getPaginatedMessages(skip: Int, take: Int): List<ChatMessageToChatMessageOneToOneRelationship>
 
-    //@Query("SELECT * FROM chats")
-    //@Query("SELECT * FROM chats AS c WHERE c.senderId IN (SELECT userId FROM chat_users WHERE chat_users.userName LIKE  :query ) OR c.message LIKE :query")
-    //abstract fun searchMessages(query: String): List<ChatMessageRecord>
+    @Query("SELECT * FROM chats WHERE senderId == :userId AND id >= :skip LIMIT :take")
+    fun getPaginatedMessages(userId: ID, skip: Int, take: Int): List<ChatMessageToChatMessageOneToOneRelationship>
+
+    @Query("SELECT * FROM chats AS c WHERE c.senderId IN (SELECT userId FROM chat_users WHERE chat_users.userName LIKE  :query ) OR c.message LIKE :query")
+    fun searchMessages(query: String): List<ChatMessageToChatMessageOneToOneRelationship>
 
 }

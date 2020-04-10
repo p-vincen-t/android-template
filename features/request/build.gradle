@@ -16,31 +16,64 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
+apply from: '../../deps.gradle'
+
+androidExtensions {
+    experimental = true
+    defaultCacheImplementation = "SPARSE_ARRAY"
+}
 
 android {
+
     dataBinding {
         enabled = true
     }
-    compileSdkVersion 29
 
-    buildToolsVersion "29.0.2"
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
 
-    defaultConfig {
-        minSdkVersion 17
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
-    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+            returnDefaultValues = true
+        }
+    }
+
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+
+    defaultConfig {
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        versionCode 1
+        versionName "1.0"
     }
 }
 
 dependencies {
     implementation project(':app')
-    kapt 'com.google.dagger:dagger-compiler:2.24'
-    // google maps library ------------------------------------------------------------------------
-    implementation 'com.google.android.gms:play-services-maps:17.0.0'
-    implementation 'com.google.android.gms:play-services-places:17.0.0'
+    implementation project(path: ':common')
+    implementation project(path: ':featuresBase:request_base')
+
+    implementation deps.alerter
+    implementation deps.appcompat
+    implementation deps.constraintLayout
+    implementation deps.dagger
+    kapt deps.daggerCompiler
+
+    implementation deps.legacySupport
+    implementation deps.lifeCycleExtensions
+    implementation deps.material
+    implementation deps.navigationFragment
+    implementation deps.navigationUi
+    implementation deps.promiseCommons
+    implementation deps.promiseUi
 }

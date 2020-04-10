@@ -16,7 +16,7 @@ package co.app.dashboard
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import co.app.R
-import co.app.common.UserAccount
+import co.app.common.account.UserAccount
 import promise.ui.Viewable
 
 class NavigationAccountViewHolder(private val account: UserAccount.UserChildAccount) : Viewable {

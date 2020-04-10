@@ -17,7 +17,7 @@ import androidx.databinding.Bindable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import co.app.BaseViewModel
-import co.app.common.Photo
+import co.app.common.photo.Photo
 import co.app.domain.message.MessageRepository
 
 class ChatViewModel constructor(val messageRepository: MessageRepository) : BaseViewModel() {

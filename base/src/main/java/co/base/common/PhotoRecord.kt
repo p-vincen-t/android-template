@@ -13,12 +13,25 @@
 
 package co.base.common
 
-import co.app.common.Photo
+import co.app.common.ID
+import co.app.common.photo.Photo
+import promise.commons.model.Identifiable
 
-class PhotoRecord {
+class PhotoRecord : Identifiable<Int> {
+
+    var uid = 0
+    var refId: ID? = null
+    var refName: String? = null
+
     var url: String? = null
     var type = "OFFLINE"
 
     fun toPhoto(): Photo = Photo()
         .url(url).type(type)
+
+    override fun getId(): Int = uid
+
+    override fun setId(t: Int) {
+        this.uid = t
+    }
 }

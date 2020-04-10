@@ -13,8 +13,11 @@
 
 package co.app.domain.message
 
-import co.app.common.AppUser
+import co.app.common.account.AppUser
 import co.app.common.ID
+import co.app.common.search.Search
+import co.app.common.search.SearchResult
+import co.app.common.search.notNullIsContainedIn
 
 /**
  * entails a user with the last message sent
@@ -37,7 +40,11 @@ data class ChatThread(
      * the last sent message
      */
     var lastChatMessage: ChatMessage
-) {
+): SearchResult {
+    override fun onSearch(search: Search): Boolean =
+        search.query.notNullIsContainedIn(user.userName) ||
+                lastChatMessage.onSearch(search) ||
+                productOrServiceDescription.notNullIsContainedIn(search.query)
 
     override fun toString(): String {
         return user.toString() + lastChatMessage.toString()

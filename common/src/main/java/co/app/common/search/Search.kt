@@ -22,4 +22,5 @@ fun String?.notNullIsContainedIn(query: String?): Boolean = this != null &&
 
 class Search {
     var query: String = ""
+    var recent: Boolean = true
 }

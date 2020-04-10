@@ -16,7 +16,7 @@ package co.base.message
 import androidx.room.Dao
 import androidx.room.Query
 import co.app.common.ID
-import co.base.data.BaseDao
+import co.base.BaseDao
 
 @Dao
 interface ChatUserDao: BaseDao<ChatUserRecord> {

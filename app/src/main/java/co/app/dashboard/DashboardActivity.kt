@@ -29,7 +29,7 @@ import co.app.App.Companion.WALLET_FRAGMENT
 import co.app.BaseSplitActivity
 import co.app.PlaceHolderModuleFragment
 import co.app.R
-import co.app.common.UserAccount
+import co.app.common.account.UserAccount
 import co.app.dashboard.main.MainFragment
 import co.app.dashboard.recents.RecentActivitiesFragment
 import co.app.databinding.ActivityDashboardBinding

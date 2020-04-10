@@ -17,7 +17,7 @@ import android.view.View
 import co.app.R
 import promise.ui.Viewable
 
-class ReportHolder(private val report: co.app.report.Report) : Viewable {
+class ReportHolder(private val report: Report) : Viewable {
 
     lateinit var reportView: ReportView
 
@@ -32,4 +32,8 @@ class ReportHolder(private val report: co.app.report.Report) : Viewable {
         reportView = ReportView(view.context)
         reportView.init(view)
     }
+
+    override fun toString(): String = "ReportHolder(report=$report)"
+
+
 }

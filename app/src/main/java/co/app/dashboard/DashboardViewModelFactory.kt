@@ -15,7 +15,7 @@ package co.app.dashboard
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import co.app.common.UserAccount
+import co.app.common.account.UserAccount
 import promise.commons.AndroidPromise
 import javax.inject.Inject
 
@@ -24,10 +24,7 @@ import javax.inject.Inject
  * Required given RegisterViewModel has a non-empty constructor
  */
 @DashboardScope
-class DashboardViewModelFactory @Inject constructor() : ViewModelProvider.Factory {
-
-    @Inject
-    lateinit var userAccount: UserAccount
+class DashboardViewModelFactory @Inject constructor(var userAccount: UserAccount?) : ViewModelProvider.Factory {
 
     @Inject
     lateinit var promise: AndroidPromise

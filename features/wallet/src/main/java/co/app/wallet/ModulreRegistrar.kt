@@ -14,16 +14,16 @@
 package co.app.wallet
 
 import android.content.Context
-import android.util.ArrayMap
+import androidx.recyclerview.widget.RecyclerView
 import co.app.App
-import co.app.app.ModuleRegister
+import co.app.ModuleRegister
 import co.app.common.search.SearchResult
+import co.app.report.Report
+import co.app.report.ReportHolder
 import co.app.wallet.base.WalletBase
 import co.base.account.AccountComponent
-import promise.ui.Viewable
-import promise.ui.adapter.DiffAdapter
+import promise.ui.adapter.PromiseAdapter
 import java.lang.ref.WeakReference
-import kotlin.reflect.KClass
 
 class ModuleRegistrar : WalletBase(), ModuleRegister {
 
@@ -37,19 +37,11 @@ class ModuleRegistrar : WalletBase(), ModuleRegister {
             app.okHttpClient()
         )
         accountsComponent = app.accountComponent
-        registerSearchableRepository(dataComponent.accountsRepository())
+        //registerSearchableRepository(dataComponent.accountsRepository())
     }
 
-    override fun onRegisterSearchableViews(context: WeakReference<Context>): Pair<Pair<String, Map<Class<*>,
-            KClass<out Viewable>>>, DiffAdapter.Listener<SearchResult>>? {
-        return Pair(Pair("wallet", ArrayMap<Class<*>,
-                KClass<out Viewable>>().apply {
-
-        }), object : DiffAdapter.Listener<SearchResult> {
-            override fun onClick(t: SearchResult, id: Int) {
-
-            }
-        })
+    override fun onRegisterSearchableViews(context: WeakReference<Context>): Pair<String, (Map<Int, List<SearchResult>>, Any?, (Report) -> Unit) -> Unit>? {
+        return null
     }
 
     companion object {

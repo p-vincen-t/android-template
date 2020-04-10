@@ -30,19 +30,17 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
+        <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/medium"
-                app:cardBackgroundColor="@color/color_surface"
-                app:cardCornerRadius="0dp">
+                android:background="@color/color_surface">
 
             <co.app.report.ReportView
                     android:id="@+id/accountsReportView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:report="@{viewModel.accountsReport}" />
-        </androidx.cardview.widget.CardView>
+        </FrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/wallet_reports_recycler_view"

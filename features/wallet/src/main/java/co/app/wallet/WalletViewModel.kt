@@ -13,25 +13,61 @@
 
 package co.app.wallet
 
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.Bindable
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 import co.app.BaseViewModel
-import co.app.common.UserAccount
+import co.app.common.account.UserAccount
+import co.app.report.FooterParams
+import co.app.report.Linear
+import co.app.report.ListReport
 import co.app.wallet.domain.accounts.AccountsRepository
-import co.app.wallet.home.AccountsReport
+import co.app.wallet.home.WalletAccountHolder
+import com.app.wallet.R
 import promise.commons.AndroidPromise
+import promise.commons.data.log.LogUtil
+import promise.ui.adapter.DataSource
+import promise.commons.model.List as PromiseList
 
 class WalletViewModel(
-    private val userAccount: UserAccount,
+    private val userAccount: UserAccount?,
     private val promise: AndroidPromise,
-    private val accountsRepository: AccountsRepository) :
+    private val accountsRepository: AccountsRepository
+) :
     BaseViewModel() {
 
     @Bindable
-    var accountsReport: AccountsReport? = null
+    var accountsReport: ListReport<WalletAccountHolder>? = null
 
     fun initData(lifecycleOwner: LifecycleOwner) {
-        accountsReport = AccountsReport(lifecycleOwner, userAccount, promise, accountsRepository)
+        accountsReport = ListReport(
+            title = "Wallet Accounts",
+            menuClickListener = Toolbar.OnMenuItemClickListener {
+                if (it.itemId == R.id.action_settings) {
+                    LogUtil.e(TAG, "settings clicked")
+                }
+                true
+            },
+            menuRs = R.menu.accounts_menu,
+            layoutType = Linear(orientation = RecyclerView.HORIZONTAL),
+            dataSource = DataSource<WalletAccountHolder> { response,
+                                                           _, _ ->
+                accountsRepository.getAllAccounts().observe(lifecycleOwner, Observer {
+                    LogUtil.e(TAG, "accounts loaded: ", it)
+                    response.response(PromiseList(
+                        it.map { WalletAccountHolder(it) }
+                    ))
+                })
+            },
+            footerParams = FooterParams(footerLayout = R.layout.accounts_report_footer)
+        )
+        //accountsReport = AccountsReport(lifecycleOwner, userAccount, promise, accountsRepository)
         notifyChanges()
+    }
+
+    companion object {
+        val TAG = LogUtil.makeTag(WalletViewModel::class.java)
     }
 }

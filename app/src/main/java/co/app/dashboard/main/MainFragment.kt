@@ -17,48 +17,53 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
 import co.app.BaseFragment
 import co.app.R
-import co.app.dsl.prepareAdapter
-import co.app.report.ReportHolder
-import co.app.dashboard.recents.RecentReport
+import co.app.common.search.Search
+import co.app.common.search.SearchRepository
+import co.app.dashboard.DaggerDashboardComponent
+import co.app.search.SearchReport
 import kotlinx.android.synthetic.main.main_fragment.*
-import promise.ui.adapter.PromiseAdapter
+import promise.commons.AndroidPromise
+import javax.inject.Inject
 
 class MainFragment : BaseFragment() {
-    private lateinit var dataAdapter: PromiseAdapter<ReportHolder>
+
+    lateinit var searchReport: SearchReport
+
+    @Inject
+    lateinit var searchRepository: SearchRepository
+
+    @Inject
+    lateinit var androidPromise: AndroidPromise
 
     companion object {
         fun newInstance() = MainFragment()
     }
 
-    private lateinit var viewModel: MainViewModel
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        DaggerDashboardComponent.factory().create(
+                app.reposComponent().searchRepository(), app.accountComponent
+            )
+            .inject(this)
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.main_fragment, container, false)
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-
-        dataAdapter = reports_recycler_view.prepareAdapter {
-            args = null
-        }
-
-        //reports_loader.showLoading(AppLoaderProgress("Loading, please wait...") , null)
-
-        reports_loader.showContent()
-        dataAdapter.add(
-            ReportHolder(
-                RecentReport(
-                    viewLifecycleOwner
-                )
-            )
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        searchReport = SearchReport(
+            viewLifecycleOwner,
+            app,
+            searchRepository,
+            androidPromise
         )
-
+        search_report.report = searchReport
+        searchReport.search(requireContext(), Search())
     }
-
 }

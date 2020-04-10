@@ -22,6 +22,7 @@ import co.app.report.Report
 import co.app.report.ReportMeta
 import co.app.report.ReportView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.jakewharton.rxbinding2.widget.RxSearchView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -30,7 +31,6 @@ import io.reactivex.subjects.PublishSubject
 import promise.commons.AndroidPromise
 import promise.commons.data.log.LogUtil
 import java.util.concurrent.TimeUnit
-
 
 @ReportMeta
 class SearchForm(

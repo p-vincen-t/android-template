@@ -1,0 +1,87 @@
+/*
+ * Copyright 2020, {{App}}
+ * Licensed under the Apache License, Version 2.0, "{{App}} Inc".
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply from: '../../deps.gradle'
+
+android {
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
+
+    defaultConfig {
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        "room.schemaLocation"  : "$projectDir/schemas".toString(),
+                        "room.incremental"     : "true",
+                        "room.expandProjection": "true"]
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    api project(path: ':domains:request_domain')
+    api project(path: ':common')
+
+    implementation deps.appcompat
+    implementation deps.dagger
+    kapt deps.daggerCompiler
+    implementation deps.kotlin
+    implementation deps.jodaTime
+    testImplementation deps.junit
+    implementation deps.multidex
+    implementation deps.preferences
+    implementation deps.promiseCommons
+    implementation deps.promiseDatabase
+    implementation deps.promiseModel
+    androidTestImplementation deps.testRunner
+    implementation deps.rxJava
+    implementation deps.trueTime
+    implementation deps.androidxCore
+    implementation deps.lifeCycleExtensions
+    implementation deps.retrofit
+    implementation deps.retrofitAdapterRxJava
+    implementation deps.retrofitConverterGson
+    kapt deps.roomCompiler
+    implementation deps.room
+    implementation deps.roomRuntime
+    implementation deps.roomRxJava
+    implementation deps.rxAndroid
+    implementation deps.rxJava
+}

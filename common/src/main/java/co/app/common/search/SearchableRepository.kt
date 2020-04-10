@@ -18,5 +18,5 @@ import promise.commons.tx.Either
 import java.lang.ref.WeakReference
 
 interface SearchableRepository {
-    fun onSearch(context: WeakReference<Context>, search: Search): Either<Map<Pair<String, Int>, List<SearchResult>>, Throwable>
+    fun onSearch(context: WeakReference<Context>, search: Search): Either<Map<Pair<String, Int>, List<SearchResult>>>
 }

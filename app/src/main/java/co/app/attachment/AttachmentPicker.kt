@@ -46,7 +46,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.app.R
 import co.app.common.Attachment
-import co.app.common.Photo
+import co.app.common.photo.Photo
 import co.app.domain.Settings
 import co.app.dsl.listItems
 import co.app.dsl.startActivity
@@ -570,7 +570,8 @@ class AttachmentPicker : BottomSheetDialogFragment() {
                 "3" -> bitmap = bitmap rotate 180
             }
             if (onPickerCloseListener != null) onPickerCloseListener?.invoke(
-                Photo().offline().url(bitmap.toUri(context!!, fileName).path)
+                Photo()
+                    .offline().url(bitmap.toUri(context!!, fileName).path)
             )
         } catch (e: IOException) {
             e.printStackTrace()

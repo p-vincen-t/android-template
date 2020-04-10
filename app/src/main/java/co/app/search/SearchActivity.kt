@@ -35,7 +35,7 @@ class SearchActivity : BaseActivity(), SearchForm.Listener {
     @Inject
     lateinit var androidPromise: AndroidPromise
 
-    lateinit var searchReport: SearchReport
+    private lateinit var searchReport: SearchReport
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

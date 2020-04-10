@@ -52,7 +52,8 @@ android {
 
     dynamicFeatures = [
             ':features:auth',
-            ':features:wallet'
+            ':features:wallet',
+            ':features:request'
             //":fleet",
             //":partner"
     ]
@@ -90,6 +91,10 @@ dependencies {
     implementation deps.lifeCycleRuntime
     implementation deps.lifeCycleViewModel
     implementation deps.material
+    /*implementation deps.mikePenzAdapter
+    implementation deps.mikePenzAdapterPaged
+    implementation deps.mikePenzAdapterSwipe
+    implementation deps.mikePenzAdapterUtils*/
     implementation deps.multidex
     implementation deps.navigationFragment
     implementation deps.navigationUi
@@ -104,6 +109,7 @@ dependencies {
     implementation deps.textDrawable
     implementation deps.recyclerView
     implementation deps.rxAndroid
+    implementation deps.rxBinding
     implementation deps.rxPermissions
     implementation deps.shapeOfView
     implementation deps.spinkit

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright 2020, {{App}}
+  ~ Licensed under the Apache License, Version 2.0, "{{App}} Inc".
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<androidx.appcompat.widget.LinearLayoutCompat
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:padding="@dimen/medium"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical">
+    <androidx.appcompat.widget.AppCompatTextView
+            tools:text="Laptops"
+            android:padding="@dimen/medium"
+            android:id="@+id/category_text_view"
+            android:textColor="@color/color_on_background"
+            android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    <androidx.recyclerview.widget.RecyclerView
+            tools:orientation="horizontal"
+            android:id="@+id/skus_recycler_view"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            tools:itemCount="2"
+            tools:listitem="@layout/product_sku"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    <androidx.appcompat.widget.AppCompatTextView
+            android:padding="@dimen/medium"
+            android:id="@+id/view_more_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

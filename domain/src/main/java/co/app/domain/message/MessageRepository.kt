@@ -37,31 +37,31 @@ interface MessageRepository: SearchableRepository {
     /**
      * call on ui
      */
-    fun getChatThreads(skip: Int, take: Int): Either<Any, MessagesError>
+    fun getChatThreads(skip: Int, take: Int): Either<Any>
 
     /**
      * call on ui
      */
-    fun getChatMessages(chatThread: ChatThread, skip: Int, take: Int): Either<Any, MessagesError>
+    fun getChatMessages(chatThread: ChatThread, skip: Int, take: Int): Either<Any>
 
     /**
      * call on service
      */
-    fun getMessageChatThreads(skip: Int, take: Int): Either<List<ChatThread>, MessagesError>
+    fun getMessageChatThreads(skip: Int, take: Int): Either<List<ChatThread>>
 
     /**
      * call on both ui and service
      */
-    fun getChatThread(id: ID) : Either<ChatThread, MessagesError>
+    fun getChatThread(id: ID) : Either<ChatThread>
 
     /**
      * call on service
      */
-    fun getMessages(chatThread: ChatThread, skip: Int, take: Int): Either<List<ChatMessage>, MessagesError>
+    fun getMessages(chatThread: ChatThread, skip: Int, take: Int): Either<List<ChatMessage>>
 
     /**
      * call on both ui and service
      */
-    fun sendMessage(chatMessage: ChatMessage): Either<Int, MessagesError>
+    fun sendMessage(chatMessage: ChatMessage): Either<Int>
 
 }

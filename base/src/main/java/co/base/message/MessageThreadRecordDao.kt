@@ -21,5 +21,5 @@ import androidx.room.Transaction
 interface MessageThreadRecordDao {
     @Query("SELECT * from chat_users")
     @Transaction
-    fun getMessageThreads(): List<MessageThreadRecord>?
+    fun getMessageThreads(): List<ChatUserRecordToChatMessageRecordsOneToManyRelationship>?
 }

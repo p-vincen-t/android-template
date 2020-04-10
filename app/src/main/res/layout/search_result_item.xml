@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2020, {{App}}
   ~ Licensed under the Apache License, Version 2.0, "{{App}} Inc".
   ~ you may not use this file except in compliance with the License.
@@ -12,32 +11,14 @@
   ~ limitations under the License.
   -->
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.recyclerview.widget.RecyclerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/results_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         app:cardBackgroundColor="@color/color_surface"
-        android:layout_width="match_parent"
-        app:cardUseCompatPadding="true"
-        android:layout_height="wrap_content">
-    <androidx.appcompat.widget.LinearLayoutCompat
-            android:padding="@dimen/medium"
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
-        <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/search_title"
-                tools:text="Messages"
-                android:textColor="@color/color_secondary"
-                android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
-                android:padding="@dimen/medium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        <androidx.recyclerview.widget.RecyclerView
-                android:padding="@dimen/medium"
-                android:id="@+id/search_results_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-    </androidx.appcompat.widget.LinearLayoutCompat>
+        app:cardUseCompatPadding="true">
 
-</androidx.cardview.widget.CardView>
+</androidx.recyclerview.widget.RecyclerView>

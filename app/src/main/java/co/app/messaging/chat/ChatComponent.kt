@@ -13,7 +13,7 @@
 
 package co.app.messaging.chat
 
-import co.base.repos.ReposComponent
+import co.base.ReposComponent
 import dagger.Component
 
 @ChatScope

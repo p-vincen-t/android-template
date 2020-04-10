@@ -25,7 +25,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
-import co.app.app.ModuleRegister
 import co.app.settings.ThemePreference
 import co.base.AppBase
 import co.base.AppBase.Companion.TEMP_PREFERENCE_NAME

@@ -39,12 +39,12 @@ fun <T : Any> adapter(
 }
 
 fun <T : Any> diffAdapter(
-    listener: DiffAdapter.Listener<T>,
-    viewableClasses: Map<Class<*>, KClass<out Viewable>> = ArrayMap(),
+    listener: DiffAdapter.Listener<T>? = null,
+    viewableClasses: Map<Class<*>, KClass<out Viewable>>? = null,
     options: DiffAdapter<T>.() -> Unit = {}
 ): DiffAdapter<T> {
     val ad = DiffAdapter(
-        viewableClasses,
+        viewableClasses ?: ArrayMap(),
         listener,
         null
     )
@@ -72,18 +72,17 @@ fun <T : Any> RecyclerView.prepareAdapter(
 }
 
 fun <T : Any> RecyclerView.prepareListAdapter(
-    listener: DiffAdapter.Listener<T>,
+    listener: DiffAdapter.Listener<T>? = null,
     @RecyclerView.Orientation orientation: Int = RecyclerView.VERTICAL,
-    reverseLayout: Boolean = true,
+    reverseLayout: Boolean = false,
     layoutManager: LinearLayoutManager = LinearLayoutManager(
         context,
         orientation,
         reverseLayout
     ),
-    viewableClasses: Map<Class<*>, KClass<out Viewable>> = ArrayMap(),
+    viewableClasses: Map<Class<*>, KClass<out Viewable>>? = null,
     options: DiffAdapter<T>.() -> Unit = {}
 ): DiffAdapter<T> {
-
     this.layoutManager = layoutManager
     val adapter =
         diffAdapter(options = options, viewableClasses = viewableClasses, listener = listener)

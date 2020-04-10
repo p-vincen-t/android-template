@@ -15,8 +15,9 @@ package co.base.message
 
 import androidx.room.*
 import co.app.common.ID
+import co.app.common.photo.PhotoDatabase
 import co.app.domain.message.ChatMessage
-import co.base.common.PhotoRecord
+import co.base.common.PhotoRecordTable
 
 @Entity(
     tableName = "chats",
@@ -33,9 +34,9 @@ import co.base.common.PhotoRecord
         )
     ],
     indices = [
-        Index(value = ["uId"], name = "uid_index", unique = true )
+        Index(value = ["uId"], name = "uid_index", unique = true),
+        Index(value = ["senderId"], name = "senderId_index", unique = false)
     ]
-
 )
 class ChatMessageRecord {
 
@@ -49,18 +50,30 @@ class ChatMessageRecord {
 
     var message: String = ""
 
-    @Embedded(prefix = "photo_")
-    var photoRecord: PhotoRecord? = null
+    var description: String = ""
+
+    var photoIds: Array<ID>? = null
 
     var sentTime: Long = 0
 
     @ColumnInfo(index = true)
     var chatReplyId: ID? = null
 
+    @Ignore
+    var chatReplyMessage: ChatMessageRecord? = null
+
     var forwardedFlag: Boolean = false
 
-    fun toChatMessage(chatUserDao: ChatUserDao): ChatMessage =
-        ChatMessage(chatUserDao.getChatUser(senderId!!).toChatUser(), message, sentTime).apply {
-
+    fun toChatMessage(chatUserDao: ChatUserDao, photoRecordDao: PhotoDatabase): ChatMessage {
+        val user = chatUserDao.getChatUser(senderId!!).toChatUser(photoRecordDao)
+        return ChatMessage(user, message, sentTime).apply {
+            chatDescription = description
+            fromCurrentUser = senderId!!.id == user.userId.id
+            forwarded = forwardedFlag
+            if (photoIds != null) photos =
+                photoRecordDao.getPhotosByRef("chat_photos", photoIds!!)
+            if (chatMessageReply != null) chatMessageReply =
+                chatReplyMessage!!.toChatMessage(chatUserDao, photoRecordDao)
         }
+    }
 }

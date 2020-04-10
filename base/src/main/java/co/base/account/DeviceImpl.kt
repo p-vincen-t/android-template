@@ -13,7 +13,7 @@
 
 package co.base.account
 
-import co.app.common.Device
+import co.app.common.account.Device
 
 data class DeviceImpl(
     override val name: String,

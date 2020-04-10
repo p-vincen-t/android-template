@@ -16,7 +16,7 @@ package co.app.auth.base
 import co.app.auth.domain.LoginRequest
 import co.app.auth.domain.RegistrationRequest
 import co.app.auth.domain.Session
-import co.app.common.UserAccount
+import co.app.common.account.UserAccount
 import co.app.common.errors.AuthError
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers

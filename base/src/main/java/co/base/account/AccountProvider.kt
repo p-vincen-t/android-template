@@ -13,7 +13,7 @@
 
 package co.base.account
 
-import co.app.common.UserAccount
+import co.app.common.account.UserAccount
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -24,7 +24,12 @@ import promise.commons.pref.Preferences
 object AccountProvider {
     @Provides
     @JvmStatic
-    fun bindAccount(readAccount: UserAccountImpl.ReadAccount): UserAccount = readAccount
+    @AccountScope
+    fun provideAccount(preferences: Preferences,gson: Gson): UserAccount? {
+        if (UserAccountImpl.ReadAccount.hasAccount(preferences))
+            return UserAccountImpl.ReadAccount(preferences, gson)
+        return null
+    }
 
     @Provides
     @AccountScope
@@ -42,6 +47,8 @@ object AccountModule {
     @Provides
     @JvmStatic
     fun provideWriteAccount(preferences: Preferences,
-                            promise: AndroidPromise, gson: Gson): UserAccount = UserAccountImpl.WriteAccount(preferences, promise, gson)
+                            promise: AndroidPromise, gson: Gson): UserAccount {
+        return UserAccountImpl.WriteAccount(preferences, promise, gson)
+                            }
 
 }

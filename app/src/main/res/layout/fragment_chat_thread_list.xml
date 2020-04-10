@@ -23,12 +23,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/chat_threads_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:padding="8dp" />
+       <include
+               layout="@layout/list_view"
+               />
 
     </promise.ui.loading.LoadingLayout>
 

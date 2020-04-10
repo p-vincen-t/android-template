@@ -26,6 +26,7 @@ import co.app.dsl.prepareAdapter
 import co.app.dsl.startActivity
 import co.app.domain.message.ChatThread
 import kotlinx.android.synthetic.main.fragment_chat_thread_list.*
+import kotlinx.android.synthetic.main.list_view.*
 import promise.commons.data.log.LogUtil
 import promise.ui.Viewable
 import promise.ui.adapter.PromiseAdapter
@@ -62,7 +63,7 @@ class ChatThreadFragment : BaseFragment(), PromiseAdapter.Listener<ChatThread> {
             messagingViewModelFactory
         )[ThreadsViewModel::class.java]
         adapter =
-            chat_threads_recycler_view.prepareAdapter(
+            list_recycler_view.prepareAdapter(
                 viewableClasses = ArrayMap<Class<*>, KClass<out Viewable>>()
                     .apply {
                         put(

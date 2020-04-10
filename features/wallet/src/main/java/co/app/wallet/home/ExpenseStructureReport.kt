@@ -38,8 +38,7 @@ import kotlinx.android.synthetic.main.expense_structure.*
 import promise.commons.data.log.LogUtil
 
 @ReportMeta(
-    header = "Expense Structure",
-    menu = R.menu.more_vert
+    header = "Expense Structure"
 )
 class ExpenseStructureReport(private val lifecycleOwner: LifecycleOwner) :
     Toolbar.OnMenuItemClickListener, Report, LayoutContainer, OnChartValueSelectedListener {

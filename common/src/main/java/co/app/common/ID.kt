@@ -38,10 +38,6 @@ class ID() : Parcelable {
         id = parcel.readString()
     }
 
-    fun generate() {
-        id = UUID.randomUUID().toString()
-    }
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -62,6 +58,12 @@ class ID() : Parcelable {
     override fun describeContents(): Int = 0
 
     companion object CREATOR : Parcelable.Creator<ID> {
+
+        fun generate(): ID {
+            val id = ID()
+            id.id = UUID.randomUUID().toString()
+            return id
+        }
 
         fun from(value: String): ID {
             val id = ID()

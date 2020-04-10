@@ -13,7 +13,7 @@
 
 package co.base.account
 
-import co.app.common.UserAccount
+import co.app.common.account.UserAccount
 import com.google.gson.Gson
 import dagger.BindsInstance
 import dagger.Component
@@ -23,7 +23,7 @@ import promise.commons.AndroidPromise
 @Component(modules = [AccountProvider::class])
 interface AccountComponent {
 
-    fun userAccount(): UserAccount
+    fun userAccount(): UserAccount?
 
     fun promise(): AndroidPromise
 

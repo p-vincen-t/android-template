@@ -18,7 +18,7 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
 import co.app.R
-import co.app.common.Photo
+import co.app.common.photo.Photo
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import promise.commons.data.log.LogUtil

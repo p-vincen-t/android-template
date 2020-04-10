@@ -16,12 +16,12 @@ package co.app.dashboard
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import co.app.common.UserAccount
+import co.app.common.account.UserAccount
 import promise.commons.AndroidPromise
 import promise.commons.model.List
 
 class DashboardViewModel(
-    private val userAccount: UserAccount,
+    private val userAccount: UserAccount?,
     private val promise: AndroidPromise
 ) : ViewModel() {
 
@@ -30,7 +30,8 @@ class DashboardViewModel(
     val accountsResult: LiveData<List<UserAccount.UserChildAccount>> = _accountsResult
 
     fun fetchAccounts() {
-        _accountsResult.value = List(userAccount.childAccounts)
+        if (userAccount == null) return
+        _accountsResult.value = List(userAccount.childAccounts!!)
     }
 
 }

@@ -15,7 +15,7 @@ package co.app.wallet
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import co.app.common.UserAccount
+import co.app.common.account.UserAccount
 import co.app.dashboard.DashboardScope
 import co.app.wallet.domain.accounts.AccountsRepository
 import promise.commons.AndroidPromise
@@ -26,10 +26,8 @@ import javax.inject.Inject
  * Required given RegisterViewModel has a non-empty constructor
  */
 @DashboardScope
-class WalletViewModelFactory @Inject constructor() : ViewModelProvider.Factory {
+class WalletViewModelFactory @Inject constructor(var userAccount: UserAccount?) : ViewModelProvider.Factory {
 
-    @Inject
-    lateinit var userAccount: UserAccount
     @Inject
     lateinit var promise: AndroidPromise
 

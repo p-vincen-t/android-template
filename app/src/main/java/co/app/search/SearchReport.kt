@@ -14,26 +14,27 @@
 package co.app.search
 
 import android.content.Context
+import android.util.ArrayMap
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import co.app.App
+import co.app.AppLoaderProgress
 import co.app.R
 import co.app.common.search.Search
 import co.app.common.search.SearchRepository
 import co.app.common.search.SearchResult
-import co.app.dsl.prepareListAdapter
+import co.app.dsl.prepareAdapter
 import co.app.report.Report
+import co.app.report.ReportHolder
 import co.app.report.ReportMeta
 import co.app.report.ReportView
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.report_search.*
 import promise.commons.AndroidPromise
-import promise.commons.model.List
-import promise.ui.Viewable
-import promise.ui.adapter.DiffAdapter
+import promise.ui.adapter.PromiseAdapter
 import java.lang.ref.WeakReference
-import kotlin.reflect.KClass
+import promise.commons.model.List as PromiseList
 
 @ReportMeta
 class SearchReport(
@@ -41,7 +42,7 @@ class SearchReport(
     private val app: App,
     private val searchRepository: SearchRepository,
     private val androidPromise: AndroidPromise
-) : Report, LayoutContainer, DiffAdapter.Listener<SearchResultViewable> {
+) : Report, LayoutContainer {
 
     lateinit var view: View
 
@@ -52,90 +53,106 @@ class SearchReport(
     fun search(context: Context, search: Search) {
         this.context = context
         this.search = search
-        if (search.query.isEmpty()) {
+        if (search.query.isEmpty() && !search.recent) {
             diffAdapter.clear()
-            loading_layout.showEmpty(R.drawable.ic_hourglass_empty_icon_24dp,
+            loading_layout.showEmpty(
+                R.drawable.ic_hourglass_empty_icon_24dp,
                 "Type keyword to continue",
-                "")
+                ""
+            )
             return
         }
+        loading_layout.showLoading(AppLoaderProgress("Loading reports, please wait ..."))
         searchRepository.search(WeakReference(context), search).fold({
-            androidPromise.executeOnUi {
-                diffAdapter.clear()
-                loading_layout.showLoading(null)
-            }
+
         }, {
             androidPromise.executeOnUi {
-                loading_layout.showEmpty(R.drawable.ic_error_icon_24dp,
-                "Search not raady ",it.message)
+                loading_layout.showEmpty(
+                    R.drawable.ic_error_icon_24dp,
+                    "Problem retrieving reports ", it.message
+                )
             }
         })
     }
 
-    lateinit var diffAdapter: DiffAdapter<SearchResultViewable>
+    lateinit var diffAdapter: PromiseAdapter<ReportHolder>
+
+    companion object {
+
+        var searchViewMappers: PromiseList<Pair<String, ((Map<Int, List<SearchResult>>, Any?, (Report) -> Unit) -> Unit)>>? =
+            null
+    }
+
     override fun bind(reportView: ReportView, view: View) {
         this.view = view
-        diffAdapter = search_results_recycler_view.prepareListAdapter(this)
-
+        diffAdapter = search_results_recycler_view.prepareAdapter()
         searchRepository.searchResults.observe(lifecycleOwner, Observer { map ->
             if (map.isEmpty()) {
-                loading_layout.showEmpty(R.drawable.ic_hourglass_empty_icon_24dp,
+                loading_layout.showEmpty(
+                    R.drawable.ic_hourglass_empty_icon_24dp,
                     "No results found",
-                    "We could not find anything relating to ${this.search?.query}")
+                    "We could not find anything relating to ${this.search?.query}"
+                )
                 return@Observer
             }
             androidPromise.execute {
-                val viewableMappersRegistered =
-                    List<Pair<Pair<String, Map<Class<*>, KClass<out Viewable>>>,
-                            DiffAdapter.Listener<SearchResult>>>()
-                app.modules.forEach {
-                    val pair = it.value.onRegisterSearchableViews(WeakReference(context!!))
-                    if(pair != null) viewableMappersRegistered.add(pair)
+                if (searchViewMappers == null) {
+                    val v =
+                        PromiseList<Pair<String, ((Map<Int, List<SearchResult>>, Any?, (Report) -> Unit) -> Unit)>>()
+                    app.modules.forEach {
+                        val pair = it.value.onRegisterSearchableViews(WeakReference(context!!))
+                        if (pair != null) v.add(pair)
+                    }
+                    searchViewMappers = v
                 }
-
-                val searchResults: List<Pair<Pair<String, Int>, SearchResult>> = List()
-
+                val viewableMappersRegistered = searchViewMappers!!
+                val searchResults: ArrayList<Pair<Pair<String, Int>, SearchResult>> = ArrayList()
                 map.toList().map { pair ->
                     pair.second.forEach {
                         searchResults.add(Pair(Pair(pair.first.first, pair.first.second), it))
                     }
                 }
-                var viewHolderMappers: List<Pair<String, Pair<Map<Class<*>,
-                        KClass<out Viewable>>, DiffAdapter.Listener<in SearchResult>>>> = List()
-                viewableMappersRegistered.forEach {
-                    viewHolderMappers.add(Pair(it.first.first, Pair(it.first.second, it.second)))
-                }
 
-                viewHolderMappers = viewHolderMappers.joinOn(searchResults) { t, u ->
-                    t.second.first.containsKey(u.second.javaClass)
-                }
+                val results = PromiseList(searchResults)
+                    .filter { result ->
+                        viewableMappersRegistered.anyMatch {
+                            it.first == result.first.first
+                        }
+                    }
+                    .groupBy {
+                        it.first
 
-                val reports = searchResults.groupBy {
-                    it.first
-                }.map { category ->
-                    val v = viewableMappersRegistered
-                        .first { it.first.first == category.name().first }
-
-                    SearchResultViewable(Pair(category.name().second,
-                        category.list().map { it.second }), v.first.second, v.second
-                    )
-                }
+                    }.map { category ->
+                        Pair(
+                            category.name().first,
+                            Pair(category.name().second, category.list().map { it.second })
+                        )
+                    }
+                    .groupBy { it.first }
 
                 androidPromise.executeOnUi {
                     loading_layout.showContent()
                 }
                 diffAdapter.clear()
                 diffAdapter.args = search
-                diffAdapter.add(reports)
+
+                results.forEach { category ->
+                    val viewMapper = viewableMappersRegistered.find { it.first == category.name() }
+                    val map1 = ArrayMap<Int, List<SearchResult>>()
+                    category.list().forEach {
+                        map1[it.second.first] = it.second.second
+                    }
+                    viewMapper?.second?.invoke(map1, search) { report ->
+                        diffAdapter.add(ReportHolder((report)))
+                    }
+                }
             }
         })
     }
 
     override fun layout(): Int = R.layout.report_search
+
     override val containerView: View?
         get() = view
 
-    override fun onClick(t: SearchResultViewable, id: Int) {
-
-    }
 }

@@ -15,6 +15,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply from: '../deps.gradle'
+apply plugin: 'com.apollographql.apollo'
 
 android {
     compileSdkVersion versions.compileSdk
@@ -51,10 +52,18 @@ android {
     }
 }
 
+apollo {
+    customTypeMapping = [
+            "Date" : "java.util.Date",
+            "URL" : "java.lang.String"
+    ]
+    generateKotlinModels.set(true) // or false for Java models
+}
+
 dependencies {
     implementation project(path: ':common')
     api project(path: ':domain')
-
+    implementation deps.apollo
     implementation deps.appcompat
     implementation deps.dagger
     kapt deps.daggerCompiler
@@ -63,15 +72,17 @@ dependencies {
     implementation deps.kotlin
     implementation deps.jodaTime
     testImplementation deps.junit
+    implementation deps.lifeCycleReactiveStreams
     implementation deps.okHttpInterceptor
     debugImplementation deps.okHttpMockWebServer
+    testImplementation deps.mockito
+    testImplementation deps.mockitoCore
     implementation deps.multidex
     implementation deps.preferences
     implementation deps.promiseCommons
     implementation deps.promiseDatabase
     implementation deps.promiseModel
     androidTestImplementation deps.testRunner
-    implementation deps.rxJava
     implementation deps.trueTime
     implementation deps.androidxCore
     implementation deps.lifeCycleExtensions
@@ -85,6 +96,9 @@ dependencies {
     implementation deps.rxAndroid
     implementation deps.rxJava
 }
+
 repositories {
     mavenCentral()
+    jcenter()
 }
+

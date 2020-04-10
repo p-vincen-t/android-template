@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright 2020, {{App}}
+  ~ Licensed under the Apache License, Version 2.0, "{{App}} Inc".
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/medium"
+        android:layout_marginBottom="@dimen/medium">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:orientation="vertical"
+            android:padding="@dimen/medium">
+
+        <com.google.android.material.appbar.MaterialToolbar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:menu="@menu/product_sku"
+                android:id="@+id/toolbar"
+                app:title="Fashion B07 "
+                app:titleTextColor="@color/color_on_surface"
+                app:titleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/photo_image_view"
+                    android:layout_width="148dp"
+                    android:layout_height="148dp"
+                    android:padding="@dimen/small"
+                    android:scaleType="centerInside"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/hewlett_packard_dell_all_in_one_desktop_computers_computer_desktop_pc"
+                    tools:src="@drawable/hewlett_packard_dell_all_in_one_desktop_computers_computer_desktop_pc" />
+
+            <androidx.appcompat.widget.AppCompatRatingBar
+                    android:id="@+id/rating_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/small"
+                    android:theme="@style/CustomRatingBar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/photo_image_view"
+                    tools:numStars="5"
+                    android:numStars="5"
+                    android:rating="3"
+                    tools:rating="3" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/price_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/small"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/color_secondary"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/rating_bar"
+                    android:text="$50.00"
+                    tools:text="$50.50" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.cardview.widget.CardView>

@@ -11,21 +11,10 @@
   ~ limitations under the License.
   -->
 
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<co.app.report.ReportView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".dashboard.main.MainFragment"
+        android:id="@+id/search_report"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".dashboard.main.MainFragment">
-
-    <promise.ui.loading.LoadingLayout
-            android:id="@+id/reports_loader"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/reports_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-    </promise.ui.loading.LoadingLayout>
-</androidx.core.widget.NestedScrollView>
+        android:layout_height="match_parent" />

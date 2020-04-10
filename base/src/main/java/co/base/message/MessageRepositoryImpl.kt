@@ -17,14 +17,14 @@ import android.content.Context
 import androidx.collection.ArrayMap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import co.app.common.AppUser
 import co.app.common.ID
-import co.app.common.Photo
+import co.app.common.account.AppUser
+import co.app.common.photo.Photo
 import co.app.common.search.Search
 import co.app.common.search.SearchResult
 import co.app.domain.message.*
 import co.base.R
-import co.base.repos.RepoScope
+import co.base.RepoScope
 import org.joda.time.DateTime
 import org.joda.time.Period
 import org.joda.time.format.PeriodFormat
@@ -38,25 +38,25 @@ import java.util.*
 import javax.inject.Inject
 
 @RepoScope
-class MessageRepositoryImpl @Inject constructor(private val repository: Repository<ChatMessage>) :
+class MessageRepositoryImpl @Inject constructor(
+    private val chatDatabase: ChatDatabase,
+    private val repository: Repository<ChatMessage>
+) :
     MessageRepository {
 
     override fun onSearch(
         context: WeakReference<Context>,
         search: Search
-    ): Either<Map<Pair<String, Int>, List<SearchResult>>, Throwable> =
+    ): Either<Map<Pair<String, Int>, List<SearchResult>>> =
         AsyncEither { resolve, _ ->
-            LogUtil.e("messages", "serching")
+            LogUtil.e("messages", "searching")
             val map = ArrayMap<Pair<String, Int>, List<SearchResult>>()
-            repository.findAll(ArrayMap<String, Any>().apply {
-                put(SEARCH_ARG, search)
-            }, { messages ->
-                map[Pair("app", R.string.messages)] = messages
-                resolve(map)
-            })
+            chatDatabase.search(search)
+            map[Pair("app", R.string.messages)] = chatDatabase.search(search)
+            resolve(map)
         }
 
-    private val chatThreadId: ID = ID.from(UUID.randomUUID().toString())
+    private val chatThreadId: ID = ID.generate()
 
     companion object {
         val TAG: String = LogUtil.makeTag(MessageRepositoryImpl::class.java)
@@ -74,43 +74,17 @@ class MessageRepositoryImpl @Inject constructor(private val repository: Reposito
     /**
      * called on ui
      */
-    override fun getChatThreads(skip: Int, take: Int): Either<Any, MessagesError> =
-        AsyncEither { resolve, reject ->
-            repository.findAll(ArrayMap<String, Any>().apply {
-                put(SKIP_ARG, skip)
-                put(TAKE_ARG, take)
-            }, { data ->
-                repoThreads.postValue(data!!.map {
-                        it.apply {
-                            val d1 = DateTime()
-                            val d2 = DateTime(it.sentTime)
-                            val diffInMillis = d1.millis - d2.millis
-                            val date = PeriodFormat.getDefault().print(Period(diffInMillis))
-                            sentTimeString = date
-                        }
-                    }
-                    .groupBy {
-                        it.sender
-                    }.map {
-                        val message = it.list().last()!!
-                        ChatThread(
-                            chatThreadId,
-                            it.name(),
-                            "product",
-                            message
-                        )
-                    })
-                resolve(Any())
-            }, {
-                reject(MessagesError(it))
-            })
+    override fun getChatThreads(skip: Int, take: Int): Either<Any> =
+        AsyncEither { resolve, _ ->
+            resolve(Any())
+            repoThreads.postValue(chatDatabase.getMessageThreads())
         }
 
     override fun getChatMessages(
         chatThread: ChatThread,
         skip: Int,
         take: Int
-    ): Either<Any, MessagesError> = AsyncEither { resolve, _ ->
+    ): Either<Any> = AsyncEither { resolve, _ ->
         repository.findAll(ArrayMap<String, Any>().apply {
             put(SKIP_ARG, skip)
             put(TAKE_ARG, take)
@@ -135,7 +109,7 @@ class MessageRepositoryImpl @Inject constructor(private val repository: Reposito
     override fun getMessageChatThreads(
         skip: Int,
         take: Int
-    ): Either<List<ChatThread>, MessagesError> = AsyncEither { resolve, reject ->
+    ): Either<List<ChatThread>> = AsyncEither { resolve, reject ->
         repository.findAll(ArrayMap<String, Any>().apply {
             put(SKIP_ARG, skip)
             put(TAKE_ARG, take)
@@ -165,7 +139,7 @@ class MessageRepositoryImpl @Inject constructor(private val repository: Reposito
         })
     }
 
-    override fun getChatThread(id: ID): Either<ChatThread, MessagesError> {
+    override fun getChatThread(id: ID): Either<ChatThread> {
         LogUtil.d(TAG, "called get thread")
         val appUser = AppUser(
             ID.from(UUID.randomUUID().toString()), "username",
@@ -184,7 +158,7 @@ class MessageRepositoryImpl @Inject constructor(private val repository: Reposito
         chatThread: ChatThread,
         skip: Int,
         take: Int
-    ): Either<List<ChatMessage>, MessagesError> = AsyncEither { resolve, _ ->
+    ): Either<List<ChatMessage>> = AsyncEither { resolve, _ ->
         repository.findAll(ArrayMap<String, Any>().apply {
             put(SKIP_ARG, skip)
             put(TAKE_ARG, take)
@@ -204,7 +178,7 @@ class MessageRepositoryImpl @Inject constructor(private val repository: Reposito
         })
     }
 
-    override fun sendMessage(chatMessage: ChatMessage): Either<Int, MessagesError> =
+    override fun sendMessage(chatMessage: ChatMessage): Either<Int> =
         AsyncEither { resolve, _ ->
             val messages = repoMessages.value!!.toMutableList()
             messages.add(chatMessage)

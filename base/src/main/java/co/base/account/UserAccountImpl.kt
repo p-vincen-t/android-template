@@ -16,11 +16,10 @@ package co.base.account
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.wifi.WifiManager
-import co.app.common.Device
 import co.app.common.ID
-import co.app.common.Photo
-import co.app.common.UserAccount
-import co.app.common.errors.AuthError
+import co.app.common.account.Device
+import co.app.common.account.UserAccount
+import co.app.common.photo.Photo
 import com.google.gson.Gson
 import org.json.JSONObject
 import promise.commons.AndroidPromise
@@ -28,8 +27,8 @@ import promise.commons.model.function.FilterFunction
 import promise.commons.pref.Preferences
 import promise.commons.tx.PromiseResult
 import promise.commons.util.DoubleConverter
-import promise.model.PreferenceStore
-import promise.model.Store
+import promise.model.KeyStore
+import promise.model.PreferenceKeyStore
 import javax.inject.Inject
 import promise.commons.model.List as PromiseList
 
@@ -52,8 +51,8 @@ fun getDeviceInfo(promise: AndroidPromise): Device {
     )
 }
 
-private fun devicePreferenceStore(gson: Gson): PreferenceStore<Device> =
-    object : PreferenceStore<Device>(
+private fun devicePreferenceStore(gson: Gson): PreferenceKeyStore<Device> =
+    object : PreferenceKeyStore<Device>(
         SessionPrefName,
         object : DoubleConverter<Device, JSONObject, JSONObject> {
             override fun deserialize(e: JSONObject): Device =
@@ -68,50 +67,49 @@ private fun devicePreferenceStore(gson: Gson): PreferenceStore<Device> =
             }
     }
 
-sealed class UserAccountImpl: UserAccount {
-    override var id: ID? = null
+sealed class UserAccountImpl : UserAccount {
+    abstract override var id: ID
     override var names: String = ""
     override var emailAddress: String = ""
     override var phoneNumber: String = ""
     override var device: List<Device> = listOf()
 
-    override var childAccounts: List<UserAccount.UserChildAccount> = promise.commons.model.List.generate(2) {
-        UserChildAccountImpl()
-    }
-
-    override fun create(map: JSONObject): Unit = throw IllegalAccessError("Cant create account")
-
-    override fun login(result: PromiseResult<Boolean, in AuthError>) {
-
-    }
-
-    override fun registerDevice() {
-
-    }
-
-    inner class UserChildAccountImpl : UserAccount.UserChildAccount {
+    inner class UserChildAccountImpl(override var id: ID) : UserAccount.UserChildAccount {
         override var photo: Photo
             get() = Photo()
             set(value) {}
 
     }
 
-    @AccountScope
-    class ReadAccount @Inject constructor(preferences: Preferences, gson: Gson) : UserAccountImpl() {
+    class ReadAccount constructor(preferences: Preferences, gson: Gson) :
+        UserAccountImpl() {
+
+        override fun create(map: JSONObject): Unit = throw IllegalAccessError("Cant create account")
+
+        override var childAccounts: List<UserAccount.UserChildAccount>?
+            get() = promise.commons.model.List.generate(2) {
+                UserChildAccountImpl(ID.generate())
+            }
+            set(value) {
+                throw IllegalAccessException("cant set child accounts")
+            }
+
         init {
-            val uId = preferences.getString("id")
-            if (uId.isNotEmpty())
-                id = ID.from(uId)
             names = preferences.getString("names")
             emailAddress = preferences.getString("email_address")
             phoneNumber = preferences.getString("phone_number")
-            devicePreferenceStore(gson).get("devices",
-                PromiseResult<Store.Extras<Device>, Throwable>()
-                    .withCallback {
-                        device = it.all()
-                    })
+            devicePreferenceStore(gson)["devices", PromiseResult<KeyStore.Extras<Device>, Throwable>()
+                .withCallback {
+                    device = it.all()
+                }]
 
         }
+
+        companion object {
+            fun hasAccount(preferences: Preferences): Boolean = preferences.getBoolean("isLoggedIn")
+        }
+
+        override var id: ID = ID.from(preferences.getString("id"))
     }
 
     class WriteAccount(
@@ -119,6 +117,12 @@ sealed class UserAccountImpl: UserAccount {
         private val promise: AndroidPromise,
         private val gson: Gson
     ) : UserAccountImpl() {
+
+        override var childAccounts: List<UserAccount.UserChildAccount>? = null
+
+        override var id: ID
+            get() = throw IllegalAccessException("cant read id of Write account")
+            set(value) {}
 
         override fun create(map: JSONObject) {
             var deviceKey = map.getString(MOBILE_DEVICE_ID_KEY)
@@ -135,6 +139,7 @@ sealed class UserAccountImpl: UserAccount {
                     {
 
                     })
+            preferences.save("isLoggedIn", true)
         }
     }
 }

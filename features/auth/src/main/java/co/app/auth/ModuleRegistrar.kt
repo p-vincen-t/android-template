@@ -14,23 +14,24 @@
 package co.app.auth
 
 import android.content.Context
+import androidx.recyclerview.widget.RecyclerView
 import co.app.App
-import co.app.app.ModuleRegister
+import co.app.ModuleRegister
 import co.app.auth.base.DaggerSessionComponent
 import co.app.auth.base.SessionComponent
 import co.app.common.search.SearchResult
+import co.app.report.Report
+import co.app.report.ReportHolder
 import promise.commons.data.log.LogUtil
-import promise.ui.Viewable
-import promise.ui.adapter.DiffAdapter
+import promise.ui.adapter.PromiseAdapter
 import java.lang.ref.WeakReference
-import kotlin.reflect.KClass
 
 
 class ModuleRegistrar : ModuleRegister {
 
-    override fun onRegisterSearchableViews(context: WeakReference<Context>): Pair<Pair<String, Map<Class<*>,
-            KClass<out Viewable>>>, DiffAdapter.Listener<SearchResult>>? =
-        null
+    override fun onRegisterSearchableViews(context: WeakReference<Context>): Pair<String, (Map<Int, List<SearchResult>>, Any?, (Report) -> Unit) -> Unit>? {
+        return null
+    }
 
     lateinit var sessionComponent: SessionComponent
 

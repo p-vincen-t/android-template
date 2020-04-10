@@ -13,17 +13,21 @@
 
 package co.base.message
 
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import co.app.common.AppUser
+import co.app.common.account.AppUser
 import co.app.common.ID
-import co.base.common.PhotoRecord
+import co.app.common.photo.PhotoDatabase
+import co.base.common.PhotoRecordTable
 
 @Entity(tableName = "chat_users")
-class ChatUserRecord(@PrimaryKey var userId: ID, var userName: String, @Embedded var photo: PhotoRecord) {
+class ChatUserRecord(@PrimaryKey var userId: ID, var userName: String) {
 
-    fun toChatUser(): AppUser =
-        AppUser(userId, userName, photo.toPhoto())
+    fun toChatUser(photoRecordDao: PhotoDatabase): AppUser =
+        AppUser(
+            userId,
+            userName,
+            photo = photoRecordDao.getPhotoByRef("chat_user",userId)
+        )
 
 }
