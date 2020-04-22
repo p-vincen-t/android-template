@@ -14,8 +14,8 @@
 package co.app.request.product
 
 import android.view.View
+import co.app.request.R
 import co.app.request.domain.product.ProductSKU
-import com.nesst.request.R
 import kotlinx.android.extensions.LayoutContainer
 import promise.commons.data.log.LogUtil
 import promise.ui.Viewable

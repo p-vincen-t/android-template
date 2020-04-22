@@ -153,4 +153,12 @@
     <string name="document">Document</string>
     <string name="gallery">Gallery</string>
     <string name="video">Video</string>
+    <string name="title_activity_product_details">Product Details</string>
+    <string name="today">Today</string>
+    <string name="title_person_list">Persons</string>
+    <string name="title_person_detail">Person Detail</string>
+    <string name="categories">Categories</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

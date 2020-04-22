@@ -32,6 +32,7 @@ import co.app.report.ReportView
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.report_search.*
 import promise.commons.AndroidPromise
+import promise.commons.data.log.LogUtil
 import promise.ui.adapter.PromiseAdapter
 import java.lang.ref.WeakReference
 import promise.commons.model.List as PromiseList
@@ -78,7 +79,7 @@ class SearchReport(
     lateinit var diffAdapter: PromiseAdapter<ReportHolder>
 
     companion object {
-
+        val TAG = LogUtil.makeTag(SearchReport::class.java)
         var searchViewMappers: PromiseList<Pair<String, ((Map<Int, List<SearchResult>>, Any?, (Report) -> Unit) -> Unit)>>? =
             null
     }
@@ -121,7 +122,6 @@ class SearchReport(
                     }
                     .groupBy {
                         it.first
-
                     }.map { category ->
                         Pair(
                             category.name().first,
@@ -129,13 +129,11 @@ class SearchReport(
                         )
                     }
                     .groupBy { it.first }
-
                 androidPromise.executeOnUi {
                     loading_layout.showContent()
                 }
                 diffAdapter.clear()
                 diffAdapter.args = search
-
                 results.forEach { category ->
                     val viewMapper = viewableMappersRegistered.find { it.first == category.name() }
                     val map1 = ArrayMap<Int, List<SearchResult>>()
@@ -143,6 +141,7 @@ class SearchReport(
                         map1[it.second.first] = it.second.second
                     }
                     viewMapper?.second?.invoke(map1, search) { report ->
+                        LogUtil.e(TAG, "adding report ", report)
                         diffAdapter.add(ReportHolder((report)))
                     }
                 }

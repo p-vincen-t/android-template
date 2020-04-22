@@ -57,5 +57,6 @@
     <dimen name="margin_big">36dp</dimen>
     <dimen name="icon">48dp</dimen>
     <dimen name="icon_small">40dp</dimen>
+    <dimen name="item_width">200dp</dimen>
 
 </resources>

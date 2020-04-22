@@ -18,7 +18,7 @@
 
     <fragment
             android:id="@+id/permissions_fragment"
-            android:name="co.app.PermissionsFragment"
+            android:name="co.app.photo.PermissionsFragment"
             android:label="PermissionsFragment">
 
         <action

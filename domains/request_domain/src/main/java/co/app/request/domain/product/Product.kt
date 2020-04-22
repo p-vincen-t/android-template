@@ -28,7 +28,6 @@ class Product(
 ) : Identifiable<String>, SearchResult {
     private var id: ID? = null
 
-
     override fun getId(): String = id!!.id!!
 
     override fun setId(t: String) {
@@ -40,9 +39,30 @@ class Product(
         TODO("Not yet implemented")
     }
 
-    override fun toString(): String {
-        return "Product(registrar=$registrar, category=$category, name=$name, description=$description, active=$active, id=$id)"
+    override fun toString(): String =
+        "Product(registrar=$registrar, category=$category, name=$name, description=$description, active=$active, id=$id)"
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        other as Product
+        if (registrar != other.registrar) return false
+        if (category != other.category) return false
+        if (name != other.name) return false
+        if (description != other.description) return false
+        if (active != other.active) return false
+        if (id != other.id) return false
+        return true
     }
 
+    override fun hashCode(): Int {
+        var result = registrar.hashCode()
+        result = 31 * result + category.hashCode()
+        result = 31 * result + name.hashCode()
+        result = 31 * result + description.hashCode()
+        result = 31 * result + active.hashCode()
+        result = 31 * result + (id?.hashCode() ?: 0)
+        return result
+    }
 
 }

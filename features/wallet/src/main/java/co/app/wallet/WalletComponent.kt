@@ -23,7 +23,7 @@ import dagger.Component
 @Component(dependencies = [AccountComponent::class])
 interface WalletComponent {
 
-    fun inject(walletFragment: WalletFragment)
+    fun inject(walletFragment: WalletActivity)
 
     @Component.Factory
     interface Factory {

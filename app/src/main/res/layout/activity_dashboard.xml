@@ -30,7 +30,7 @@
             android:fitsSystemWindows="true"
             tools:openDrawer="start">
 
-        <include layout="@layout/app_bar_dashboard" />
+        <include layout="@layout/content_dashboard" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="@dimen/navigation_drawer_width"
@@ -51,14 +51,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:padding="@dimen/big" />
+                        android:padding="@dimen/medium" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="bottom|center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:layout_gravity="bottom"
                         android:orientation="vertical"
-                        android:padding="@dimen/big">
+                        android:padding="@dimen/medium">
 
                     <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="wrap_content"
@@ -89,7 +90,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:padding="@dimen/big">
+                        android:padding="@dimen/medium">
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="wrap_content"
@@ -101,14 +102,13 @@
                         <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                                android:textSize="24sp"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionMode.Title"
                                 tools:text="@tools:sample/first_names" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
                                 android:textColor="@color/color_on_surface"
                                 tools:text="@tools:sample/last_names" />
                     </androidx.appcompat.widget.LinearLayoutCompat>

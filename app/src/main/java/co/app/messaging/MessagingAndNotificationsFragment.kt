@@ -15,17 +15,19 @@ package co.app.messaging
 
 import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
-import co.app.BaseActivity
+import co.app.BaseFragment
 import co.app.R
 import co.app.messaging.chat.ChatThreadFragment
 import co.app.messaging.contact.ContactFragment
 import co.app.messaging.notification.NotificationFragment
 import com.google.android.material.tabs.TabLayout
-import kotlinx.android.synthetic.main.activity_messaging_and_notifications.*
 
 private val TAB_TITLES = arrayOf(
     R.string.messages,
@@ -54,21 +56,24 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
         3
 }
 
-class MessagingAndNotificationsActivity : BaseActivity() {
+class MessagingAndNotificationsFragment : BaseFragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_messaging_and_notifications)
-        setSupportActionBar(toolbar)
-        addBackButton()
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_messaging_and_notifications, container, false)
     }
 
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
-        val viewPager: ViewPager = findViewById(R.id.view_pager)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val sectionsPagerAdapter = SectionsPagerAdapter(requireContext(), childFragmentManager)
+        val viewPager: ViewPager = view.findViewById(R.id.view_pager)
         viewPager.adapter = sectionsPagerAdapter
-        val tabs: TabLayout = findViewById(R.id.tabs)
+        val tabs: TabLayout = view.findViewById(R.id.tabs)
         tabs.setupWithViewPager(viewPager)
     }
+
+
 }

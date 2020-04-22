@@ -45,12 +45,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.Navigation
-import co.app.PermissionsFragment
 import co.app.R
 import co.app.dsl.ANIMATION_FAST_MILLIS
 import co.app.dsl.ANIMATION_SLOW_MILLIS
 import co.app.dsl.simulateClick
-import co.app.photo.*
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

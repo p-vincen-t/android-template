@@ -62,6 +62,8 @@ android {
 
 dependencies {
     // core app libs
+    api 'androidx.appcompat:appcompat:1.1.0'
+    api 'com.google.android.material:material:1.1.0'
     implementation project(path: ':base')
     implementation project(path: ':common')
     implementation deps.alerter
@@ -73,6 +75,8 @@ dependencies {
     implementation deps.cameraXView
     implementation deps.constraintLayout
     implementation deps.coroutines
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
     kapt deps.daggerCompiler
     implementation deps.emoji
     implementation deps.emojiCompat
@@ -91,10 +95,10 @@ dependencies {
     implementation deps.lifeCycleRuntime
     implementation deps.lifeCycleViewModel
     implementation deps.material
-    /*implementation deps.mikePenzAdapter
+    implementation deps.mikePenzAdapter
     implementation deps.mikePenzAdapterPaged
     implementation deps.mikePenzAdapterSwipe
-    implementation deps.mikePenzAdapterUtils*/
+    implementation deps.mikePenzAdapterUtils
     implementation deps.multidex
     implementation deps.navigationFragment
     implementation deps.navigationUi

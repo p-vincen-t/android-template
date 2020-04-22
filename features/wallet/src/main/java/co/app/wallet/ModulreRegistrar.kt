@@ -13,35 +13,24 @@
 
 package co.app.wallet
 
-import android.content.Context
-import androidx.recyclerview.widget.RecyclerView
 import co.app.App
 import co.app.ModuleRegister
-import co.app.common.search.SearchResult
-import co.app.report.Report
-import co.app.report.ReportHolder
-import co.app.wallet.base.WalletBase
+import co.app.wallet.base.data.DaggerDataComponent
+import co.app.wallet.base.data.DataComponent
 import co.base.account.AccountComponent
-import promise.ui.adapter.PromiseAdapter
-import java.lang.ref.WeakReference
 
-class ModuleRegistrar : WalletBase(), ModuleRegister {
+class ModuleRegistrar : ModuleRegister() {
+
+    lateinit var dataComponent: DataComponent
 
     lateinit var accountsComponent: AccountComponent
 
     override fun onRegister(app: App) {
         Companion.app = app
-        init(
-            app.promise,
-            app.gson(),
-            app.okHttpClient()
-        )
+        dataComponent = DaggerDataComponent.factory()
+            .create(app.promise, app.gson(), app.okHttpClient())
         accountsComponent = app.accountComponent
         //registerSearchableRepository(dataComponent.accountsRepository())
-    }
-
-    override fun onRegisterSearchableViews(context: WeakReference<Context>): Pair<String, (Map<Int, List<SearchResult>>, Any?, (Report) -> Unit) -> Unit>? {
-        return null
     }
 
     companion object {

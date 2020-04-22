@@ -12,11 +12,9 @@
   ~ limitations under the License.
   -->
 
-<androidx.appcompat.widget.LinearLayoutCompat
+<com.google.android.material.button.MaterialButtonToggleGroup
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:padding="@dimen/small"
         android:layout_height="wrap_content">
     <com.google.android.material.button.MaterialButton
             android:id="@+id/depositButton"
@@ -28,7 +26,6 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:text="@string/deposit" />
-
     <com.google.android.material.button.MaterialButton
             android:id="@+id/transferButton"
             style="@style/AppButton.Outlined"
@@ -39,6 +36,7 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:text="@string/transfer" />
+
     <com.google.android.material.button.MaterialButton
             android:id="@+id/withdrawButton"
             style="@style/AppButton.Outlined"
@@ -49,5 +47,4 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:text="@string/withdraw" />
-
-</androidx.appcompat.widget.LinearLayoutCompat>
+</com.google.android.material.button.MaterialButtonToggleGroup>

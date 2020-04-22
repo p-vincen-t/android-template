@@ -15,23 +15,26 @@ package co.app.report
 
 import android.view.View
 import co.app.R
+import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.report_list_item.*
 import promise.ui.Viewable
 
-class ReportHolder(private val report: Report) : Viewable {
+class ReportHolder(private val report: Report) : Viewable, LayoutContainer {
 
-    lateinit var reportView: ReportView
+    lateinit var viewable: View
 
     override fun layout(): Int = R.layout.report_list_item
 
     override fun bind(view: View, args: Any?) {
-        reportView.report = report
-        reportView.bind(view, args)
+        parentView.report = report
     }
 
     override fun init(view: View) {
-        reportView = ReportView(view.context)
-        reportView.init(view)
+        this.viewable = view
     }
+
+    override val containerView: View?
+        get() = viewable
 
     override fun toString(): String = "ReportHolder(report=$report)"
 

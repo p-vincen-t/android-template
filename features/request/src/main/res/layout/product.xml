@@ -28,12 +28,9 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-    <androidx.recyclerview.widget.RecyclerView
+    <co.app.report.ReportView
             tools:orientation="horizontal"
-            android:id="@+id/skus_recycler_view"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            tools:itemCount="2"
-            tools:listitem="@layout/product_sku"
+            android:id="@+id/skus_report"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     <androidx.appcompat.widget.AppCompatTextView

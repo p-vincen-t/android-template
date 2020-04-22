@@ -34,7 +34,7 @@ import java.lang.ref.WeakReference
 import kotlin.reflect.KClass
 import promise.commons.model.List as PromiseList
 
-class ModuleRegistrar : ModuleRegister {
+class ModuleRegistrar : ModuleRegister() {
     override fun onRegister(app: App) {
         LogUtil.d("Register", "app registering")
         app.initComponents()

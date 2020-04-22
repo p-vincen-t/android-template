@@ -12,14 +12,9 @@
   ~ limitations under the License.
   -->
 
-<androidx.appcompat.widget.LinearLayoutCompat
+<co.app.report.ReportView
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/medium"
+        android:layout_marginBottom="@dimen/medium"
         android:id="@+id/parentView"
-        android:background="@color/color_surface"
-        android:layout_height="wrap_content">
-    <include layout="@layout/report"/>
-
-</androidx.appcompat.widget.LinearLayoutCompat>
+        android:layout_height="wrap_content"/>

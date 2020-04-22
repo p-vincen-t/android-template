@@ -64,6 +64,9 @@ class MainFragment : BaseFragment() {
             androidPromise
         )
         search_report.report = searchReport
+    }
+    override fun onResume() {
+        super.onResume()
         searchReport.search(requireContext(), Search())
     }
 }

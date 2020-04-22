@@ -33,14 +33,20 @@
             app:showAsAction="withText" />
 
     <item
+            android:id="@+id/navigation_categories"
+            android:icon="@drawable/ic_fcategory_list"
+            android:title="@string/categories"
+            app:showAsAction="withText" />
+
+    <item
             android:id="@+id/navigation_recent_activities"
             android:icon="@drawable/ic_history_grey_24dp"
             android:title="@string/recent"
             app:showAsAction="withText" />
 
     <item
-            android:id="@+id/navigation_wallet"
-            android:icon="@drawable/ic_account_wallet_grey_24dp"
-            android:title="@string/wallet"
+            android:id="@+id/navigation_messages"
+            android:icon="@drawable/ic_message_grey_24dp"
+            android:title="@string/messages"
             app:showAsAction="withText" />
 </menu>

@@ -16,7 +16,7 @@
     <style name="AppMaterialTheme" parent="Theme.MaterialComponents.DayNight">
         <!-- Global color attributes -->
         <item name="colorPrimary">@color/color_primary</item>
-        <item name="colorPrimaryVariant">@color/color_primary_variant</item>
+        <item name="colorPrimaryVariant">@color/color_primary</item>
         <item name="colorOnPrimary">@color/color_on_primary</item>
         <item name="colorSecondary">@color/color_secondary</item>
         <item name="colorSecondaryVariant">@color/color_secondary_variant</item>
@@ -74,35 +74,43 @@
         <item name="android:textColor">@color/button_text_color</item>
         <item name="iconTint">@color/button_text_color</item>
         <item name="rippleColor">@color/button_ripple_color</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.MaterialComponents.SmallComponent</item>
     </style>
 
-    <style name="AppButton.Outlined" parent="Widget.MaterialComponents.Button.TextButton">
+    <style name="AppButton.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="backgroundTint">?attr/colorSurface</item>
         <item name="background">@drawable/outline_bg</item>
         <item name="android:textColor">@color/button_outlined_text_color</item>
         <item name="iconTint">@color/button_outlined_text_color</item>
         <item name="rippleColor">@color/button_outlined_ripple_color</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.MaterialComponents.SmallComponent</item>
     </style>
 
     <style name="AppTextField" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
         <item name="boxBackgroundColor">@color/text_field_background</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.MaterialComponents.SmallComponent</item>
     </style>
 
     <style name="AppCard" parent="Widget.MaterialComponents.CardView">
         <item name="cardElevation">8dp</item>
     </style>
 
-    <style name="AppBottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView.Colored" />
+    <style name="AppBottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
+        <item name="shapeAppearance">@style/ShapeAppearance.MaterialComponents.SmallComponent</item>
+    </style>
 
     <!-- Base application theme. -->
 
     <style name="AppTheme.BottomAppBar" parent="@style/Widget.MaterialComponents.BottomAppBar">
         <item name="contentInsetStart">0dp</item>
         <item name="contentInsetStartWithNavigation">0dp</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.MaterialComponents.SmallComponent</item>
     </style>
+
     <style name="MyActionBar" parent="Widget.MaterialComponents.Toolbar">
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:background">@color/color_primary</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.MaterialComponents.SmallComponent</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

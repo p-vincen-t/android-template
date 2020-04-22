@@ -15,20 +15,36 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/nav_graph"
-        app:startDestination="@id/mainFragment">
+        app:startDestination="@id/navigation_main">
+
     <fragment
-            android:id="@+id/mainFragment"
-            android:name="com.app.dashboard.MainFragment"
-            android:label="fragment_main"
-            tools:layout="@layout/main_fragment"></fragment>
+            android:id="@+id/navigation_main"
+            android:name="co.app.dashboard.main.MainFragment"
+            android:label="main_fragment"
+            tools:layout="@layout/main_fragment" >
+        <action
+                android:id="@+id/action_mainFragment_to_categoriesFragment"
+                app:destination="@id/navigation_categories" />
+        <action
+                android:id="@+id/action_mainFragment_to_recentActivitiesFragment"
+                app:destination="@id/navigation_recent_activities" />
+        <action
+                android:id="@+id/action_mainFragment_to_messagingAndNotificationsFragment"
+                app:destination="@id/navigation_messages" />
+    </fragment>
     <fragment
-            android:id="@+id/recentActivitiesFragment"
-            android:name="com.app.dashboard.RecentActivitiesFragment"
-            android:label="fragment_recent_activities"
-            tools:layout="@layout/recent_activities_fragment"></fragment>
+            android:id="@+id/navigation_categories"
+            android:name="co.app.dashboard.categories.CategoriesFragment"
+            android:label="fragment_categories"
+            tools:layout="@layout/fragment_categories" />
     <fragment
-            android:id="@+id/walletFragment"
-            android:name="com.app.dashboard.WalletFragment"
-            android:label="fragment_wallet"
-            tools:layout="@layout/wallet_fragment" />
+            android:id="@+id/navigation_messages"
+            android:name="co.app.messaging.MessagingAndNotificationsFragment"
+            android:label="fragment_messaging_and_notifications"
+            tools:layout="@layout/fragment_messaging_and_notifications" />
+    <fragment
+            android:id="@+id/navigation_recent_activities"
+            android:name="co.app.dashboard.recents.RecentActivitiesFragment"
+            android:label="recent_activities_fragment"
+            tools:layout="@layout/recent_activities_fragment" />
 </navigation>

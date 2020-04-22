@@ -133,10 +133,9 @@ class App : AppBase(), LifecycleObserver {
     companion object {
 
         private const val PACKAGE_NAME = BuildConfig.PACKAGE_NAME
-        const val MESSAGING_FEATURE_NAME = "messaging"
         const val WALLET_FEATURE_NAME = "wallet"
 
-        const val WALLET_FRAGMENT = "$PACKAGE_NAME.$WALLET_FEATURE_NAME.WalletFragment"
+        const val WALLET_ACTIVITY = "$PACKAGE_NAME.$WALLET_FEATURE_NAME.WalletActivity"
 
         const val AUTH_FEATURE_NAME = "auth"
         const val AUTH_ACTIVITY = "$PACKAGE_NAME.$AUTH_FEATURE_NAME.AuthActivity"

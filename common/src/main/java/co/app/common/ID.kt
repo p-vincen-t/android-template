@@ -34,6 +34,8 @@ class ID() : Parcelable {
             return field
         }
 
+
+
     constructor(parcel: Parcel) : this() {
         id = parcel.readString()
     }
@@ -49,6 +51,8 @@ class ID() : Parcelable {
         return true
     }
 
+
+
     override fun hashCode(): Int = id?.hashCode() ?: 0
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -56,6 +60,10 @@ class ID() : Parcelable {
     }
 
     override fun describeContents(): Int = 0
+
+    override fun toString(): String {
+        return "ID(id = $id)"
+    }
 
     companion object CREATOR : Parcelable.Creator<ID> {
 

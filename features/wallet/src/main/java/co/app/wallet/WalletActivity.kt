@@ -13,12 +13,14 @@
 
 package co.app.wallet
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import co.app.BaseActivity
 import co.app.BaseFragment
 import co.app.dsl.prepareAdapter
 import co.app.report.ReportHolder
@@ -29,7 +31,8 @@ import kotlinx.android.synthetic.main.wallet_fragment.*
 import promise.ui.adapter.PromiseAdapter
 import javax.inject.Inject
 
-class WalletFragment : BaseFragment() {
+@SuppressLint("Registered")
+class WalletActivity : BaseActivity() {
 
     @Inject
     lateinit var walletViewModelFactory: WalletViewModelFactory
@@ -38,16 +41,9 @@ class WalletFragment : BaseFragment() {
 
     private lateinit var viewModel: WalletViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val binding = DataBindingUtil.inflate<WalletFragmentBinding>(
-            inflater,
-            R.layout.wallet_fragment,
-            container,
-            false
-        )
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val binding = DataBindingUtil.setContentView<WalletFragmentBinding>(this, R.layout.wallet_fragment)
         val moduleRegistrar = ModuleRegistrar.instance()
 
         DaggerWalletComponent.factory()
@@ -58,19 +54,18 @@ class WalletFragment : BaseFragment() {
             .inject(this)
         viewModel = ViewModelProvider(this, walletViewModelFactory).get(WalletViewModel::class.java)
         binding.viewModel = viewModel
-        return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.initData(viewLifecycleOwner)
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        viewModel.initData(this)
 
         promiseAdapter = wallet_reports_recycler_view.prepareAdapter()
 
         promiseAdapter.add(
             ReportHolder(
                 ExpenseStructureReport(
-                    viewLifecycleOwner
+                    this
                 )
             )
         )

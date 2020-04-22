@@ -18,54 +18,84 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".dashboard.DashboardActivity"
-        tools:showIn="@layout/app_bar_dashboard">
+        tools:context=".dashboard.DashboardActivity">
+    <!--        tools:showIn="@layout/activity_dashboard"-->
 
-    <RelativeLayout
+    <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-        <com.github.florent37.shapeofview.shapes.CircleView
-                android:id="@+id/circle_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="@dimen/big">
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <co.app.photo.PhotoView
-                    android:id="@+id/account_photo"
-                    app:placeHolderImageSrc="@drawable/user_default_photo_image"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp" />
+            <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@id/circle_view"
+                    android:padding="@dimen/small">
 
-        </com.github.florent37.shapeofview.shapes.CircleView>
+                <SearchView
+                        android:id="@+id/search_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/small"
+                        android:background="@drawable/bg_rounded_square"
+                        android:queryHint="@string/action_search" />
+            </com.google.android.material.appbar.MaterialToolbar>
 
-        <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/title_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_toStartOf="@id/messages_imageView"
-                android:layout_toEndOf="@+id/circle_view"
-                android:gravity="center"
-                android:text="Today"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+            <com.github.florent37.shapeofview.shapes.CircleView
+                    android:id="@+id/circle_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/medium"
+                    android:layout_toStartOf="@id/wallet_imageView">
 
-        <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/messages_imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="@dimen/big"
-                app:srcCompat="@drawable/ic_message_grey_24dp" />
-    </RelativeLayout>
+                <co.app.photo.PhotoView
+                        android:id="@+id/account_photo"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:placeHolderImageSrc="@drawable/user_default_photo_image" />
 
-    <co.app.NonSwipableViewPager
-            android:id="@+id/viewpager"
+            </com.github.florent37.shapeofview.shapes.CircleView>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/wallet_imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/medium"
+                    app:srcCompat="@drawable/ic_account_wallet_grey_24dp" />
+
+        </RelativeLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <fragment
+            android:id="@+id/nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/dashboard_nav_graph" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_nav_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/color_surface"
+            android:clickable="false"
+            app:backgroundTint="@color/color_surface"
+            app:elevation="0dp"
+            app:itemIconTint="@drawable/bottom_nav_icon_background"
+            app:itemTextColor="@drawable/bottom_nav_icon_background"
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/dashboard_bottom_nav" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -18,14 +18,15 @@ import co.app.common.search.SearchRepository
 import co.app.common.search.SearchResult
 import co.app.common.search.SearchableRepository
 import co.app.report.Report
+import promise.ui.Viewable
 import java.lang.ref.WeakReference
 
-interface ModuleRegister {
+abstract class ModuleRegister {
 
-    fun onRegister(app: App)
+    abstract fun onRegister(app: App)
 
-    fun onRegisterSearchableViews(context: WeakReference<Context>):
-            Pair<String, ((Map<Int, List<SearchResult>>, Any?, (Report) -> Unit) -> Unit)>?
+    open fun onRegisterSearchableViews(context: WeakReference<Context>):
+            Pair<String, ((Map<Int, List<SearchResult>>, Any?, (Report) -> Unit) -> Unit)>? = null
 
     fun registerSearchableRepository(searchableRepository: SearchableRepository) {
         SearchRepository.registerSearchableRepository(searchableRepository)

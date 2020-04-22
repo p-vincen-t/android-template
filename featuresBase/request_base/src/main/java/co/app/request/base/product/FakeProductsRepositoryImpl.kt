@@ -42,7 +42,7 @@ class FakeProductsRepositoryImpl : ProductsRepository {
     override fun getProductSKUs(product: Product, skip: Int, take: Int): Either<List<ProductSKU>> =
         AsyncEither { resolve, _ ->
             Thread.sleep(2000)
-            resolve(PromiseList.generate(2) {
+            resolve(PromiseList.generate(10) {
                 ProductSKU(product).apply {
 
                 }
@@ -53,13 +53,13 @@ class FakeProductsRepositoryImpl : ProductsRepository {
         context: WeakReference<Context>,
         search: Search
     ): Either<Map<Pair<String, Int>, List<SearchResult>>> = AsyncEither { resolve, _ ->
-        val products = PromiseList.generate(1) {
+        val products = PromiseList.generate(3) {
             val user = AppUser(
                 ID.generate(),
                 "userna",
                 null
             )
-            Product(user, "category", "name", "desc", true)
+            Product(user, "category $it", "name", "desc", true)
         }
         val map = ArrayMap<Pair<String, Int>, List<SearchResult>>()
         map[Pair("request", R.string.products)] = products

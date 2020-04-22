@@ -20,7 +20,7 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.chat_thread.*
 import promise.ui.Viewable
 
-class ChatThreadViewable(private val chatThread: ChatThread) : Viewable, LayoutContainer {
+class ChatThreadViewable(val chatThread: ChatThread) : Viewable, LayoutContainer {
 
     lateinit var view: View
 

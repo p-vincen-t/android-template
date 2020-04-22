@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.app
+package co.app.photo
 
 import android.Manifest
 import android.content.Context
@@ -21,7 +21,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import co.app.PermissionsFragmentDirections
+import co.app.photo.PermissionsFragmentDirections
 import co.app.R
 
 
@@ -37,7 +37,10 @@ class PermissionsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (!hasPermissions(requireContext())) {
+        if (!hasPermissions(
+                requireContext()
+            )
+        ) {
             // Request camera-related permissions
             requestPermissions(
                 PERMISSIONS_REQUIRED,

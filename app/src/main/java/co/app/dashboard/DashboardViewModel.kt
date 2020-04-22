@@ -21,7 +21,7 @@ import promise.commons.AndroidPromise
 import promise.commons.model.List
 
 class DashboardViewModel(
-    private val userAccount: UserAccount?,
+    val userAccount: UserAccount?,
     private val promise: AndroidPromise
 ) : ViewModel() {
 

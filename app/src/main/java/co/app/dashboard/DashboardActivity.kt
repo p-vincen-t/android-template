@@ -14,45 +14,38 @@
 package co.app.dashboard
 
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import co.app.App.Companion.WALLET_FEATURE_NAME
-import co.app.App.Companion.WALLET_FRAGMENT
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.ui.setupWithNavController
+import co.app.App
 import co.app.BaseSplitActivity
 import co.app.PlaceHolderModuleFragment
 import co.app.R
 import co.app.common.account.UserAccount
-import co.app.dashboard.main.MainFragment
-import co.app.dashboard.recents.RecentActivitiesFragment
 import co.app.databinding.ActivityDashboardBinding
 import co.app.dsl.listItems
 import co.app.dsl.startActivity
 import co.app.legal.LegalActivity
-import co.app.messaging.MessagingAndNotificationsActivity
 import co.app.photo.PhotoView
 import co.app.search.SearchActivity
 import co.app.settings.SettingsActivity
-import com.allenliu.badgeview.BadgeFactory
-import com.allenliu.badgeview.BadgeView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_dashboard.*
-import kotlinx.android.synthetic.main.app_bar_dashboard.*
 import kotlinx.android.synthetic.main.content_dashboard.*
 import promise.commons.AndroidPromise
-import promise.commons.createInstance
 import javax.inject.Inject
 
 class DashboardActivity : BaseSplitActivity(),
 
     PlaceHolderModuleFragment.OnFragmentInteractionListener {
+
+    lateinit var navController: NavController
 
     @Inject
     lateinit var dashboardViewModelFactory: DashboardViewModelFactory
@@ -62,40 +55,6 @@ class DashboardActivity : BaseSplitActivity(),
 
     private lateinit var dashboardViewModel: DashboardViewModel
 
-    private val onNavigationItemSelectedListener =
-        BottomNavigationView.OnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.navigation_main -> {
-                    viewpager.setCurrentItem(0, true)
-                    title = "Today"
-                    search_fab.show()
-                    return@OnNavigationItemSelectedListener true
-                }
-                R.id.navigation_recent_activities -> {
-                    viewpager.setCurrentItem(1, true)
-                    title = "History"
-                    search_fab.show()
-                    return@OnNavigationItemSelectedListener true
-                }
-                R.id.navigation_wallet -> {
-                    viewpager.setCurrentItem(2, true)
-                    title = "My Account"
-                    search_fab.hide()
-                    return@OnNavigationItemSelectedListener true
-                }
-            }
-            false
-        }
-
-    override fun setTitle(title: CharSequence) {
-        super.setTitle(title)
-        title_text_view.text = title.toString()
-    }
-
-    override fun setTitle(titleId: Int) {
-        title = getString(titleId)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -104,33 +63,53 @@ class DashboardActivity : BaseSplitActivity(),
             this,
             R.layout.activity_dashboard
         )
-        setSupportActionBar(bottom_app_bar)
+        setSupportActionBar(toolbar)
 
         DaggerDashboardComponent.factory().create(
-            app.reposComponent().searchRepository(), app.accountComponent
-        )
+                app.reposComponent().searchRepository(), app.accountComponent
+            )
             .inject(this)
 
         dashboardViewModel = ViewModelProvider(this, dashboardViewModelFactory).get(
             DashboardViewModel::class.java
         )
         binding.viewModel = dashboardViewModel
+
+        account_photo.setOnClickListener {
+            if (dashboardViewModel.userAccount == null) {
+                startAuthActivity()
+            } else {
+
+            }
+        }
+
+        wallet_imageView.setOnClickListener {
+            if (app.isWalletModuleInstalled()) {
+                startActivity(App.WALLET_ACTIVITY)
+            }
+            else {
+                Toast.makeText(this, "Wallet feature mssing", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+        bottom_nav_view.setupWithNavController(navController)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         val toggle = ActionBarDrawerToggle(
-            this, drawer_layout, bottom_app_bar,
+            this, drawer_layout, toolbar,
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close
         )
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
-        search_fab.setOnClickListener {
+        search_view.setOnClickListener {
             startActivity<SearchActivity>()
         }
 
-        BadgeFactory.create(this)
+        /*BadgeFactory.create(this)
             .setTextColor(resources.getColor(R.color.color_on_secondary))
             .setWidthAndHeight(15, 15)
             .setBadgeBackground(resources.getColor(R.color.color_secondary))
@@ -139,14 +118,7 @@ class DashboardActivity : BaseSplitActivity(),
             .setBadgeCount(3)
             .setShape(BadgeView.SHAPE_CIRCLE)
             .setSpace(5, 5)
-            .bind(messages_imageView)
-
-        messages_imageView.setOnClickListener {
-            startActivity<MessagingAndNotificationsActivity>()
-        }
-
-        bottom_nav_view.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
-        viewpager.adapter = SectionsPagerAdapter(supportFragmentManager)
+            .bind(bottom_nav_view.menu.findItem(R.id.mes))*/
 
         dashboardViewModel.accountsResult.observe(this, Observer { accounts ->
             accounts_list.listItems(accounts, R.layout.account_nav_layout,
@@ -162,7 +134,6 @@ class DashboardActivity : BaseSplitActivity(),
         dashboardViewModel.fetchAccounts()
 
     }
-
 
     override fun onBackPressed() =
         if (drawer_layout.isDrawerOpen(GravityCompat.START))
@@ -190,6 +161,7 @@ class DashboardActivity : BaseSplitActivity(),
             {
                 startActivity<LegalActivity>()
             })
+/*
 
     inner class SectionsPagerAdapter internal constructor(fm: FragmentManager) :
         FragmentPagerAdapter(fm) {
@@ -216,6 +188,7 @@ class DashboardActivity : BaseSplitActivity(),
 
         override fun getCount(): Int = 3
     }
+*/
 
     fun snoozeNotifications(view: View) {
         startActivity<SettingsActivity>()
@@ -224,6 +197,5 @@ class DashboardActivity : BaseSplitActivity(),
     override fun onRequestedModule(module: String) {
         loadAndLaunchModule(module)
     }
-
 
 }

@@ -27,12 +27,7 @@ import promise.ui.adapter.PromiseAdapter
 import java.lang.ref.WeakReference
 
 
-class ModuleRegistrar : ModuleRegister {
-
-    override fun onRegisterSearchableViews(context: WeakReference<Context>): Pair<String, (Map<Int, List<SearchResult>>, Any?, (Report) -> Unit) -> Unit>? {
-        return null
-    }
-
+class ModuleRegistrar : ModuleRegister() {
     lateinit var sessionComponent: SessionComponent
 
     override fun onRegister(app: App) {

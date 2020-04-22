@@ -14,4 +14,5 @@
 
 <resources>
     <string name="products">Products</string>
+    <string name="services">Services</string>
 </resources>

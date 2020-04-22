@@ -11,22 +11,17 @@
  * limitations under the License.
  */
 
-package co.app.request.product
+package co.app.utils;
 
-import android.annotation.SuppressLint
-import android.os.Bundle
-import co.app.BaseActivity
-import com.nesst.request.R
+import android.view.animation.Interpolator;
+import android.view.animation.PathInterpolator;
 
-@SuppressLint("Registered")
-class ProductSKUDetailActivity : BaseActivity() {
+/**
+ * Common interpolators used in answer methods.
+ */
+public class InterPolators {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_product_s_k_u_detail)
-    }
-
-    companion object {
-        const val SKU_ID = "sku_id"
-    }
+    public static final Interpolator FAST_OUT_LINEAR_IN = new PathInterpolator(0.4f, 0f, 1f, 1f);
+    public static final Interpolator LINEAR_OUT_SLOW_IN = new PathInterpolator(0f, 0f, 0.2f, 1f);
+    public static final Interpolator FAST_OUT_SLOW_IN = new PathInterpolator(0.4f, 0f, 0.2f, 1f);
 }

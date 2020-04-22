@@ -17,10 +17,40 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.collection.ArrayMap
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import co.app.R
+import co.app.common.ID
+import co.app.common.account.AppUser
+import co.app.common.photo.Photo
+import co.app.domain.message.ChatMessage
+import co.app.domain.message.ChatThread
+import co.app.dsl.prepareAdapter
+import co.app.dsl.startActivity
+import co.app.messaging.chat.ChatActivity
+import co.app.messaging.chat.ChatThreadViewable
+import co.app.report.Linear
+import co.app.report.ListReport
+import co.app.report.ReportHolder
+import promise.commons.model.List as PromiseList
 import kotlinx.android.synthetic.main.recent_activities_fragment.*
+import promise.ui.Viewable
+import promise.ui.adapter.PromiseAdapter
+import kotlin.reflect.KClass
+
+val messages: PromiseList<ChatThread> = PromiseList.generate(5) {
+    val user = AppUser(ID.generate(), "sername", Photo())
+    val message = ChatMessage(user)
+    ChatThread(
+        ID.generate(),
+        user,
+        message.chatDescription,
+        message
+    )
+}
+
 
 class RecentActivitiesFragment : Fragment() {
 
@@ -40,8 +70,49 @@ class RecentActivitiesFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(RecentsViewModel::class.java)
+        val adapter = recent_list_recycler_view.prepareAdapter<ReportHolder>()
+        adapter.add(ReportHolder(RecentReport(viewLifecycleOwner)))
+        adapter.add(ReportHolder(ListReport(
+            title = "Recent chats",
+            listData = messages.map { ChatThreadViewable(it) },
+            listener = object : PromiseAdapter.Listener<ChatThreadViewable> {
+                override fun onClick(t: ChatThreadViewable, id: Int) {
+                    requireContext().startActivity<ChatActivity> {
+                        putExtra(ChatActivity.THREAD_ID, t.chatThread.id)
+                    }
+                }
+            }
+        )))
 
-        recents_report.report = RecentReport(viewLifecycleOwner)
+        /*recent_chat_report.report = ListReport(
+            title = "Recent chats",
+            listData = messages,
+            map = ArrayMap<Class<*>, KClass<out Viewable>>().apply {
+                put(ChatThread::class.java, ChatThreadViewable::class)
+            },
+            listener = object : PromiseAdapter.Listener<ChatThread> {
+                override fun onClick(t: ChatThread, id: Int) {
+                    requireContext().startActivity<ChatActivity> {
+                        putExtra(ChatActivity.THREAD_ID, t.id)
+                    }
+                }
+            }
+        )*/
+        /*adapter.add(ReportHolder(ListReport(
+            title = "Recent chats",
+            listData = messages,
+            map = ArrayMap<Class<*>, KClass<out Viewable>>().apply {
+                put(ChatThread::class.java, ChatThreadViewable::class)
+            },
+            listener = object : PromiseAdapter.Listener<ChatThread> {
+                override fun onClick(t: ChatThread, id: Int) {
+                    requireContext().startActivity<ChatActivity> {
+                        putExtra(ChatActivity.THREAD_ID, t.id)
+                    }
+                }
+            }
+        )))*/
+
     }
 
 }

@@ -11,16 +11,26 @@
   ~ limitations under the License.
   -->
 
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".dashboard.recents.RecentActivitiesFragment">
-
-    <co.app.report.ReportView
-            android:id="@+id/recents_report"
+    <promise.ui.loading.LoadingLayout
+            android:id="@+id/loading_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:minHeight="500dp">
+        <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:id="@+id/recent_list_recycler_view"
+                android:layout_height="wrap_content"/>
+        <co.app.report.ReportView
+                android:id="@+id/recent_chat_report"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+    </promise.ui.loading.LoadingLayout>
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+</ScrollView>
