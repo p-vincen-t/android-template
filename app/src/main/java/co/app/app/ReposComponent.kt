@@ -11,11 +11,14 @@
  * limitations under the License.
  */
 
-package co.base
+package co.app.app
 
 import co.app.common.account.UserAccount
 import co.app.common.search.SearchRepository
 import co.app.domain.message.MessageRepository
+import co.base.RepoBinders
+import co.base.RepoScope
+import co.base.ReposModule
 import dagger.BindsInstance
 import dagger.Component
 import promise.commons.AndroidPromise

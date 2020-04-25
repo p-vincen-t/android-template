@@ -77,7 +77,7 @@ class ChatActivity : BaseActivity(), PromiseAdapter.Listener<ChatMessage>, View.
             .inject(this)
         chatViewModel = ViewModelProvider(this, chatViewModelFactory)[ChatViewModel::class.java]
         binding.viewModel = chatViewModel
-        app.connectChatService<ChatService>({
+        app.connectService<ChatService>({
             chatService = it
         })
     }

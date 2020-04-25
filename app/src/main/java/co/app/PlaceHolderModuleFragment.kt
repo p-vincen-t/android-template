@@ -18,13 +18,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.StringDef
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.fragment_place_holder_module.*
+import promise.commons.makeInstance
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_MODULE = "param1"
-private const val ARG_DRAWABLE = "param2"
-private const val ARG_MESSAGE = "param3"
+private const val ARG_MODULE = "arg_module"
+private const val ARG_MESSAGE = "arg_message"
+private const val ARG_FRAGMENT_CLASS = "arg_fragment_class"
 
 /**
  * A simple [Fragment] subclass.
@@ -35,18 +39,19 @@ private const val ARG_MESSAGE = "param3"
  * create an instance of this fragment.
  */
 class PlaceHolderModuleFragment : BaseFragment() {
-    // TODO: Rename and change types of parameters
     private var module: String? = null
-    private var drwable: Int? = null
-    private var message: String? = null
+    private var fragmentClass: String? = null
+    private var message: Int? = null
     private var listener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
+
+        if (arguments == null) throw IllegalStateException("args must be present in fragment")
+        arguments!!.let {
             module = it.getString(ARG_MODULE)
-            drwable = it.getInt(ARG_DRAWABLE)
-            message = it.getString(ARG_MESSAGE)
+            message = it.getInt(ARG_MESSAGE)
+            fragmentClass = it.getString(ARG_FRAGMENT_CLASS)
         }
     }
 
@@ -58,7 +63,18 @@ class PlaceHolderModuleFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        if (app.isModuleInstalled(module!!)) {
+            view_switcher.showNext()
+            val fragment = makeInstance(Class.forName(fragmentClass!!).kotlin) as Fragment
+            childFragmentManager.beginTransaction()
+                .replace(R.id.container, fragment)
+                .commit()
+        } else {
+            install_message_text_view.setText(message!!)
+            install_button.setOnClickListener {
+                onButtonPressed()
+            }
+        }
     }
 
     fun onButtonPressed() {
@@ -92,22 +108,33 @@ class PlaceHolderModuleFragment : BaseFragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment PlaceHolderModuleFragment.
-         */
-        // TODO: Rename and change types and number of parameters
+
+        const val REQUEST = "request"
+
+        const val CATEGORIES_FRAGMENT_CLASS = "co.app.request.CategoriesFragment"
+
+
+        @StringDef(
+            CATEGORIES_FRAGMENT_CLASS
+        )
+        @Retention(AnnotationRetention.SOURCE)
+        annotation class FragmentClass
+
+        @StringDef(
+            REQUEST
+        )
+        @Retention(AnnotationRetention.SOURCE)
+        annotation class ModuleName
+
         @JvmStatic
-        fun newInstance(module: String, drawable: Int, message: String) =
+        fun newInstance(@ModuleName module: String,
+                        @FragmentClass fragmentClass: String,
+                        @StringRes message: Int) =
             PlaceHolderModuleFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_MODULE, module)
-                    putInt(ARG_DRAWABLE, drawable)
-                    putString(ARG_MESSAGE, message)
+                    putString(ARG_FRAGMENT_CLASS, fragmentClass)
+                    putInt(ARG_MESSAGE, message)
                 }
             }
     }

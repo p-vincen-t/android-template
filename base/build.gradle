@@ -62,7 +62,7 @@ apollo {
 
 dependencies {
     implementation project(path: ':common')
-    api project(path: ':domain')
+    implementation project(path: ':domain')
     implementation deps.apollo
     implementation deps.appcompat
     implementation deps.dagger

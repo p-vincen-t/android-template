@@ -57,15 +57,21 @@ android {
             //":fleet",
             //":partner"
     ]
+    sourceSets {
+        main {
+            res {
+                srcDirs 'src/main/res', 'src/main/res/layouts/search', 'src/main/res/layouts/report'
+            }
+        }
+    }
     //dynamicFeatures = [ ':features:request', ":features:blog", ":features:survey"]
 }
 
 dependencies {
     // core app libs
-    api 'androidx.appcompat:appcompat:1.1.0'
-    api 'com.google.android.material:material:1.1.0'
     implementation project(path: ':base')
     implementation project(path: ':common')
+    implementation project(path: ':domain')
     implementation deps.alerter
     implementation deps.appcompat
     implementation deps.badgeView
@@ -75,13 +81,12 @@ dependencies {
     implementation deps.cameraXView
     implementation deps.constraintLayout
     implementation deps.coroutines
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
     kapt deps.daggerCompiler
     implementation deps.emoji
     implementation deps.emojiCompat
     androidTestImplementation deps.expresso
     implementation deps.facebookShimmer
+    debugImplementation deps.facebookStetho
     implementation deps.firebaseAnalytics
     implementation deps.firebaseCore
     implementation deps.firebaseMessaging
@@ -111,7 +116,9 @@ dependencies {
     implementation deps.promiseUi
     androidTestImplementation deps.testRunner
     implementation deps.textDrawable
+    implementation deps.trueTime
     implementation deps.recyclerView
+    implementation deps.room
     implementation deps.rxAndroid
     implementation deps.rxBinding
     implementation deps.rxPermissions

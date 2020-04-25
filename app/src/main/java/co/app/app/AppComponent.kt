@@ -11,9 +11,12 @@
  * limitations under the License.
  */
 
-package co.base
+package co.app.app
 
+import co.app.App
 import co.app.domain.Settings
+import co.base.AppScope
+import co.base.DependenciesModule
 import co.base.settings.SettingsProvider
 import com.google.gson.Gson
 import dagger.BindsInstance
@@ -27,7 +30,7 @@ interface AppComponent {
     fun promise(): AndroidPromise
     fun compositeDisposable(): CompositeDisposable
     fun gson(): Gson
-    fun inject(appBase: AppBase)
+    fun inject(appBase: App)
     fun settings(): Settings
 
     @Component.Factory

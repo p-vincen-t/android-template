@@ -32,11 +32,26 @@
                 android:id="@+id/action_mainFragment_to_messagingAndNotificationsFragment"
                 app:destination="@id/navigation_messages" />
     </fragment>
+
     <fragment
             android:id="@+id/navigation_categories"
-            android:name="co.app.dashboard.categories.CategoriesFragment"
+            android:name="co.app.PlaceHolderModuleFragment"
             android:label="fragment_categories"
-            tools:layout="@layout/fragment_categories" />
+            tools:layout="@layout/fragment_categories" >
+
+        <argument
+                android:name="arg_message"
+                app:argType="integer" />
+        <argument
+                android:name="arg_module"
+                app:argType="string"
+                android:defaultValue="request" />
+        <argument
+                android:name="arg_fragment_class"
+                app:argType="string"
+                android:defaultValue="co.app.request.CategoriesFragment" />
+
+    </fragment>
     <fragment
             android:id="@+id/navigation_messages"
             android:name="co.app.messaging.MessagingAndNotificationsFragment"

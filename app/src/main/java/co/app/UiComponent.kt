@@ -13,8 +13,7 @@
 
 package co.app
 
-import co.app.attachment.AttachmentPicker
-import co.base.AppComponent
+import co.app.app.AppComponent
 import dagger.Component
 import promise.commons.AndroidPromise
 

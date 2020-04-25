@@ -14,8 +14,10 @@
 package co.app
 
 import android.app.Service
-import android.content.*
-import android.content.res.Configuration
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.os.IBinder
 import androidx.collection.ArrayMap
 import androidx.core.provider.FontRequest
@@ -25,22 +27,37 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.multidex.MultiDexApplication
+import co.app.app.*
+import co.app.common.ID
+import co.app.common.NetworkUtils
+import co.app.common.account.UserAccount
+import co.app.common.errors.NetworkError
 import co.app.settings.ThemePreference
-import co.base.AppBase
-import co.base.AppBase.Companion.TEMP_PREFERENCE_NAME
+import co.base.account.AccountComponent
+import co.base.account.DaggerAccountComponent
 import com.google.android.play.core.splitcompat.SplitCompat
 import com.google.android.play.core.splitinstall.SplitInstallManager
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
+import promise.commons.AndroidPromise
 import promise.commons.createInstance
 import promise.commons.data.log.LogUtil
-import java.util.*
+import promise.commons.model.Message
+import javax.inject.Inject
 import kotlin.collections.set
 
-class App : AppBase(), LifecycleObserver {
+const val NETWORK_ERROR_MESSAGE = "network_error_message"
 
-    inline fun <reified T : Service> connectChatService(
+class App : MultiDexApplication(), LifecycleObserver {
+
+    inline fun <reified T : Service> connectService(
         noinline result: (T) -> Unit,
         noinline error: ((Throwable) -> Unit)? = null
     ) {
@@ -82,8 +99,11 @@ class App : AppBase(), LifecycleObserver {
 
     override fun onCreate() {
         super.onCreate()
-        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
+        AndroidPromise.init(this, 100, BuildConfig.DEBUG)
         themePreferenceRepo.setTheme()
+        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
+        TAG = LogUtil.makeTag(App::class.java)
+        appComponent.inject(this)
         promise.execute {
             registerModule("app")
             manager.installedModules.forEach {
@@ -112,9 +132,11 @@ class App : AppBase(), LifecycleObserver {
         modules[module] = registrar
     }
 
-    fun isWalletModuleInstalled(): Boolean = manager.installedModules.contains(WALLET_FEATURE_NAME)
+    fun isModuleInstalled(module: String): Boolean = manager.installedModules.contains(module)
 
-    fun isAuthModuleInstalled(): Boolean = manager.installedModules.contains(AUTH_FEATURE_NAME)
+    fun isWalletModuleInstalled(): Boolean = isModuleInstalled(WALLET_FEATURE_NAME)
+
+    fun isAuthModuleInstalled(): Boolean = isModuleInstalled(AUTH_FEATURE_NAME)
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onMoveToForeground() {
@@ -130,7 +152,89 @@ class App : AppBase(), LifecycleObserver {
 
     fun okHttpClient(): OkHttpClient = dataComponent().okHttpClient()
 
+
+    lateinit var TAG: String
+
+    fun userAccount(): UserAccount? = accountComponent.userAccount()
+
+    private var dataComponent: DataComponent? = null
+    private var reposComponent: ReposComponent? = null
+
+    @Inject
+    lateinit var compositeDisposable: CompositeDisposable
+
+    @Inject
+    lateinit var promise: AndroidPromise
+
+    val accountComponent: AccountComponent by lazy {
+        DaggerAccountComponent.factory()
+            .create(appComponent.gson(), appComponent.promise())
+    }
+
+    fun reposComponent(): ReposComponent = reposComponent ?: DaggerReposComponent.factory().create(
+        userAccount(),
+        dataComponent()
+    ).also {
+        reposComponent = it
+    }
+
+    val appComponent: AppComponent by lazy {
+        DaggerAppComponent.factory().create(
+            GsonBuilder()
+                .registerTypeAdapter(ID::class.java, ID.IDTypeAdapter())
+                .setPrettyPrinting()
+                .create()
+        )
+    }
+
+    fun dataComponent(): DataComponent = dataComponent ?: DaggerDataComponent.factory()
+        .create(userAccount(), object : Interceptor {
+            override fun intercept(chain: Interceptor.Chain): Response {
+                if (NetworkUtils.getConnectivityStatus(this@App.applicationContext) == NetworkUtils.TYPE_NOT_CONNECTED) {
+                    val exception = NetworkError().apply {
+                        request = chain.request().url
+                    }
+                    LogUtil.e(TAG, "Connection error: ", exception)
+                    appComponent.promise().send(Message(NETWORK_ERROR_MESSAGE, exception))
+                    throw exception
+                }
+                return chain.proceed(chain.request())
+            }
+        }, appComponent).also { dataComponent = it }
+
+    fun apiUrl(): String = dataComponent().apiUrl().toString()
+
+    fun initUserAccount() {
+        dataComponent = null
+        reposComponent = null
+    }
+
+    fun initComponents() {
+        compositeDisposable.add(
+            TrueTimeRx.build()
+                .initializeRx("time.google.com")
+                .subscribeOn(Schedulers.from(promise.executor()))
+                .subscribe(
+                    {
+                        LogUtil.d(
+                            TAG,
+                            "TrueTime was initialized and we have a time: $it"
+                        )
+                    }
+                ) { throwable: Throwable -> throwable.printStackTrace() }
+        )
+        if (co.base.BuildConfig.DEBUG) Stetho.initializeWithDefaults(this)
+    }
+
+
+    override fun onTerminate() {
+        AndroidPromise.instance().terminate()
+        super.onTerminate()
+    }
+
     companion object {
+
+        const val TEMP_PREFERENCE_NAME = "prefs_temp"
 
         private const val PACKAGE_NAME = BuildConfig.PACKAGE_NAME
         const val WALLET_FEATURE_NAME = "wallet"
@@ -142,39 +246,4 @@ class App : AppBase(), LifecycleObserver {
     }
 }
 
-internal const val LANG_EN = "en"
 
-internal const val LANG_PL = "pl"
-
-object LanguageHelper {
-    lateinit var prefs: SharedPreferences
-    var language: String
-        get() = prefs.getString("language", LANG_EN)!!
-        set(value) = prefs.edit().putString(LANG_EN, value).apply()
-
-    fun init(ctx: Context) {
-        prefs = ctx.getSharedPreferences(TEMP_PREFERENCE_NAME, Context.MODE_PRIVATE)
-    }
-
-    /**
-     * Get a Context that overrides the language selection in the Configuration instance used by
-     * getResources() and getAssets() by one that is stored in the LanguageHelper preferences.
-     *
-     * @param ctx a base context to base the new context on
-     */
-    fun getLanguageConfigurationContext(ctx: Context): Context {
-        val conf = getLanguageConfiguration()
-        return ctx.createConfigurationContext(conf)
-    }
-
-    /**
-     * Get an empty Configuration instance that only sets the language that is
-     * stored in the LanguageHelper preferences.
-     * For use with Context#createConfigurationContext or Activity#applyOverrideConfiguration().
-     */
-    private fun getLanguageConfiguration(): Configuration {
-        val conf = Configuration()
-        conf.setLocale(Locale.forLanguageTag(language))
-        return conf
-    }
-}

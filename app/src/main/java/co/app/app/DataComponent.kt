@@ -11,12 +11,15 @@
  * limitations under the License.
  */
 
-package co.base
+package co.app.app
 
 import co.app.common.account.UserAccount
 import co.app.common.search.SearchDatabase
 import co.app.domain.message.ChatApi
 import co.app.domain.message.ChatDatabase
+import co.base.ApiModule
+import co.base.DataScope
+import co.base.DatabaseModule
 import co.base.common.PhotoModule
 import co.base.message.MessagesModule
 import co.base.search.SearchModule
@@ -41,8 +44,8 @@ import promise.commons.AndroidPromise
 )
 
 interface DataComponent {
-    fun appDatabase(): ChatDatabase
-    fun behaviourDatabase(): SearchDatabase
+    fun chatDatabase(): ChatDatabase
+    fun searchDatabase(): SearchDatabase
     fun chatApi(): ChatApi
     fun gson(): Gson
     fun promise(): AndroidPromise

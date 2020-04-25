@@ -161,4 +161,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="install_module">Install Module</string>
+    <string name="ask_install_request_module">Install The request module to view content</string>
 </resources>

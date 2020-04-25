@@ -11,15 +11,19 @@
   ~ limitations under the License.
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ViewSwitcher
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/view_switcher"
         tools:context=".PlaceHolderModuleFragment">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/install_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:orientation="vertical">
 
@@ -27,18 +31,38 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_margin="@dimen/big"
+                app:layout_constraintBottom_toTopOf="@+id/install_message_text_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 tools:src="@drawable/ic_account_wallet_grey_24dp" />
 
         <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/install_message_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_margin="@dimen/medium"
+                app:layout_constraintBottom_toTopOf="@+id/install_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 tools:text="@string/accessibility_fingerprint_dialog_help_area" />
 
         <com.google.android.material.button.MaterialButton
+                android:id="@+id/install_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Install Module" />
-    </androidx.appcompat.widget.LinearLayoutCompat>
-</FrameLayout>
+                android:text="@string/install_module"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+</ViewSwitcher>

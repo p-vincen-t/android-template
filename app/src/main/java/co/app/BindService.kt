@@ -36,13 +36,11 @@ abstract class BindService<T : Service> : Service() {
         app = application as App
     }
 
-    override fun onRebind(intent: Intent?) {
+    final override fun onRebind(intent: Intent?) {
         super.onRebind(intent)
     }
 
-    override fun onUnbind(intent: Intent?): Boolean {
-        return super.onUnbind(intent)
-    }
+    final override fun onUnbind(intent: Intent?): Boolean = super.onUnbind(intent)
 
     override fun onTaskRemoved(rootIntent: Intent?) {
         super.onTaskRemoved(rootIntent)

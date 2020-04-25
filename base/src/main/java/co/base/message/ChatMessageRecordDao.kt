@@ -31,12 +31,15 @@ interface ChatMessageRecordDao : BaseDao<ChatMessageRecord> {
     fun getMessages(userId: ID): List<ChatMessageToChatMessageOneToOneRelationship>
 
     @Query("SELECT * FROM chats WHERE id >= :skip LIMIT :take")
+    @Transaction
      fun getPaginatedMessages(skip: Int, take: Int): List<ChatMessageToChatMessageOneToOneRelationship>
 
     @Query("SELECT * FROM chats WHERE senderId == :userId AND id >= :skip LIMIT :take")
+    @Transaction
     fun getPaginatedMessages(userId: ID, skip: Int, take: Int): List<ChatMessageToChatMessageOneToOneRelationship>
 
     @Query("SELECT * FROM chats AS c WHERE c.senderId IN (SELECT userId FROM chat_users WHERE chat_users.userName LIKE  :query ) OR c.message LIKE :query")
+    @Transaction
     fun searchMessages(query: String): List<ChatMessageToChatMessageOneToOneRelationship>
 
 }
