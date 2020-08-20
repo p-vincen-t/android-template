@@ -21,7 +21,7 @@
             android:id="@+id/navigation_main"
             android:name="co.app.dashboard.main.MainFragment"
             android:label="main_fragment"
-            tools:layout="@layout/main_fragment" >
+            tools:layout="@layout/main_fragment">
         <action
                 android:id="@+id/action_mainFragment_to_categoriesFragment"
                 app:destination="@id/navigation_categories" />
@@ -37,19 +37,19 @@
             android:id="@+id/navigation_categories"
             android:name="co.app.PlaceHolderModuleFragment"
             android:label="fragment_categories"
-            tools:layout="@layout/fragment_categories" >
+            tools:layout="@layout/fragment_categories">
 
         <argument
                 android:name="arg_message"
                 app:argType="integer" />
         <argument
                 android:name="arg_module"
-                app:argType="string"
-                android:defaultValue="request" />
+                android:defaultValue="request"
+                app:argType="string" />
         <argument
                 android:name="arg_fragment_class"
-                app:argType="string"
-                android:defaultValue="co.app.request.CategoriesFragment" />
+                android:defaultValue="co.app.request.CategoriesFragment"
+                app:argType="string" />
 
     </fragment>
     <fragment

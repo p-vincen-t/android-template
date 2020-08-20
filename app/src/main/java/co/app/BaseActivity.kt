@@ -80,7 +80,7 @@ open class BaseActivity : AppCompatActivity() {
         pickerDialog?.setPickerCloseListener {
             onAttachmentAcquired(it)
         }
-        pickerDialog?.show(supportFragmentManager, app.appComponent.settings(),"picker")
+        pickerDialog?.show(supportFragmentManager, app.appComponent.settings(), "picker")
 
     }
 

@@ -20,9 +20,9 @@ import androidx.collection.ArrayMap
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.app.attachment.inflate
+import promise.ui.Viewable
 import promise.ui.adapter.DiffAdapter
 import promise.ui.adapter.PromiseAdapter
-import promise.ui.Viewable
 import kotlin.reflect.KClass
 
 fun <T : Any> adapter(

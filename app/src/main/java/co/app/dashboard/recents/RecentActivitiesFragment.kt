@@ -17,10 +17,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.collection.ArrayMap
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
 import co.app.R
 import co.app.common.ID
 import co.app.common.account.AppUser
@@ -31,14 +29,11 @@ import co.app.dsl.prepareAdapter
 import co.app.dsl.startActivity
 import co.app.messaging.chat.ChatActivity
 import co.app.messaging.chat.ChatThreadViewable
-import co.app.report.Linear
 import co.app.report.ListReport
 import co.app.report.ReportHolder
-import promise.commons.model.List as PromiseList
 import kotlinx.android.synthetic.main.recent_activities_fragment.*
-import promise.ui.Viewable
 import promise.ui.adapter.PromiseAdapter
-import kotlin.reflect.KClass
+import promise.commons.model.List as PromiseList
 
 val messages: PromiseList<ChatThread> = PromiseList.generate(5) {
     val user = AppUser(ID.generate(), "sername", Photo())

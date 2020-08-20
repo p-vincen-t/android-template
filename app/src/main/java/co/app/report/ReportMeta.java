@@ -23,6 +23,8 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ReportMeta {
     String header() default "";
+
     int headerRes() default 0;
+
     @MenuRes int menu() default 0;
 }

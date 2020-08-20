@@ -36,11 +36,13 @@ import co.app.common.errors.NetworkError
 import co.app.settings.ThemePreference
 import co.base.account.AccountComponent
 import co.base.account.DaggerAccountComponent
+import com.facebook.stetho.Stetho
 import com.google.android.play.core.splitcompat.SplitCompat
 import com.google.android.play.core.splitinstall.SplitInstallManager
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.instacart.library.truetime.TrueTimeRx
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.Interceptor
@@ -151,7 +153,6 @@ class App : MultiDexApplication(), LifecycleObserver {
     fun gson(): Gson = appComponent.gson()
 
     fun okHttpClient(): OkHttpClient = dataComponent().okHttpClient()
-
 
     lateinit var TAG: String
 

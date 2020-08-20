@@ -98,7 +98,8 @@ class ReportView : LinearLayoutCompat, ViewHolder {
     private fun setReport() {
         if (_report != null) {
             if (_report!!.javaClass.isAnnotationPresent(co.app.report.ReportMeta::class.java)) {
-                val annotation = _report!!.javaClass.getAnnotation(co.app.report.ReportMeta::class.java)!!
+                val annotation =
+                    _report!!.javaClass.getAnnotation(co.app.report.ReportMeta::class.java)!!
                 menu = annotation.menu
                 header = if (annotation.headerRes != 0) {
                     context.getString(annotation.headerRes)

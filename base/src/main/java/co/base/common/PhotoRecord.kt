@@ -16,11 +16,18 @@ package co.base.common
 import co.app.common.ID
 import co.app.common.photo.Photo
 import promise.commons.model.Identifiable
+import promise.database.Entity
+import promise.database.Index
+import promise.database.PrimaryKeyAutoIncrement
 
+@Entity(tableName = "app_photos")
 class PhotoRecord : Identifiable<Int> {
 
+    @PrimaryKeyAutoIncrement
     var uid = 0
-    var refId: ID? = null
+    @Index
+    var refId: String? = null
+    @Index
     var refName: String? = null
 
     var url: String? = null

@@ -14,12 +14,12 @@
 package co.base.common
 
 import co.app.common.photo.PhotoDatabase
-import co.base.BehaviourDatabaseImpl
+import co.base.AppDatabase
 import dagger.Binds
 import dagger.Module
 
 @Module
 abstract class PhotoModule {
     @Binds
-    abstract fun bindPhotoDatabase(db: BehaviourDatabaseImpl): PhotoDatabase
+    abstract fun bindPhotoDatabase(db: AppDatabase): PhotoDatabase
 }

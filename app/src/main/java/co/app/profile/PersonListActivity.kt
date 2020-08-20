@@ -15,19 +15,18 @@ package co.app.profile
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 import co.app.R
-
 import co.app.profile.dummy.DummyContent
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_person_list.*
-import kotlinx.android.synthetic.main.person_list_content.view.*
 import kotlinx.android.synthetic.main.person_list.*
+import kotlinx.android.synthetic.main.person_list_content.view.*
 
 /**
  * An activity representing a list of Pings. This activity

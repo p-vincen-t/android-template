@@ -11,10 +11,9 @@
   ~ limitations under the License.
   -->
 
-<co.app.report.ReportView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<co.app.report.ReportView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        tools:context=".dashboard.main.MainFragment"
         android:id="@+id/search_report"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:context=".dashboard.main.MainFragment" />

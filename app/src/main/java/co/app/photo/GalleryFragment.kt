@@ -35,7 +35,6 @@ import co.app.BuildConfig
 import co.app.R
 import co.app.dsl.padWithDisplayCutout
 import co.app.dsl.showImmersive
-import co.app.photo.GalleryFragmentArgs
 import java.io.File
 import java.util.*
 
@@ -55,6 +54,7 @@ class GalleryFragment internal constructor() : Fragment() {
         override fun getCount(): Int = mediaList.size
         override fun getItem(position: Int): Fragment =
             PhotoFragment.create(mediaList[position])
+
         override fun getItemPosition(obj: Any): Int = POSITION_NONE
     }
 

@@ -43,6 +43,7 @@ class WalletActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        addBackButton()
         val binding = DataBindingUtil.setContentView<WalletFragmentBinding>(this, R.layout.wallet_fragment)
         val moduleRegistrar = ModuleRegistrar.instance()
 

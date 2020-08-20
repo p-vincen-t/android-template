@@ -13,36 +13,18 @@
 
 package co.app.wallet.base.data.db
 
-import android.app.Application
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import co.app.wallet.base.record.RecordData
-import co.app.wallet.base.record.RecordsDao
+import co.app.wallet.base.record.Record
+import promise.database.DatabaseEntity
+import promise.db.FastDatabase
+import promise.db.PromiseDatabase
 
-@Database(entities = [RecordData::class], version = 1)
-abstract class WalletDatabase : RoomDatabase() {
+@DatabaseEntity(
+    persistableEntities = [Record::class],
+    version = 1
+)
+abstract class WalletDatabase(fastDatabase: FastDatabase) : PromiseDatabase(fastDatabase) {
 
-    abstract fun recordsDao(): RecordsDao
-
-    companion object {
-        @Volatile
-        var instance: WalletDatabase? = null
-
-        private var LOCK = Any()
-
-        operator fun invoke(application: Application, name: String): WalletDatabase = instance
-            ?: synchronized(LOCK) {
-               instance ?: Room.databaseBuilder(
-                    application.applicationContext,
-                    WalletDatabase::class.java,
-                    name
-                )
-                    .fallbackToDestructiveMigration()
-                    .build()
-                    .also {
-                        instance = it
-                    }
-            }
+    init {
+        fastDatabase.fallBackToDestructiveMigration()
     }
 }

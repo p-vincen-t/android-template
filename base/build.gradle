@@ -14,8 +14,12 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply from: '../deps.gradle'
+//apply from: '../deps.gradle'
 apply plugin: 'com.apollographql.apollo'
+
+kapt {
+    correctErrorTypes true
+}
 
 android {
     compileSdkVersion versions.compileSdk
@@ -32,11 +36,11 @@ android {
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [
-                        "room.schemaLocation"  : "$projectDir/schemas".toString(),
-                        "room.incremental"     : "true",
-                        "room.expandProjection": "true"]
+                        "promise.database.projectDir": "$projectDir".toString()
+                ]
             }
         }
+
     }
 
     compileOptions {
@@ -69,6 +73,7 @@ dependencies {
     kapt deps.daggerCompiler
     debugImplementation deps.facebookStetho
     debugImplementation deps.facebookStethoOkHttp
+    debugImplementation deps.faker
     implementation deps.kotlin
     implementation deps.jodaTime
     testImplementation deps.junit
@@ -80,7 +85,8 @@ dependencies {
     implementation deps.multidex
     implementation deps.preferences
     implementation deps.promiseCommons
-    implementation deps.promiseDatabase
+    api deps.promiseDatabase
+    kapt deps.promiseDatabaseCompiler
     implementation deps.promiseModel
     androidTestImplementation deps.testRunner
     implementation deps.trueTime
@@ -89,10 +95,10 @@ dependencies {
     implementation deps.retrofit
     implementation deps.retrofitAdapterRxJava
     implementation deps.retrofitConverterGson
-    kapt deps.roomCompiler
-    implementation deps.room
-    implementation deps.roomRuntime
-    implementation deps.roomRxJava
+//    kapt deps.roomCompiler
+//    implementation deps.room
+//    implementation deps.roomRuntime
+//    implementation deps.roomRxJava
     implementation deps.rxAndroid
     implementation deps.rxJava
 }

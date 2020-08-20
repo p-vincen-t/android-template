@@ -13,11 +13,7 @@
 
 package co.app.search;
 
-import android.animation.ValueAnimator;
 import android.os.Bundle;
-
-import co.app.utils.AnimUtils;
-import promise.commons.data.log.LogUtil;
 
 public class ActionBarController {
 /*

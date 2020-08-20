@@ -11,18 +11,22 @@
  * limitations under the License.
  */
 
-package co.app.auth.base
+package co.app.auth
 
+import co.app.app.AppComponent
 import co.app.auth.domain.Session
 import co.base.account.AccountModule
-import co.app.AppComponent
+import co.app.auth.base.ApiModule
+import co.app.auth.base.SessionModule
+import co.app.auth.base.SessionScope
 import dagger.BindsInstance
 import dagger.Component
 import okhttp3.OkHttpClient
 import promise.commons.AndroidPromise
 
 @SessionScope
-@Component( dependencies = [co.app.AppComponent::class], modules = [SessionModule::class, AccountModule::class, ApiModule::class])
+@Component( dependencies = [AppComponent::class],
+    modules = [SessionModule::class, AccountModule::class, ApiModule::class])
 interface SessionComponent {
 
     fun session(): Session
@@ -33,7 +37,7 @@ interface SessionComponent {
         fun create(
                    @BindsInstance okHttpClient: OkHttpClient,
                    @BindsInstance url:String,
-                   appComponent: co.app.AppComponent
+                   appComponent: AppComponent
         ): SessionComponent
     }
 }

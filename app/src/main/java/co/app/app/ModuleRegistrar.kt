@@ -14,22 +14,17 @@
 package co.app.app
 
 import android.content.Context
-import android.view.ViewGroup
 import androidx.collection.ArrayMap
-import androidx.recyclerview.widget.RecyclerView
 import co.app.App
 import co.app.ModuleRegister
 import co.app.R
 import co.app.common.search.SearchResult
 import co.app.domain.message.ChatMessage
-import co.app.dsl.prepareListAdapter
 import co.app.messaging.chat.ChatMessageViewable
 import co.app.report.ListReport
 import co.app.report.Report
-import co.app.report.ReportHolder
 import promise.commons.data.log.LogUtil
 import promise.ui.Viewable
-import promise.ui.adapter.PromiseAdapter
 import java.lang.ref.WeakReference
 import kotlin.reflect.KClass
 import promise.commons.model.List as PromiseList
@@ -41,23 +36,22 @@ class ModuleRegistrar : ModuleRegister() {
         //registerSearchableRepository(app.reposComponent().messageRepository())
     }
 
-    override fun onRegisterSearchableViews(context: WeakReference<Context>): Pair<String, (Map<Int, List<SearchResult>>,Any?, (Report) -> Unit) -> Unit>? {
-        return Pair("app", { results,args, resolve ->
-            results.forEach { entry ->
-                if (entry.key== R.string.messages) {
-                    val map = ArrayMap<Class<*>, KClass<out Viewable>>().apply {
-                        put(ChatMessage::class.java,
-                            ChatMessageViewable::class)
-                    }
-                    resolve(ListReport<ChatMessage>(
-                        listData = PromiseList(entry.value).map { it as ChatMessage },
+    override fun onRegisterSearchableViews(context: WeakReference<Context>): Pair<String, (Pair<Int, List<SearchResult>>, Any?, (Report) -> Unit) -> Unit>? =
+        Pair("app", { results, args, resolve ->
+            if (results.first == R.string.messages) {
+                val map = ArrayMap<Class<*>, KClass<out Viewable>>().apply {
+                    put(
+                        ChatMessage::class.java,
+                        ChatMessageViewable::class
+                    )
+                }
+                resolve(
+                    ListReport<ChatMessage>(
+                        listData = PromiseList(results.second).map { it as ChatMessage },
                         map = map,
                         dataArgs = args
-                    ))
-                }
+                    )
+                )
             }
         })
-    }
-
-
 }

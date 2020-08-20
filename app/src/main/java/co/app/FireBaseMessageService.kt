@@ -24,7 +24,6 @@ class FireBaseMessageService : FirebaseMessagingService() {
 
     override fun onCreate() {
         super.onCreate()
-
     }
 
     /**

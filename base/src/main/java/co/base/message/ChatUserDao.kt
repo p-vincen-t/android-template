@@ -13,13 +13,17 @@
 
 package co.base.message
 
-import androidx.room.Dao
-import androidx.room.Query
 import co.app.common.ID
-import co.base.BaseDao
+import promise.db.PromiseDatabase
 
-@Dao
-interface ChatUserDao: BaseDao<ChatUserRecord> {
-    @Query("SELECT * FROM chat_users WHERE userId = :id")
-   fun getChatUser(id: ID): ChatUserRecord
+interface ChatUserDao {
+    //@Query("SELECT * FROM chat_users WHERE userId = :id")
+   fun getChatUser(id: ID): ChatUserRecord?
+}
+
+class ChatUserDaoImpl(private val promiseDatabase: PromiseDatabase): ChatUserDao {
+    override fun getChatUser(id: ID): ChatUserRecord? {
+        return promiseDatabase.tableOf(ChatUserRecord::class.java)
+            .findOne(ChatUserRecordsTable.userIdColumn.with(id.id))
+    }
 }

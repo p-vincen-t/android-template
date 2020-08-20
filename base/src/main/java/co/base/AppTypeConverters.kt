@@ -13,24 +13,22 @@
 
 package co.base
 
-import androidx.room.TypeConverter
 import co.app.common.ID
+import promise.database.TypeConverter
 import java.util.*
 
+@TypeConverter
 class AppTypeConverters {
-    @TypeConverter
-    fun fromTimestamp(value: Long?): Date? = value?.let { Date(it) }
 
-    @TypeConverter
-    fun dateToTimestamp(date: Date?): Long? = date?.time
+    fun fromTimestamp(value: String?): Date? = value?.let { Date(it.toLong()) }
 
-    @TypeConverter
+    fun dateToTimestamp(date: Date?): String? = date?.time.toString()
+
     fun stringFromID(value: ID?): String? {
         if (value == null) return ID.generate().id
         return value.id
     }
 
-    @TypeConverter
     fun stringToArray(date: String): Array<ID>? = try {
         val parts = date.split(",")
         parts.map {
@@ -40,19 +38,19 @@ class AppTypeConverters {
         null
     }
 
-
-    @TypeConverter
-    fun stringFromArray(value: Array<ID>?): String? = when (value) {
+    fun stringArrayFromIDArray(value: Array<ID>?): String? = when (value) {
         null -> null
-        else -> value.map { it.id }.joinToString()
+        else -> {
+            val builder = StringBuilder()
+            value.mapIndexed { index, id ->
+                builder.append(id.id)
+                if (index != value.size - 1) {
+                    builder.append(",")
+                }
+            }
+            builder.toString()
+        }
     }
 
-    @TypeConverter
-    fun stringArrayFromIDArray(value: Array<ID>?): Array<String>? = when (value) {
-        null -> null
-        else -> value.map { it.id!! }.toTypedArray()
-    }
-
-    @TypeConverter
     fun stringToID(date: String): ID = ID.from(date)
 }

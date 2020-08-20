@@ -13,50 +13,49 @@
 
 package co.base.message
 
-import androidx.room.*
 import co.app.common.ID
 import co.app.common.photo.PhotoDatabase
 import co.app.domain.message.ChatMessage
-import co.base.common.PhotoRecordTable
+import promise.commons.model.Identifiable
+import promise.database.*
+import java.util.*
 
 @Entity(
-    tableName = "chats",
-    foreignKeys = [
-        ForeignKey(
-            entity = ChatUserRecord::class,
-            parentColumns = ["userId"],
-            childColumns = ["senderId"]
-        ),
-        ForeignKey(
-            entity = ChatMessageRecord::class,
-            parentColumns = ["uId"],
-            childColumns = ["chatReplyId"]
-        )
-    ],
-    indices = [
-        Index(value = ["uId"], name = "uid_index", unique = true),
-        Index(value = ["senderId"], name = "senderId_index", unique = false)
-    ]
+    tableName = "chats"
 )
-class ChatMessageRecord {
+class ChatMessageRecord : Identifiable<Int> {
 
-    @PrimaryKey(autoGenerate = true)
-    var id = 0
+    var view: String? = null
 
-    var uId: ID? = null
+    @Ignore
+    val other: Any? = null
 
-    @ColumnInfo(index = true)
-    var senderId: ID? = null
+    var subject: String = ""
+
+    var name: String = ""
 
     var message: String = ""
+
+    var email: String = ""
+
+    @PrimaryKeyAutoIncrement
+    var chatId = 0
+
+    @Index
+    var uId: ID? = null
+
+    @Index
+    @ForeignKey(referencedEntity = ChatUserRecord::class, referencedEntityColumnName = "userId")
+    var senderId: ID? = null
 
     var description: String = ""
 
     var photoIds: Array<ID>? = null
 
-    var sentTime: Long = 0
+    var sentTime: Date? = null
 
-    @ColumnInfo(index = true)
+    @Index
+    @ForeignKey(referencedEntity = ChatMessageRecord::class, referencedEntityColumnName = "uId")
     var chatReplyId: ID? = null
 
     @Ignore
@@ -64,9 +63,11 @@ class ChatMessageRecord {
 
     var forwardedFlag: Boolean = false
 
+    fun isForwardedFlag() = forwardedFlag
+
     fun toChatMessage(chatUserDao: ChatUserDao, photoRecordDao: PhotoDatabase): ChatMessage {
-        val user = chatUserDao.getChatUser(senderId!!).toChatUser(photoRecordDao)
-        return ChatMessage(user, message, sentTime).apply {
+        val user = chatUserDao.getChatUser(senderId!!)!!.toChatUser(photoRecordDao)
+        return ChatMessage(user, message, sentTime!!.time).apply {
             chatDescription = description
             fromCurrentUser = senderId!!.id == user.userId.id
             forwarded = forwardedFlag
@@ -76,4 +77,11 @@ class ChatMessageRecord {
                 chatReplyMessage!!.toChatMessage(chatUserDao, photoRecordDao)
         }
     }
+
+    override fun getId(): Int = chatId
+
+    override fun setId(t: Int) {
+        this.chatId = t;
+    }
+
 }

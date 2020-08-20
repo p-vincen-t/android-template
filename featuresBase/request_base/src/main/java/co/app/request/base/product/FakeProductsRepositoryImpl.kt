@@ -14,7 +14,6 @@
 package co.app.request.base.product
 
 import android.content.Context
-import androidx.collection.ArrayMap
 import androidx.lifecycle.LiveData
 import co.app.common.ID
 import co.app.common.Resource
@@ -25,6 +24,7 @@ import co.app.request.base.R
 import co.app.request.domain.product.Product
 import co.app.request.domain.product.ProductSKU
 import co.app.request.domain.product.ProductsRepository
+import io.bloco.faker.Faker
 import promise.commons.tx.AsyncEither
 import promise.commons.tx.Either
 import java.lang.ref.WeakReference
@@ -41,10 +41,12 @@ class FakeProductsRepositoryImpl : ProductsRepository {
 
     override fun getProductSKUs(product: Product, skip: Int, take: Int): Either<List<ProductSKU>> =
         AsyncEither { resolve, _ ->
-            Thread.sleep(2000)
-            resolve(PromiseList.generate(10) {
+            Thread.sleep(1000)
+            val faker = Faker()
+            resolve(PromiseList.generate(5) {
                 ProductSKU(product).apply {
-
+                    name = faker.commerce.productName()
+                    description = faker.company.industry()
                 }
             })
         }
@@ -52,17 +54,22 @@ class FakeProductsRepositoryImpl : ProductsRepository {
     override fun onSearch(
         context: WeakReference<Context>,
         search: Search
-    ): Either<Map<Pair<String, Int>, List<SearchResult>>> = AsyncEither { resolve, _ ->
+    ): AsyncEither<Pair<Pair<String, Int>, List<SearchResult>>> = AsyncEither { resolve, _ ->
+        val faker = Faker()
         val products = PromiseList.generate(3) {
             val user = AppUser(
                 ID.generate(),
                 "userna",
                 null
             )
-            Product(user, "category $it", "name", "desc", true)
+            Product(
+                user,
+                faker.commerce.productName(),
+                faker.commerce.productName(),
+                faker.commerce.material(),
+                true
+            )
         }
-        val map = ArrayMap<Pair<String, Int>, List<SearchResult>>()
-        map[Pair("request", R.string.products)] = products
-        resolve(map)
+        resolve(Pair(Pair("request", R.string.products), products))
     }
 }

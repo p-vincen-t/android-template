@@ -47,8 +47,7 @@ object AccountModule {
     @Provides
     @JvmStatic
     fun provideWriteAccount(preferences: Preferences,
-                            promise: AndroidPromise, gson: Gson): UserAccount {
-        return UserAccountImpl.WriteAccount(preferences, promise, gson)
-                            }
+                            promise: AndroidPromise, gson: Gson): UserAccount =
+        UserAccountImpl.WriteAccount(preferences, promise, gson)
 
 }

@@ -16,7 +16,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
-apply from: '../../deps.gradle'
+//apply from: '../../deps.gradle'
 
 androidExtensions {
     experimental = true
@@ -68,7 +68,6 @@ dependencies {
     implementation deps.constraintLayout
     implementation deps.dagger
     kapt deps.daggerCompiler
-
     implementation deps.legacySupport
     implementation deps.lifeCycleExtensions
     implementation deps.material
@@ -76,4 +75,5 @@ dependencies {
     implementation deps.navigationUi
     implementation deps.promiseCommons
     implementation deps.promiseUi
+    implementation deps.rxJava
 }

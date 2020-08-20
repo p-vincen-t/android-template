@@ -32,12 +32,15 @@ interface ReposComponent {
 
     fun messageRepository(): MessageRepository
 
-    fun searchRepository():  SearchRepository
+    fun searchRepository(): SearchRepository
 
     fun promise(): AndroidPromise
 
     @Component.Factory
     interface Factory {
-        fun create(@BindsInstance userAccount: UserAccount?, dataComponent: DataComponent): ReposComponent
+        fun create(
+            @BindsInstance userAccount: UserAccount?,
+            dataComponent: DataComponent
+        ): ReposComponent
     }
 }

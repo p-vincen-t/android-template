@@ -19,6 +19,7 @@ import co.app.common.Resource
 import co.app.common.search.Search
 import co.app.common.search.SearchResult
 import co.app.request.domain.product.*
+import promise.commons.tx.AsyncEither
 import promise.commons.tx.Either
 import java.lang.ref.WeakReference
 
@@ -41,7 +42,7 @@ class ProductsRepositoryImpl(
     override fun onSearch(
         context: WeakReference<Context>,
         search: Search
-    ): Either<Map<Pair<String, Int>, List<SearchResult>>> {
+    ): AsyncEither<Pair<Pair<String, Int>, List<SearchResult>>> {
         TODO("Not yet implemented")
     }
 }

@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModel
 open class BaseViewModel : ViewModel(), Observable {
 
     private val callbacks: PropertyChangeRegistry = PropertyChangeRegistry()
+
     /**
      * Removes a callback from those listening for changes.
      * @param callback The callback that should stop listening.

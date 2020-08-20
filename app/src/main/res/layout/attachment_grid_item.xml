@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2020, {{App}}
   ~ Licensed under the Apache License, Version 2.0, "{{App}} Inc".
   ~ you may not use this file except in compliance with the License.
@@ -12,13 +11,12 @@
   ~ limitations under the License.
   -->
 
-<androidx.appcompat.widget.LinearLayoutCompat
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:background="?selectableItemBackground"
+        android:orientation="vertical"
         android:padding="@dimen/margin">
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -31,10 +29,10 @@
             app:srcCompat="@drawable/ic_image" />
 
     <androidx.appcompat.widget.AppCompatTextView
-            android:layout_gravity="center_horizontal"
             android:id="@+id/label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:textColor="@color/color_on_surface" />
 

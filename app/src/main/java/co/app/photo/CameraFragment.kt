@@ -34,8 +34,8 @@ import android.view.ViewGroup
 import android.webkit.MimeTypeMap
 import android.widget.ImageButton
 import androidx.camera.core.*
-import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.core.ImageCapture.Metadata
+import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -151,7 +151,8 @@ class CameraFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?): View? =
+        savedInstanceState: Bundle?
+    ): View? =
         inflater.inflate(R.layout.fragment_camera, container, false)
 
     private fun setGalleryThumbnail(uri: Uri) {
@@ -301,8 +302,9 @@ class CameraFragment : Fragment() {
                 // A variable number of use-cases can be passed here -
                 // camera provides access to CameraControl & CameraInfo
                 camera = cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview, imageCapture, imageAnalyzer)
-            } catch(exc: Exception) {
+                    this, cameraSelector, preview, imageCapture, imageAnalyzer
+                )
+            } catch (exc: Exception) {
                 LogUtil.e(TAG, "Use case binding failed", exc)
             }
 
@@ -420,7 +422,8 @@ class CameraFragment : Fragment() {
                     container.postDelayed({
                         container.foreground = ColorDrawable(Color.WHITE)
                         container.postDelayed(
-                            { container.foreground = null }, ANIMATION_FAST_MILLIS)
+                            { container.foreground = null }, ANIMATION_FAST_MILLIS
+                        )
                     }, ANIMATION_SLOW_MILLIS)
                 }
             }
@@ -550,7 +553,9 @@ class CameraFragment : Fragment() {
 
         /** Helper function used to create a timestamped file */
         private fun createFile(baseFolder: File, format: String, extension: String) =
-            File(baseFolder, SimpleDateFormat(format, Locale.getDefault())
-                .format(System.currentTimeMillis()) + extension)
+            File(
+                baseFolder, SimpleDateFormat(format, Locale.getDefault())
+                    .format(System.currentTimeMillis()) + extension
+            )
     }
 }

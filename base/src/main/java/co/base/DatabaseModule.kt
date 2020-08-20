@@ -13,28 +13,17 @@
 
 package co.base
 
-import co.app.common.photo.PhotoDatabase
 import dagger.Module
 import dagger.Provides
-import promise.commons.AndroidPromise
 
 private const val DB_NAME = "app_db"
-private const val DB_PREF_NAME = "app_db_pref"
 
 @Module
 object DatabaseModule {
 
     @Provides
     @JvmStatic
-    fun provideAppDatabase(
-        promise: AndroidPromise,
-        photoRecordTable: PhotoDatabase
-    ): AppDatabaseImpl =
-        AppDatabaseImpl(
-            promise.context(),
-            DB_NAME,
-            photoRecordTable,
-            DB_PREF_NAME
-        )
+    fun provideBehaviorDatabase() : AppDatabase = AppDatabaseImpl.createDatabase(
+        DB_NAME)
 
 }

@@ -13,13 +13,22 @@
 
 package co.base.message
 
-import androidx.room.Dao
-import androidx.room.Query
-import androidx.room.Transaction
+import promise.db.PromiseDatabase
 
-@Dao
+
 interface MessageThreadRecordDao {
-    @Query("SELECT * from chat_users")
-    @Transaction
+//    @Query("SELECT * from chat_users")
+//    @Transaction
     fun getMessageThreads(): List<ChatUserRecordToChatMessageRecordsOneToManyRelationship>?
+}
+
+class MessageThreadRecordDaoImpl(private val promiseDatabase: PromiseDatabase): MessageThreadRecordDao {
+    override fun getMessageThreads(): List<ChatUserRecordToChatMessageRecordsOneToManyRelationship>? =
+        promiseDatabase.tableOf(ChatUserRecord::class.java).findAll().map {
+            ChatUserRecordToChatMessageRecordsOneToManyRelationship().apply {
+                chatUser = it
+                chatMessages = promiseDatabase.tableOf(ChatMessageRecord::class.java)
+                    .findAll(ChatMessageRecordsTable.senderIdColumn.with(it.userId!!.id))
+            }
+        }
 }

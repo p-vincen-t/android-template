@@ -22,7 +22,6 @@ import co.app.report.Report
 import co.app.report.ReportMeta
 import co.app.report.ReportView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.jakewharton.rxbinding2.widget.RxSearchView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

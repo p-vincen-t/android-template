@@ -29,7 +29,7 @@ abstract class SearchRepository {
         }
     }
 
-    abstract val searchResults: LiveData<Map<Pair<String, Int>, List<SearchResult>>>
+    abstract val searchResults: LiveData<Pair<Pair<String, Int>, List<SearchResult>>>
     abstract fun recentSearchQueries(): LiveData<List<Search>>
     abstract fun search(context: WeakReference<Context>, search: Search): Either<Any>
     abstract fun clearHistory(): Either<Boolean>

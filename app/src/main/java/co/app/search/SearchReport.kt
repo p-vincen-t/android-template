@@ -14,7 +14,6 @@
 package co.app.search
 
 import android.content.Context
-import android.util.ArrayMap
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -79,42 +78,47 @@ class SearchReport(
     lateinit var diffAdapter: PromiseAdapter<ReportHolder>
 
     companion object {
-        val TAG = LogUtil.makeTag(SearchReport::class.java)
-        var searchViewMappers: PromiseList<Pair<String, ((Map<Int, List<SearchResult>>, Any?, (Report) -> Unit) -> Unit)>>? =
+        val TAG: String = LogUtil.makeTag(SearchReport::class.java)
+        var searchViewMappers: PromiseList<Pair<String, ((Pair<Int, List<SearchResult>>, Any?, (Report) -> Unit) -> Unit)>>? =
             null
     }
 
     override fun bind(reportView: ReportView, view: View) {
         this.view = view
         diffAdapter = search_results_recycler_view.prepareAdapter()
+        val lock = Any()
         searchRepository.searchResults.observe(lifecycleOwner, Observer { map ->
-            if (map.isEmpty()) {
-                loading_layout.showEmpty(
-                    R.drawable.ic_hourglass_empty_icon_24dp,
-                    "No results found",
-                    "We could not find anything relating to ${this.search?.query}"
-                )
-                return@Observer
-            }
             androidPromise.execute {
                 if (searchViewMappers == null) {
                     val v =
-                        PromiseList<Pair<String, ((Map<Int, List<SearchResult>>, Any?, (Report) -> Unit) -> Unit)>>()
+                        PromiseList<Pair<String, ((Pair<Int, List<SearchResult>>, Any?, (Report) -> Unit) -> Unit)>>()
                     app.modules.forEach {
                         val pair = it.value.onRegisterSearchableViews(WeakReference(context!!))
                         if (pair != null) v.add(pair)
                     }
+                    diffAdapter.clear()
                     searchViewMappers = v
                 }
-                val viewableMappersRegistered = searchViewMappers!!
-                val searchResults: ArrayList<Pair<Pair<String, Int>, SearchResult>> = ArrayList()
-                map.toList().map { pair ->
-                    pair.second.forEach {
-                        searchResults.add(Pair(Pair(pair.first.first, pair.first.second), it))
-                    }
+                /* val searchResults: ArrayList<Pair<Pair<String, Int>, SearchResult>> = ArrayList()
+                 map.toList().map { pair ->
+                     pair.second.forEach {
+                         searchResults.add(Pair(Pair(pair.first.first, pair.first.second), it))
+                     }
+                 }
+                 */
+                val viewMapper = searchViewMappers!!.find { it.first == map.first.first }
+                val pair: Pair<Int, List<SearchResult>> = Pair(map.first.second, map.second)
+                androidPromise.executeOnUi {
+                    loading_layout.showContent()
                 }
 
-                val results = PromiseList(searchResults)
+                viewMapper?.second?.invoke(pair, search) { report ->
+                    synchronized(lock) {
+                        LogUtil.e(TAG, "adding report ", report)
+                        diffAdapter.add(ReportHolder((report)))
+                    }
+                }
+                /*val results = PromiseList(searchResults)
                     .filter { result ->
                         viewableMappersRegistered.anyMatch {
                             it.first == result.first.first
@@ -129,11 +133,8 @@ class SearchReport(
                         )
                     }
                     .groupBy { it.first }
-                androidPromise.executeOnUi {
-                    loading_layout.showContent()
-                }
-                diffAdapter.clear()
-                diffAdapter.args = search
+
+
                 results.forEach { category ->
                     val viewMapper = viewableMappersRegistered.find { it.first == category.name() }
                     val map1 = ArrayMap<Int, List<SearchResult>>()
@@ -144,7 +145,7 @@ class SearchReport(
                         LogUtil.e(TAG, "adding report ", report)
                         diffAdapter.add(ReportHolder((report)))
                     }
-                }
+                }*/
             }
         })
     }

@@ -17,8 +17,8 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'com.google.firebase.crashlytics'
-apply from: '../artifacts.gradle'
-apply from: '../deps.gradle'
+apply from: './artifacts.gradle'
+//apply from: '../deps.gradle'
 
 androidExtensions {
     experimental = true
@@ -60,7 +60,9 @@ android {
     sourceSets {
         main {
             res {
-                srcDirs 'src/main/res', 'src/main/res/layouts/search', 'src/main/res/layouts/report'
+                srcDirs 'src/main/res',
+                        'src/main/res/layouts/search',
+                        'src/main/res/layouts/report'
             }
         }
     }
@@ -113,13 +115,15 @@ dependencies {
     implementation deps.preferences
     implementation deps.promiseLocation
     implementation deps.promiseCommons
+    implementation deps.promiseModel
     implementation deps.promiseUi
     androidTestImplementation deps.testRunner
     implementation deps.textDrawable
     implementation deps.trueTime
     implementation deps.recyclerView
-    implementation deps.room
+    //implementation deps.room
     implementation deps.rxAndroid
+    implementation deps.rxJava
     implementation deps.rxBinding
     implementation deps.rxPermissions
     implementation deps.shapeOfView

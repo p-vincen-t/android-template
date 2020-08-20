@@ -44,8 +44,8 @@ class SearchActivity : BaseActivity(), SearchForm.Listener {
         addBackButton()
 
         DaggerDashboardComponent.factory().create(
-                app.reposComponent().searchRepository(), app.accountComponent
-            )
+            app.reposComponent().searchRepository(), app.accountComponent
+        )
             .inject(this)
     }
 

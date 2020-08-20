@@ -65,7 +65,7 @@ class RecipientMessageViewable constructor(
 class ChatMessageViewable(chatMessage: ChatMessage) : Viewable {
     private val viewable: Viewable =
         if (chatMessage.fromCurrentUser) SenderMessageViewable(chatMessage)
-    else RecipientMessageViewable(chatMessage)
+        else RecipientMessageViewable(chatMessage)
 
     override fun layout(): Int = viewable.layout()
     override fun bind(view: View?, args: Any?) = viewable.bind(view, args)

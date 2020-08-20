@@ -55,13 +55,13 @@ const val FLAGS_FULLSCREEN =
 const val ANIMATION_FAST_MILLIS = 50L
 const val ANIMATION_SLOW_MILLIS = 100L
 
-inline fun <reified T: AppCompatActivity> Context.startActivity(noinline intentBlock: Intent.() -> Unit = {}) {
+inline fun <reified T : AppCompatActivity> Context.startActivity(noinline intentBlock: Intent.() -> Unit = {}) {
     val intent = Intent(this, T::class.java)
     intentBlock.invoke(intent)
     this.startActivity(intent)
 }
 
-fun  Context.startActivity(className: String, intentBlock: Intent.() -> Unit = {}) {
+fun Context.startActivity(className: String, intentBlock: Intent.() -> Unit = {}) {
     val intent = Intent()
     intent.setClassName(this.applicationContext, className)
     intentBlock.invoke(intent)
@@ -69,9 +69,11 @@ fun  Context.startActivity(className: String, intentBlock: Intent.() -> Unit = {
 }
 
 /** Launch an activity by its class name. */
-@Deprecated("use start activity passing className",
+@Deprecated(
+    "use start activity passing className",
     replaceWith = ReplaceWith("startActivity(className)"),
-    level = DeprecationLevel.ERROR)
+    level = DeprecationLevel.ERROR
+)
 fun Context.launchActivity(className: String) {
     Intent().setClassName("co.app", className)
         .also {
@@ -83,6 +85,7 @@ fun getString(@StringRes resId: Int): String {
     val app = AndroidPromise.instance().context()
     return app.getString(resId)
 }
+
 /**
  *
  *
@@ -155,7 +158,8 @@ fun View.padWithDisplayCutout() {
         cutout.safeInsetLeft,
         cutout.safeInsetTop,
         cutout.safeInsetRight,
-        cutout.safeInsetBottom)
+        cutout.safeInsetBottom
+    )
 
     // Apply padding using the display cutout designated "safe area"
     rootWindowInsets?.displayCutout?.let { doPadding(it) }
@@ -173,7 +177,8 @@ fun AlertDialog.showImmersive() {
     // Set the dialog to not focusable
     window?.setFlags(
         WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-        WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+        WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+    )
 
     // Make sure that the dialog's window is in full screen
     window?.decorView?.systemUiVisibility = FLAGS_FULLSCREEN

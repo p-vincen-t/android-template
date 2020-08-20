@@ -14,7 +14,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply from: '../../deps.gradle'
+//apply from: '../../deps.gradle'
 
 android {
 

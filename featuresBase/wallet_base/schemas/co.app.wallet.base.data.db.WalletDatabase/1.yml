@@ -1,0 +1,9 @@
+---
+dbVersion: 1
+tableMetaData:
+- tableName: "records"
+  fields:
+  - fieldName: "amount"
+    columnName: "amount"
+    nullable: true
+  migrations: []

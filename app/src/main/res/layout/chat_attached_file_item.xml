@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2020, {{App}}
   ~ Licensed under the Apache License, Version 2.0, "{{App}} Inc".
   ~ you may not use this file except in compliance with the License.
@@ -12,9 +11,9 @@
   ~ limitations under the License.
   -->
 
-<co.app.photo.PhotoView android:id="@+id/photo_view"
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<co.app.photo.PhotoView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/photo_view"
         android:layout_width="64dp"
-        app:errorImageSrc="@drawable/ic_error_icon_24dp"
         android:layout_height="64dp"
-        xmlns:app="http://schemas.android.com/apk/res-auto" />
+        app:errorImageSrc="@drawable/ic_error_icon_24dp" />

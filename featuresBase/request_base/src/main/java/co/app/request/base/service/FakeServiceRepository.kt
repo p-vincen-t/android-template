@@ -40,19 +40,17 @@ class FakeServiceRepository : ServicesRepository {
     override fun onSearch(
         context: WeakReference<Context>,
         search: Search
-    ): Either<Map<Pair<String, Int>, List<SearchResult>>> {
+    ): AsyncEither<Pair<Pair<String, Int>, List<SearchResult>>> {
         return AsyncEither { resolve, reject ->
-            val services = PromiseList.generate(1) {
-                val user = AppUser(
-                    ID.generate(),
-                    "userna",
-                    null
-                )
+            val user = AppUser(
+                ID.generate(),
+                "userna",
+                null
+            )
+            val services = PromiseList.generate(3) {
                 Service(user, "category", "name", "desc", true)
             }
-            val map = ArrayMap<Pair<String, Int>, List<SearchResult>>()
-            map[Pair("request", R.string.services)] = services
-            resolve(map)
+            resolve(Pair(Pair("request", R.string.services), services))
         }
     }
 }

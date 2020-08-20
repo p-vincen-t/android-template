@@ -19,7 +19,6 @@ import androidx.annotation.IntDef
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.children
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -103,13 +102,13 @@ class ListReport<T : Any>(
             LogUtil.e(TAG, "data ", listData)
             adapter.clear()
             adapter.add(listData)
-        } else if(dataSource != null) {
+        } else if (dataSource != null) {
             adapter.addLoadingView()
             dataSource.load(PromiseResult<List<T>, Throwable>()
                 .withCallback {
                     updateList(it)
                     if (adapter.getList().isNotEmpty())
-                    adapter.removeLoader()
+                        adapter.removeLoader()
                     LogUtil.e(TAG, "data from loader ", it)
                 }
                 .withErrorCallback {
@@ -120,7 +119,8 @@ class ListReport<T : Any>(
         }
 
         if (footerParams != null) {
-            LayoutInflater.from(view.context).inflate(footerParams!!.footerLayout, footer_view, true)
+            LayoutInflater.from(view.context)
+                .inflate(footerParams!!.footerLayout, footer_view, true)
             if (footerParams!!.clickListener != null && footerParams!!.viewIds != null) footerParams!!.viewIds!!.forEach {
                 footer_view.findViewById<View>(it).setOnClickListener(footerParams!!.clickListener)
             }
@@ -148,12 +148,13 @@ class ListReport<T : Any>(
     }
 
 
-
 }
 
-class FooterParams(@LayoutRes val footerLayout: Int,
-                   val clickListener: View.OnClickListener? = null,
-                   val viewIds: Array<Int>? = null)
+class FooterParams(
+    @LayoutRes val footerLayout: Int,
+    val clickListener: View.OnClickListener? = null,
+    val viewIds: Array<Int>? = null
+)
 
 sealed class LayoutType
 

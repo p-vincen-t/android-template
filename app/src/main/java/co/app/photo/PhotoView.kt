@@ -87,8 +87,7 @@ open class PhotoView : AppCompatImageView {
                             }
                         }
                     })
-            }
-            else if (photo1!!.isOnLine) {
+            } else if (photo1!!.isOnLine) {
                 Picasso.get().load(photo1!!.url())
                     .noPlaceholder()
                     .into(this, object : Callback {

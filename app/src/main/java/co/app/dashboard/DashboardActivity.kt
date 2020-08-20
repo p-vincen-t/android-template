@@ -45,7 +45,7 @@ class DashboardActivity : BaseSplitActivity(),
 
     PlaceHolderModuleFragment.OnFragmentInteractionListener {
 
-    lateinit var navController: NavController
+    private lateinit var navController: NavController
 
     @Inject
     lateinit var dashboardViewModelFactory: DashboardViewModelFactory
@@ -66,8 +66,8 @@ class DashboardActivity : BaseSplitActivity(),
         setSupportActionBar(toolbar)
 
         DaggerDashboardComponent.factory().create(
-                app.reposComponent().searchRepository(), app.accountComponent
-            )
+            app.reposComponent().searchRepository(), app.accountComponent
+        )
             .inject(this)
 
         dashboardViewModel = ViewModelProvider(this, dashboardViewModelFactory).get(
@@ -86,9 +86,8 @@ class DashboardActivity : BaseSplitActivity(),
         wallet_imageView.setOnClickListener {
             if (app.isWalletModuleInstalled()) {
                 startActivity(App.WALLET_ACTIVITY)
-            }
-            else {
-                Toast.makeText(this, "Wallet feature mssing", Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(this, "Wallet feature missing", Toast.LENGTH_LONG).show()
             }
         }
 
@@ -132,7 +131,6 @@ class DashboardActivity : BaseSplitActivity(),
                 })
         })
         dashboardViewModel.fetchAccounts()
-
     }
 
     override fun onBackPressed() =

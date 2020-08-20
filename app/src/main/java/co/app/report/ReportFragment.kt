@@ -14,12 +14,11 @@
 package co.app.report
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-
+import androidx.fragment.app.Fragment
 import co.app.R
 import promise.commons.data.log.LogUtil
 

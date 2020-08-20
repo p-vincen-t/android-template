@@ -15,7 +15,6 @@ package co.app
 
 import android.view.View
 import androidx.annotation.StringRes
-import co.app.R
 import co.app.dsl.getString
 import promise.ui.loading.LoadingViewable
 

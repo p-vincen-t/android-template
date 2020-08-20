@@ -22,9 +22,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import co.app.BaseFragment
 import co.app.R
+import co.app.domain.message.ChatThread
 import co.app.dsl.prepareAdapter
 import co.app.dsl.startActivity
-import co.app.domain.message.ChatThread
 import kotlinx.android.synthetic.main.fragment_chat_thread_list.*
 import kotlinx.android.synthetic.main.list_view.*
 import promise.commons.data.log.LogUtil

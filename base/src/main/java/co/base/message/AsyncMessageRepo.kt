@@ -60,7 +60,6 @@ class AsyncMessageRepo constructor(
                 }
             }
 
-
             args.containsKey(SKIP_ARG) && args.containsKey(TAKE_ARG) && args.containsKey(
                 CHAT_THREAD
             ) -> {
@@ -76,5 +75,4 @@ class AsyncMessageRepo constructor(
             }
         }
     }
-
 }

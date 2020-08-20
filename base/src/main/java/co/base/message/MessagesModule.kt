@@ -15,7 +15,7 @@ package co.base.message
 
 import co.app.domain.message.ChatApi
 import co.app.domain.message.ChatDatabase
-import co.base.AppDatabaseImpl
+import co.base.AppDatabase
 import dagger.Binds
 import dagger.Module
 
@@ -27,6 +27,6 @@ abstract class MessagesModule {
 
 
     @Binds
-    abstract fun bindChatDatabase(db: AppDatabaseImpl): ChatDatabase
+    abstract fun bindChatDatabase(db: AppDatabase): ChatDatabase
 
 }

@@ -22,14 +22,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import co.app.BaseActivity
 import co.app.R
-import co.app.common.account.AppUser
 import co.app.common.Attachment
 import co.app.common.ID
-import co.app.dsl.prepareAdapter
+import co.app.common.account.AppUser
 import co.app.common.photo.Photo
-import co.app.photo.PhotoView
 import co.app.databinding.ActivityChatBinding
 import co.app.domain.message.ChatMessage
+import co.app.dsl.prepareAdapter
+import co.app.photo.PhotoView
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.fragment_chat_thread_list.loading_layout
 import promise.ui.Viewable

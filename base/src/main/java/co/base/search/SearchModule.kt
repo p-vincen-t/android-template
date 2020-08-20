@@ -14,12 +14,12 @@
 package co.base.search
 
 import co.app.common.search.SearchDatabase
-import co.base.BehaviourDatabaseImpl
+import co.base.AppDatabase
 import dagger.Binds
 import dagger.Module
 
 @Module
 abstract class SearchModule {
     @Binds
-    abstract fun bindSearchDatabase(db: BehaviourDatabaseImpl): SearchDatabase
+    abstract fun bindSearchDatabase(db: AppDatabase): SearchDatabase
 }

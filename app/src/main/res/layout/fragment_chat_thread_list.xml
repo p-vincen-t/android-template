@@ -18,14 +18,13 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context=".messaging.chat.ChatThreadFragment">
+
     <promise.ui.loading.LoadingLayout
             android:id="@+id/loading_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-       <include
-               layout="@layout/list_view"
-               />
+        <include layout="@layout/list_view" />
 
     </promise.ui.loading.LoadingLayout>
 

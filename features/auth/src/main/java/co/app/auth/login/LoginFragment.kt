@@ -27,7 +27,7 @@ import co.app.BaseFragment
 import co.app.auth.DaggerAuthComponent
 import co.app.auth.ModuleRegistrar
 import co.app.auth.R
-import co.app.auth.base.SessionComponent
+import co.app.auth.SessionComponent
 import co.app.auth.databinding.FragmentLoginBinding
 import kotlinx.android.synthetic.main.fragment_login.*
 import javax.inject.Inject

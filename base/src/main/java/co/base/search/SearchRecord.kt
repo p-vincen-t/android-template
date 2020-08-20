@@ -17,9 +17,14 @@ import android.os.Parcel
 import android.os.Parcelable
 import co.app.common.search.Search
 import promise.commons.model.Identifiable
+import promise.database.Entity
+import promise.database.Index
+import promise.database.PrimaryKeyAutoIncrement
 
+@Entity
 class SearchRecord() : Parcelable, Identifiable<Int> {
 
+    @Index
     var query: String = ""
 
     fun toSearch(): Search =
@@ -46,6 +51,7 @@ class SearchRecord() : Parcelable, Identifiable<Int> {
         override fun newArray(size: Int): Array<SearchRecord?> = arrayOfNulls(size)
     }
 
+    @PrimaryKeyAutoIncrement
     var uId = 0
 
     override fun getId(): Int = uId

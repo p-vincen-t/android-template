@@ -24,7 +24,8 @@ import javax.inject.Inject
  * Required given RegisterViewModel has a non-empty constructor
  */
 @DashboardScope
-class DashboardViewModelFactory @Inject constructor(var userAccount: UserAccount?) : ViewModelProvider.Factory {
+class DashboardViewModelFactory @Inject constructor(var userAccount: UserAccount?) :
+    ViewModelProvider.Factory {
 
     @Inject
     lateinit var promise: AndroidPromise

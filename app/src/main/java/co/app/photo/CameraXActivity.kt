@@ -15,10 +15,10 @@ package co.app.photo
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
 import android.widget.FrameLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import co.app.R
 import co.app.dsl.FLAGS_FULLSCREEN
@@ -36,6 +36,7 @@ class CameraXActivity : AppCompatActivity() {
         setContentView(R.layout.activity_photo)
         container = findViewById(R.id.fragment_container)
     }
+
     override fun onResume() {
         super.onResume()
         // Before setting full screen flags, we must wait a bit to let UI settle; otherwise, we may
@@ -44,12 +45,16 @@ class CameraXActivity : AppCompatActivity() {
             container.systemUiVisibility = FLAGS_FULLSCREEN
         }, IMMERSIVE_FLAG_TIMEOUT)
     }
+
     /** When key down event is triggered, relay it via local broadcast so fragments can handle it */
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         return when (keyCode) {
             KeyEvent.KEYCODE_VOLUME_DOWN -> {
-                val intent = Intent(KEY_EVENT_ACTION).apply { putExtra(
-                    KEY_EVENT_EXTRA, keyCode) }
+                val intent = Intent(KEY_EVENT_ACTION).apply {
+                    putExtra(
+                        KEY_EVENT_EXTRA, keyCode
+                    )
+                }
                 LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
                 true
             }
@@ -63,7 +68,8 @@ class CameraXActivity : AppCompatActivity() {
         fun getOutputDirectory(context: Context): File {
             val appContext = context.applicationContext
             val mediaDir = context.externalMediaDirs.firstOrNull()?.let {
-                File(it, appContext.resources.getString(R.string.app_name)).apply { mkdirs() } }
+                File(it, appContext.resources.getString(R.string.app_name)).apply { mkdirs() }
+            }
             return if (mediaDir != null && mediaDir.exists())
                 mediaDir else appContext.filesDir
         }

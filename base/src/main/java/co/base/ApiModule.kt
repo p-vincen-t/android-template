@@ -92,9 +92,7 @@ object ApiModule {
     @DataScope
     @JvmStatic
     @Provides
-    fun provideApiUrl(): HttpUrl {
-        return BuildConfig.API_URL.toHttpUrlOrNull()!!
-    }
+    fun provideApiUrl(): HttpUrl = BuildConfig.API_URL.toHttpUrlOrNull()!!
 
     @DataScope
     @JvmStatic

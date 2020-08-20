@@ -30,7 +30,8 @@ class ChatViewModel constructor(val messageRepository: MessageRepository) : Base
     var message: String = ""
 
     fun addPhotos(photos: Photo) {
-        val photos1 = if(_messagePhotos.value == null) ArrayList() else _messagePhotos.value!!.toMutableList()
+        val photos1 =
+            if (_messagePhotos.value == null) ArrayList() else _messagePhotos.value!!.toMutableList()
         photos1.add(photos)
         _messagePhotos.value = photos1
     }

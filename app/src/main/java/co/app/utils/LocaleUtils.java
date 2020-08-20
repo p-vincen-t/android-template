@@ -18,10 +18,14 @@ import android.os.LocaleList;
 
 import java.util.Locale;
 
-/** Utilities for locale. */
+/**
+ * Utilities for locale.
+ */
 public final class LocaleUtils {
 
-    /** Returns the default locale of the device. */
+    /**
+     * Returns the default locale of the device.
+     */
     public static Locale getLocale(Context context) {
         LocaleList localList = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {

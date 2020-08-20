@@ -16,7 +16,6 @@ package co.app
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.StringRes
-import co.app.R
 import co.app.dsl.getString
 import promise.ui.Viewable
 

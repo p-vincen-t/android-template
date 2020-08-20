@@ -13,21 +13,36 @@
 
 package co.base.message
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import co.app.common.account.AppUser
 import co.app.common.ID
 import co.app.common.photo.PhotoDatabase
-import co.base.common.PhotoRecordTable
+import promise.commons.model.Identifiable
+import promise.database.Entity
+import promise.database.PrimaryKeyAutoIncrement
 
 @Entity(tableName = "chat_users")
-class ChatUserRecord(@PrimaryKey var userId: ID, var userName: String) {
+class ChatUserRecord: Identifiable<Int> {
+
+    var userId: ID? = null
+
+    var userName: String? = null
+
+    @PrimaryKeyAutoIncrement
+    var uid: Int = 0
 
     fun toChatUser(photoRecordDao: PhotoDatabase): AppUser =
         AppUser(
-            userId,
+            userId!!,
             userName,
-            photo = photoRecordDao.getPhotoByRef("chat_user",userId)
+            photo = photoRecordDao.getPhotoByRef("chat_user",userId!!)
         )
+
+    override fun getId(): Int {
+        return this.uid
+    }
+
+    override fun setId(t: Int) {
+        this.uid = t;
+    }
 
 }

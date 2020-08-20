@@ -32,14 +32,12 @@ import androidx.annotation.RequiresApi;
 
 import java.util.Locale;
 
-/** Provides static functions to work with views */
+/**
+ * Provides static functions to work with views
+ */
 public class ViewUtils {
 
-    private ViewUtils() {}
-
-    /** Similar to {@link Runnable} but takes a View parameter to operate on */
-    public interface ViewRunnable {
-        void run(@NonNull View view);
+    private ViewUtils() {
     }
 
     /**
@@ -81,7 +79,9 @@ public class ViewUtils {
                 TypedValue.COMPLEX_UNIT_PX, Math.max(minTextSize, originalTextSize * ratio));
     }
 
-    /** Runs a piece of code just before the next draw, after layout and measurement */
+    /**
+     * Runs a piece of code just before the next draw, after layout and measurement
+     */
     public static void doOnPreDraw(
             @NonNull final View view, final boolean drawNextFrame, final Runnable runnable) {
         view.getViewTreeObserver()
@@ -137,6 +137,13 @@ public class ViewUtils {
             return Settings.Global.getFloat(contentResolver, Settings.Global.ANIMATOR_DURATION_SCALE, 1.0f) == 0
                     || powerManager.isPowerSaveMode();
         return false;
+    }
+
+    /**
+     * Similar to {@link Runnable} but takes a View parameter to operate on
+     */
+    public interface ViewRunnable {
+        void run(@NonNull View view);
     }
 }
 

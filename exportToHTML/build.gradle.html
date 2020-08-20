@@ -1,0 +1,175 @@
+<html>
+<head>
+<title>build.gradle</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #616161; font-style: italic;}
+.s1 { color: #eeffff;}
+.s2 { color: #c3e88d;}
+.s3 { color: #c792ea; font-style: italic;}
+.s4 { color: #89ddff;}
+.s5 { color: #f78c6c;}
+</style>
+</head>
+<body bgcolor="#212121">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+build.gradle</font>
+</center></td></tr></table>
+<pre><span class="s0">/* 
+ * Copyright 2020, {{App}} 
+ * Licensed under the Apache License, Version 2.0, &quot;{{App}} Inc&quot;. 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at 
+ * http://www.apache.org/licenses/LICENSE-2.0 
+ * Unless required by applicable law or agreed to in writing, 
+ * software distributed under the License is distributed on an &quot;AS IS&quot; BASIS, 
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ * See the License for the specific language governing permissions and 
+ * limitations under the License. 
+ */</span>
+
+<span class="s1">apply plugin: </span><span class="s2">'com.android.application'</span>
+<span class="s1">apply plugin: </span><span class="s2">'kotlin-android'</span>
+<span class="s1">apply plugin: </span><span class="s2">'kotlin-android-extensions'</span>
+<span class="s1">apply plugin: </span><span class="s2">'kotlin-kapt'</span>
+<span class="s1">apply plugin: </span><span class="s2">&quot;androidx.navigation.safeargs.kotlin&quot;</span>
+<span class="s1">apply plugin: </span><span class="s2">'com.google.firebase.crashlytics'</span>
+<span class="s1">apply from: </span><span class="s2">'../artifacts.gradle'</span>
+<span class="s1">apply from: </span><span class="s2">'../deps.gradle'</span>
+
+<span class="s3">import </span><span class="s1">com.android.build.OutputFile</span>
+
+<span class="s1">androidExtensions </span><span class="s4">{</span>
+    <span class="s1">experimental </span><span class="s4">= </span><span class="s3">true</span>
+    <span class="s1">defaultCacheImplementation </span><span class="s4">= </span><span class="s2">&quot;SPARSE_ARRAY&quot;</span>
+<span class="s4">}</span>
+
+<span class="s1">android </span><span class="s4">{</span>
+
+    <span class="s1">dataBinding </span><span class="s4">{</span>
+        <span class="s1">enabled </span><span class="s4">= </span><span class="s3">true</span>
+    <span class="s4">}</span>
+
+    <span class="s1">compileSdkVersion versions.compileSdk</span>
+    <span class="s1">buildToolsVersion versions.buildTools</span>
+
+    <span class="s1">compileOptions </span><span class="s4">{</span>
+        <span class="s1">sourceCompatibility JavaVersion.VERSION_1_8</span>
+        <span class="s1">targetCompatibility JavaVersion.VERSION_1_8</span>
+    <span class="s4">}</span>
+
+    <span class="s1">kotlinOptions </span><span class="s4">{</span>
+        <span class="s1">jvmTarget </span><span class="s4">= </span><span class="s2">&quot;1.8&quot;</span>
+    <span class="s4">}</span>
+
+    <span class="s1">testOptions </span><span class="s4">{</span>
+        <span class="s1">unitTests </span><span class="s4">{</span>
+            <span class="s1">includeAndroidResources </span><span class="s4">= </span><span class="s3">true</span>
+            <span class="s1">returnDefaultValues </span><span class="s4">= </span><span class="s3">true</span>
+        <span class="s4">}</span>
+    <span class="s4">}</span>
+
+    <span class="s1">dynamicFeatures </span><span class="s4">= [</span>
+            <span class="s2">':features:auth'</span><span class="s1">,</span>
+            <span class="s2">':features:wallet'</span><span class="s1">,</span>
+            <span class="s2">':features:request'</span>
+            <span class="s0">//&quot;:fleet&quot;,</span>
+            <span class="s0">//&quot;:partner&quot;</span>
+    <span class="s4">]</span>
+
+    <span class="s1">sourceSets </span><span class="s4">{</span>
+        <span class="s1">main </span><span class="s4">{</span>
+            <span class="s1">res </span><span class="s4">{</span>
+                <span class="s1">srcDirs </span><span class="s2">'src/main/res'</span><span class="s1">, </span><span class="s2">'src/main/res/layouts/search'</span><span class="s1">, </span><span class="s2">'src/main/res/layouts/report'</span>
+            <span class="s4">}</span>
+        <span class="s4">}</span>
+    <span class="s4">}</span>
+
+    <span class="s1">applicationVariants.all </span><span class="s4">{ </span><span class="s1">variant -&gt;</span>
+        <span class="s1">variant.outputs.all </span><span class="s4">{ </span><span class="s1">output -&gt;</span>
+            <span class="s3">def </span><span class="s1">versionCodes </span><span class="s4">= [</span><span class="s2">&quot;armeabi-v7a&quot;</span><span class="s1">: </span><span class="s5">1</span><span class="s1">, </span><span class="s2">&quot;x86&quot;</span><span class="s1">: </span><span class="s5">2</span><span class="s1">, </span><span class="s2">&quot;arm64-v8a&quot;</span><span class="s1">: </span><span class="s5">3</span><span class="s1">, </span><span class="s2">&quot;x86_64&quot;</span><span class="s1">: </span><span class="s5">4</span><span class="s4">]</span>
+            <span class="s3">def </span><span class="s1">abi </span><span class="s4">= </span><span class="s1">output.getFilter</span><span class="s4">(</span><span class="s1">OutputFile.ABI</span><span class="s4">)</span>
+            <span class="s3">def </span><span class="s1">project </span><span class="s4">= </span><span class="s2">&quot;App&quot;</span>
+            <span class="s3">def </span><span class="s1">SEP </span><span class="s4">= </span><span class="s2">&quot;_&quot;</span>
+            <span class="s3">def </span><span class="s1">code </span><span class="s4">= </span><span class="s1">variant.versionCode</span>
+            <span class="s3">if </span><span class="s4">(</span><span class="s1">abi </span><span class="s4">!= </span><span class="s3">null</span><span class="s4">) {  </span><span class="s0">// null for the universal-debug, universal-release variants</span>
+                <span class="s1">output.versionCodeOverride </span><span class="s4">=</span>
+                        <span class="s1">versionCodes.get</span><span class="s4">(</span><span class="s1">abi</span><span class="s4">) * </span><span class="s5">1048576 </span><span class="s4">+ </span><span class="s1">code</span>
+                <span class="s1">code </span><span class="s4">= </span><span class="s1">versionCodes.get</span><span class="s4">(</span><span class="s1">abi</span><span class="s4">) * </span><span class="s5">1048576 </span><span class="s4">+ </span><span class="s1">code</span>
+            <span class="s4">}</span>
+            <span class="s3">def </span><span class="s1">version </span><span class="s4">= </span><span class="s1">variant.versionName </span><span class="s4">+ </span><span class="s1">SEP </span><span class="s4">+ </span><span class="s1">code</span>
+            <span class="s3">def </span><span class="s1">date </span><span class="s4">= </span><span class="s3">new </span><span class="s1">Date</span><span class="s4">()</span>
+            <span class="s3">def </span><span class="s1">formattedDate </span><span class="s4">= </span><span class="s1">date.format</span><span class="s4">(</span><span class="s2">'ddMMyy_HHmm'</span><span class="s4">)</span>
+            <span class="s3">def </span><span class="s1">newApkName </span><span class="s4">= </span><span class="s1">project </span><span class="s4">+ </span><span class="s1">SEP </span><span class="s4">+ </span><span class="s1">version </span><span class="s4">+ </span><span class="s1">SEP </span><span class="s4">+ </span><span class="s1">formattedDate </span><span class="s4">+ </span><span class="s2">&quot;.apk&quot;</span>
+            <span class="s1">outputFileName </span><span class="s4">= </span><span class="s3">new </span><span class="s1">File</span><span class="s4">(</span><span class="s1">newApkName</span><span class="s4">)</span>
+        <span class="s4">}</span>
+    <span class="s4">}</span>
+    <span class="s0">//dynamicFeatures = [ ':features:request', &quot;:features:blog&quot;, &quot;:features:survey&quot;]</span>
+<span class="s4">}</span>
+
+<span class="s1">dependencies </span><span class="s4">{</span>
+    <span class="s0">// core app libs</span>
+    <span class="s1">implementation project</span><span class="s4">(</span><span class="s1">path: </span><span class="s2">':base'</span><span class="s4">)</span>
+    <span class="s1">implementation project</span><span class="s4">(</span><span class="s1">path: </span><span class="s2">':common'</span><span class="s4">)</span>
+    <span class="s1">implementation project</span><span class="s4">(</span><span class="s1">path: </span><span class="s2">':domain'</span><span class="s4">)</span>
+    <span class="s1">implementation deps.alerter</span>
+    <span class="s1">implementation deps.appcompat</span>
+    <span class="s1">implementation deps.badgeView</span>
+    <span class="s1">implementation deps.biometric</span>
+    <span class="s1">implementation deps.cameraXExtensions</span>
+    <span class="s1">implementation deps.cameraXLifeCycle</span>
+    <span class="s1">implementation deps.cameraXView</span>
+    <span class="s1">implementation deps.constraintLayout</span>
+    <span class="s1">implementation deps.coroutines</span>
+    <span class="s1">kapt deps.daggerCompiler</span>
+    <span class="s1">implementation deps.emoji</span>
+    <span class="s1">implementation deps.emojiCompat</span>
+    <span class="s1">androidTestImplementation deps.expresso</span>
+    <span class="s1">implementation deps.facebookShimmer</span>
+    <span class="s1">debugImplementation deps.facebookStetho</span>
+    <span class="s1">implementation deps.firebaseAnalytics</span>
+    <span class="s1">implementation deps.firebaseCore</span>
+    <span class="s1">implementation deps.firebaseMessaging</span>
+    <span class="s1">implementation deps.firebaseCrashLytics</span>
+    <span class="s1">implementation deps.flexBox</span>
+    <span class="s1">implementation deps.gson</span>
+    <span class="s1">implementation deps.jodaTime</span>
+    <span class="s1">testImplementation deps.junit</span>
+    <span class="s1">implementation deps.legacySupport</span>
+    <span class="s1">implementation deps.lifeCycleExtensions</span>
+    <span class="s1">implementation deps.lifeCycleRuntime</span>
+    <span class="s1">implementation deps.lifeCycleViewModel</span>
+    <span class="s1">implementation deps.material</span>
+    <span class="s1">implementation deps.mikePenzAdapter</span>
+    <span class="s1">implementation deps.mikePenzAdapterPaged</span>
+    <span class="s1">implementation deps.mikePenzAdapterSwipe</span>
+    <span class="s1">implementation deps.mikePenzAdapterUtils</span>
+    <span class="s1">implementation deps.multidex</span>
+    <span class="s1">implementation deps.navigationFragment</span>
+    <span class="s1">implementation deps.navigationUi</span>
+    <span class="s1">implementation deps.picasso</span>
+    <span class="s1">implementation deps.playCore</span>
+    <span class="s1">implementation deps.playServicesLocation</span>
+    <span class="s1">implementation deps.preferences</span>
+    <span class="s1">implementation deps.promiseLocation</span>
+    <span class="s1">implementation deps.promiseCommons</span>
+    <span class="s1">implementation deps.promiseModel</span>
+    <span class="s1">implementation deps.promiseUi</span>
+    <span class="s1">androidTestImplementation deps.testRunner</span>
+    <span class="s1">implementation deps.textDrawable</span>
+    <span class="s1">implementation deps.trueTime</span>
+    <span class="s1">implementation deps.recyclerView</span>
+    <span class="s1">implementation deps.room</span>
+    <span class="s1">implementation deps.rxAndroid</span>
+    <span class="s1">implementation deps.rxJava</span>
+    <span class="s1">implementation deps.rxBinding</span>
+    <span class="s1">implementation deps.rxPermissions</span>
+    <span class="s1">implementation deps.shapeOfView</span>
+    <span class="s1">implementation deps.spinkit</span>
+    <span class="s1">implementation deps.vectorDrawables</span>
+<span class="s4">}</span>
+</pre>
+</body>
+</html>

@@ -13,17 +13,17 @@
 
 package co.app.wallet.base.record
 
-import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
+import android.annotation.SuppressLint
+import promise.database.Entity
+import promise.db.ActiveRecord
 
-@Dao
-interface RecordsDao {
 
-    @Query(" select * from records")
-    fun records(): LiveData<RecordData?>?
+@SuppressLint("ParcelCreator")
+@Entity(tableName = "records")
+class Record : ActiveRecord<Record>() {
 
-    @Insert
-    fun saveOrder(record: RecordData?)
+    var amount: Int = 0
+    override fun getEntity(): Record {
+        return this
+    }
 }

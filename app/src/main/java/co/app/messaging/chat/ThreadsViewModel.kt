@@ -17,7 +17,6 @@ import androidx.lifecycle.LiveData
 import co.app.BaseViewModel
 import co.app.domain.message.ChatThread
 import co.app.domain.message.MessageRepository
-import co.app.domain.message.MessagesError
 import promise.commons.data.log.LogUtil
 import promise.commons.tx.PromiseResult
 

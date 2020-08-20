@@ -14,7 +14,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply from: '../../deps.gradle'
+//apply from: '../../deps.gradle'
 
 android {
     compileSdkVersion versions.compileSdk
@@ -62,6 +62,7 @@ dependencies {
     implementation deps.appcompat
     implementation deps.dagger
     kapt deps.daggerCompiler
+    debugImplementation deps.faker
     implementation deps.kotlin
     implementation deps.jodaTime
     testImplementation deps.junit
@@ -78,10 +79,10 @@ dependencies {
     implementation deps.retrofit
     implementation deps.retrofitAdapterRxJava
     implementation deps.retrofitConverterGson
-    kapt deps.roomCompiler
-    implementation deps.room
-    implementation deps.roomRuntime
-    implementation deps.roomRxJava
+//    kapt deps.roomCompiler
+//    implementation deps.room
+//    implementation deps.roomRuntime
+//    implementation deps.roomRxJava
     implementation deps.rxAndroid
     implementation deps.rxJava
 }

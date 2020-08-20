@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2020, {{App}}
   ~ Licensed under the Apache License, Version 2.0, "{{App}} Inc".
   ~ you may not use this file except in compliance with the License.
@@ -13,19 +12,19 @@
   -->
 
 <resources>
-    <color name="color_primary">#202124</color>
-    <color name="color_primary_variant">#202124</color>
-    <color name="color_on_primary">#fafafa</color>
-    <color name="color_secondary">#4184f3</color>
-    <color name="color_secondary_variant">#4184f3</color>
+    <color name="color_primary">#000000</color>
+    <color name="color_primary_variant">#000000</color>
+    <color name="color_on_primary">#ffffff</color>
+    <color name="color_secondary">#00aeff</color>
+    <color name="color_secondary_variant">#00aeff</color>
     <color name="color_on_secondary">#fafafa</color>
-    <color name="color_error">#f44336</color>
-    <color name="color_on_error">#fafafa</color>
-    <color name="color_surface">#202124</color>
-    <color name="color_on_surface">#ffffff</color>
-    <color name="color_background">#212121</color>
-    <color name="color_on_background">#fafafa</color>
-    <color name="color_status_bar">#212121</color>
+    <color name="color_error">#fa3c4c</color>
+    <color name="color_on_error">#ffffff</color>
+    <color name="color_surface">#333333</color>
+    <color name="color_on_surface">#eaeaea</color>
+    <color name="color_background">#000000</color>
+    <color name="color_on_background">#989898</color>
+    <color name="color_status_bar">#000000</color>
     <color name="icon">#ffffff</color>
     <color name="outline_bg">#2b2d30</color>
 

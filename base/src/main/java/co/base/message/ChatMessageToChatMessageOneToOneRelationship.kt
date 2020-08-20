@@ -13,14 +13,11 @@
 
 package co.base.message
 
-import androidx.room.Embedded
-import androidx.room.Relation
-
 class ChatMessageToChatMessageOneToOneRelationship {
-    @Embedded
+    //@Embedded
     var chatMessage: ChatMessageRecord? = null
 
-    @Relation(parentColumn = "uId", entityColumn = "chatReplyId")
+    //@Relation(parentColumn = "uId", entityColumn = "chatReplyId")
     var replyChatMessage: ChatMessageRecord? = null
 
 }

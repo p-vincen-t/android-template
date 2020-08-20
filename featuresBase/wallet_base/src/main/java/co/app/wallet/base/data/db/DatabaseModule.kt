@@ -13,10 +13,10 @@
 
 package co.app.wallet.base.data.db
 
-import co.app.wallet.base.record.RecordsDao
+import co.app.wallet.base.data.DataScope
+import co.app.wallet.base.record.RecordsTable
 import dagger.Module
 import dagger.Provides
-import promise.commons.AndroidPromise
 
 private const val DB_NAME = "wallet_db"
 
@@ -24,14 +24,14 @@ private const val DB_NAME = "wallet_db"
 object DatabaseModule {
 
     @Provides
+    @DataScope
     @JvmStatic
-    fun provideDatabase(promise: AndroidPromise): WalletDatabase =
-        WalletDatabase(
-            promise.context(),
+    fun provideDatabase(): WalletDatabaseImpl =
+        WalletDatabaseImpl.createDatabase(
             DB_NAME
         )
 
     @Provides
     @JvmStatic
-    fun provideRecordsDao(database: WalletDatabase): RecordsDao = database.recordsDao()
+    fun provideRecordsDao(database: WalletDatabaseImpl): RecordsTable = database.recordsTable
 }

@@ -14,10 +14,10 @@
 package co.app.profile
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import co.app.R
 import co.app.profile.dummy.DummyContent
 import kotlinx.android.synthetic.main.activity_person_detail.*

@@ -13,8 +13,7 @@
 
 package co.app.profile.dummy
 
-import java.util.ArrayList
-import java.util.HashMap
+import java.util.*
 
 /**
  * Helper class for providing sample content for user interfaces created by

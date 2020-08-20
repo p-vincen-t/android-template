@@ -35,13 +35,12 @@ class SearchRepositoryImpl
     private val searchRepo: Repository<Search>
 ) : SearchRepository() {
 
-
-    private val recentSearchResultsMutable: MutableLiveData<Map<Pair<String, Int>, List<SearchResult>>> =
+    private val recentSearchResultsMutable: MutableLiveData<Pair<Pair<String, Int>, List<SearchResult>>> =
         MutableLiveData()
 
     private val recentSearchMutable: MutableLiveData<List<Search>> = MutableLiveData()
 
-    override val searchResults: LiveData<Map<Pair<String, Int>, List<SearchResult>>>
+    override val searchResults: LiveData<Pair<Pair<String, Int>, List<SearchResult>>>
         get() = recentSearchResultsMutable
 
     override fun recentSearchQueries(): LiveData<List<Search>> = recentSearchMutable
@@ -54,20 +53,12 @@ class SearchRepositoryImpl
             }
             resolve(Any())
             LogUtil.e(TAG, "searching ${searchRepositories.size} repositories")
-            recentSearchResultsMutable.postValue(emptyMap())
             val lock = Any()
-            val results: promise.commons.model.List<Map<Pair<String, Int>, List<SearchResult>>> =
-                promise.commons.model.List()
             searchRepositories.forEach { repository ->
-                repository.onSearch(context, search).fold({ result ->
+                repository.onSearch(context, search).yield({ result ->
                     synchronized(lock) {
                         if (result == null) return@synchronized
-                        if (result.isNotEmpty()) results.add(result)
-                        val mapResults = ArrayMap<Pair<String, Int>, List<SearchResult>>()
-                        results.forEach {
-                            mapResults.putAll(it)
-                        }
-                        recentSearchResultsMutable.postValue(mapResults)
+                        recentSearchResultsMutable.postValue(result)
                     }
                 }, {
                     reject(it)

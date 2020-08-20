@@ -127,9 +127,11 @@ class PlaceHolderModuleFragment : BaseFragment() {
         annotation class ModuleName
 
         @JvmStatic
-        fun newInstance(@ModuleName module: String,
-                        @FragmentClass fragmentClass: String,
-                        @StringRes message: Int) =
+        fun newInstance(
+            @ModuleName module: String,
+            @FragmentClass fragmentClass: String,
+            @StringRes message: Int
+        ) =
             PlaceHolderModuleFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_MODULE, module)

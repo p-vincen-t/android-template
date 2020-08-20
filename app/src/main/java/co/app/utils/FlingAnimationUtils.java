@@ -19,7 +19,9 @@ import android.view.ViewPropertyAnimator;
 import android.view.animation.Interpolator;
 import android.view.animation.PathInterpolator;
 
-/** Utility class to calculate general fling animation when the finger is released. */
+/**
+ * Utility class to calculate general fling animation when the finger is released.
+ */
 public class FlingAnimationUtils {
 
     private static final float LINEAR_OUT_SLOW_IN_X2 = 0.35f;
@@ -29,7 +31,9 @@ public class FlingAnimationUtils {
     private static final float MIN_VELOCITY_DP_PER_SECOND = 250;
     private static final float HIGH_VELOCITY_DP_PER_SECOND = 3000;
 
-    /** Crazy math. http://en.wikipedia.org/wiki/B%C3%A9zier_curve */
+    /**
+     * Crazy math. http://en.wikipedia.org/wiki/B%C3%A9zier_curve
+     */
     private static final float LINEAR_OUT_SLOW_IN_START_GRADIENT = 1.0f / LINEAR_OUT_SLOW_IN_X2;
 
     private Interpolator linearOutSlowIn;
@@ -53,10 +57,10 @@ public class FlingAnimationUtils {
      * Applies the interpolator and length to the animator, such that the fling animation is
      * consistent with the finger motion.
      *
-     * @param animator the animator to apply
+     * @param animator  the animator to apply
      * @param currValue the current value
-     * @param endValue the end value of the animator
-     * @param velocity the current velocity of the motion
+     * @param endValue  the end value of the animator
+     * @param velocity  the current velocity of the motion
      */
     public void apply(Animator animator, float currValue, float endValue, float velocity) {
         apply(animator, currValue, endValue, velocity, Math.abs(endValue - currValue));
@@ -66,10 +70,10 @@ public class FlingAnimationUtils {
      * Applies the interpolator and length to the animator, such that the fling animation is
      * consistent with the finger motion.
      *
-     * @param animator the animator to apply
+     * @param animator  the animator to apply
      * @param currValue the current value
-     * @param endValue the end value of the animator
-     * @param velocity the current velocity of the motion
+     * @param endValue  the end value of the animator
+     * @param velocity  the current velocity of the motion
      */
     public void apply(
             ViewPropertyAnimator animator, float currValue, float endValue, float velocity) {
@@ -80,12 +84,12 @@ public class FlingAnimationUtils {
      * Applies the interpolator and length to the animator, such that the fling animation is
      * consistent with the finger motion.
      *
-     * @param animator the animator to apply
-     * @param currValue the current value
-     * @param endValue the end value of the animator
-     * @param velocity the current velocity of the motion
+     * @param animator    the animator to apply
+     * @param currValue   the current value
+     * @param endValue    the end value of the animator
+     * @param velocity    the current velocity of the motion
      * @param maxDistance the maximum distance for this interaction; the maximum animation length gets
-     *     multiplied by the ratio between the actual distance and this value
+     *                    multiplied by the ratio between the actual distance and this value
      */
     public void apply(
             Animator animator, float currValue, float endValue, float velocity, float maxDistance) {
@@ -98,12 +102,12 @@ public class FlingAnimationUtils {
      * Applies the interpolator and length to the animator, such that the fling animation is
      * consistent with the finger motion.
      *
-     * @param animator the animator to apply
-     * @param currValue the current value
-     * @param endValue the end value of the animator
-     * @param velocity the current velocity of the motion
+     * @param animator    the animator to apply
+     * @param currValue   the current value
+     * @param endValue    the end value of the animator
+     * @param velocity    the current velocity of the motion
      * @param maxDistance the maximum distance for this interaction; the maximum animation length gets
-     *     multiplied by the ratio between the actual distance and this value
+     *                    multiplied by the ratio between the actual distance and this value
      */
     public void apply(
             ViewPropertyAnimator animator,
@@ -148,12 +152,12 @@ public class FlingAnimationUtils {
      * consistent with the finger motion for the case when the animation is making something
      * disappear.
      *
-     * @param animator the animator to apply
-     * @param currValue the current value
-     * @param endValue the end value of the animator
-     * @param velocity the current velocity of the motion
+     * @param animator    the animator to apply
+     * @param currValue   the current value
+     * @param endValue    the end value of the animator
+     * @param velocity    the current velocity of the motion
      * @param maxDistance the maximum distance for this interaction; the maximum animation length gets
-     *     multiplied by the ratio between the actual distance and this value
+     *                    multiplied by the ratio between the actual distance and this value
      */
     public void applyDismissing(
             Animator animator, float currValue, float endValue, float velocity, float maxDistance) {
@@ -168,12 +172,12 @@ public class FlingAnimationUtils {
      * consistent with the finger motion for the case when the animation is making something
      * disappear.
      *
-     * @param animator the animator to apply
-     * @param currValue the current value
-     * @param endValue the end value of the animator
-     * @param velocity the current velocity of the motion
+     * @param animator    the animator to apply
+     * @param currValue   the current value
+     * @param endValue    the end value of the animator
+     * @param velocity    the current velocity of the motion
      * @param maxDistance the maximum distance for this interaction; the maximum animation length gets
-     *     multiplied by the ratio between the actual distance and this value
+     *                    multiplied by the ratio between the actual distance and this value
      */
     public void applyDismissing(
             ViewPropertyAnimator animator,
@@ -235,12 +239,16 @@ public class FlingAnimationUtils {
         return (1 - t) * LINEAR_OUT_FASTER_IN_Y2_MIN + t * LINEAR_OUT_FASTER_IN_Y2_MAX;
     }
 
-    /** @return the minimum velocity a gesture needs to have to be considered a fling */
+    /**
+     * @return the minimum velocity a gesture needs to have to be considered a fling
+     */
     public float getMinVelocityPxPerSecond() {
         return minVelocityPxPerSecond;
     }
 
-    /** An interpolator which interpolates two interpolators with an interpolator. */
+    /**
+     * An interpolator which interpolates two interpolators with an interpolator.
+     */
     private static final class InterpolatorInterpolator implements Interpolator {
 
         private Interpolator interpolator1;
@@ -262,7 +270,9 @@ public class FlingAnimationUtils {
         }
     }
 
-    /** An interpolator which interpolates with a fixed velocity. */
+    /**
+     * An interpolator which interpolates with a fixed velocity.
+     */
     private static final class VelocityInterpolator implements Interpolator {
 
         private float durationSeconds;

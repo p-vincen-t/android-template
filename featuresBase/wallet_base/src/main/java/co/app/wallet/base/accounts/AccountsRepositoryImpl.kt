@@ -24,20 +24,18 @@ import co.app.wallet.domain.accounts.WalletAccount
 import promise.commons.AndroidPromise
 import promise.commons.data.log.LogUtil
 import promise.commons.tx.AsyncEither
-import promise.commons.tx.Either
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 import promise.commons.model.List as PromiseList
 
 @DataScope
-
 class AccountsRepositoryImpl @Inject constructor(private val promise: AndroidPromise) :
     AccountsRepository {
 
     override fun onSearch(
         context: WeakReference<Context>,
         search: Search
-    ): Either<Map<Pair<String, Int>, List<SearchResult>>> =
+    ): AsyncEither<Pair<Pair<String, Int>, List<SearchResult>>> =
         AsyncEither { resolve, reject ->
 
         }

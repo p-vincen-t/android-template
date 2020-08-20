@@ -13,19 +13,9 @@
 
 package co.app.auth
 
-import android.content.Context
-import androidx.recyclerview.widget.RecyclerView
 import co.app.App
 import co.app.ModuleRegister
-import co.app.auth.base.DaggerSessionComponent
-import co.app.auth.base.SessionComponent
-import co.app.common.search.SearchResult
-import co.app.report.Report
-import co.app.report.ReportHolder
 import promise.commons.data.log.LogUtil
-import promise.ui.adapter.PromiseAdapter
-import java.lang.ref.WeakReference
-
 
 class ModuleRegistrar : ModuleRegister() {
     lateinit var sessionComponent: SessionComponent

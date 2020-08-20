@@ -44,8 +44,8 @@ class MainFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         DaggerDashboardComponent.factory().create(
-                app.reposComponent().searchRepository(), app.accountComponent
-            )
+            app.reposComponent().searchRepository(), app.accountComponent
+        )
             .inject(this)
 
     }
@@ -64,9 +64,6 @@ class MainFragment : BaseFragment() {
             androidPromise
         )
         search_report.report = searchReport
-    }
-    override fun onResume() {
-        super.onResume()
         searchReport.search(requireContext(), Search())
     }
 }

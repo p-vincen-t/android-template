@@ -49,13 +49,12 @@ class ModuleRegistrar : ModuleRegister() {
         SearchRepository.registerSearchableRepository(servicesRepository)
     }
 
-    override fun onRegisterSearchableViews(context: WeakReference<Context>): Pair<String, (Map<Int, List<SearchResult>>, Any?, (Report) -> Unit) -> Unit>? =
+    override fun onRegisterSearchableViews(context: WeakReference<Context>): Pair<String, (Pair<Int, List<SearchResult>>, Any?, (Report) -> Unit) -> Unit>? =
         "request" to { results, args, resolve ->
             LogUtil.e("_'moduleRegister", results)
-            if (results.containsKey(R.string.products)) {
+            if (results.first == R.string.products) {
                 val categories = PromiseList(
-                    results[R.string.products]
-                        ?: error("Categories not found")
+                    results.second
                 ).groupBy { (it as Product) }
                 categories.forEach {
                     resolve(
@@ -67,45 +66,12 @@ class ModuleRegistrar : ModuleRegister() {
                         )
                     )
                 }
-                /*resolve(ListReport(
-                    title = context.get()?.getString(R.string.products),
-                    listener = object : PromiseAdapter.Listener<ProductSKUViewHolder> {
-                        override fun onClick(t: ProductSKUViewHolder, id: Int) {
-                            context.get()?.let {
-                                it.startActivity<ProductDetailsActivity> {
-                                    putExtra(
-                                        ProductDetailsActivity.SKU_ID,
-                                        t.productSKU.id
-                                    )
-                                }
-                            }
-                        }
-                    },
-                    dataArgs = args,
-                    layoutType = Grid(3),
-                    dataSource = DataSource<ProductSKUViewHolder> { response,
-                                                                    skip,
-                                                                    take ->
-                        productsRepository.getProductSKUs(
-                            results[R.string.products]!!.first() as Product,
-                            skip,
-                            take
-                        ).foldOnUI({ skus ->
-                            response.response(PromiseList(skus!!).map {
-                                ProductSKUViewHolder(
-                                    it
-                                )
-                            })
-                        }, {
-                            response.run { error(it) }
-                        })
-                    }
-                ))*/
             }
-            if (results.containsKey(R.string.services)) resolve(
+
+            if (results.first == R.string.services) resolve(
                 ListReport<ServiceViewHolder>(
                     title = context.get()?.getString(R.string.services),
-                    listData = PromiseList(results[R.string.services]!!).map { ServiceViewHolder(it as Service) },
+                    listData = PromiseList(results.second).map { ServiceViewHolder(it as Service) },
 
                     layoutType = Linear(orientation = RecyclerView.HORIZONTAL),
                     listener = object : PromiseAdapter.Listener<ServiceViewHolder> {

@@ -26,7 +26,6 @@
             tools:text="2 hrs ago" />
 
     <TextView
-            android:padding="@dimen/medium"
             android:id="@+id/message_body_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,6 +33,7 @@
             android:layout_alignStart="@+id/time_text_view"
             android:background="@drawable/recipient_chat_background"
             android:elevation="2dp"
+            android:padding="@dimen/medium"
             android:textSize="18sp"
             tools:text="How are you doing? This is a long message that should probably wrap." />
 </RelativeLayout>

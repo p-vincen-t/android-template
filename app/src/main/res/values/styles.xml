@@ -55,6 +55,7 @@
 
     <style name="AppTextAppearance.Button" parent="TextAppearance.MaterialComponents.Button">
         <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
 

@@ -13,7 +13,6 @@
 
 package co.app.auth
 
-import co.app.auth.base.SessionComponent
 import co.app.auth.login.LoginFragment
 import dagger.Component
 

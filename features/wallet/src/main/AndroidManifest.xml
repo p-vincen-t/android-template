@@ -24,7 +24,8 @@
         <dist:fusing dist:include="true" />
     </dist:module>
     <application>
-        <activity android:name="co.app.wallet.WalletActivity"/>
+        <activity android:name="co.app.wallet.WalletActivity"
+                android:label="Wallet"/>
     </application>
 </manifest>
 

@@ -14,7 +14,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply from: '../../deps.gradle'
+//apply from: '../../deps.gradle'
 
 android {
     compileSdkVersion versions.compileSdk
@@ -31,9 +31,8 @@ android {
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [
-                        "room.schemaLocation"  : "$projectDir/schemas".toString(),
-                        "room.incremental"     : "true",
-                        "room.expandProjection": "true"]
+                        "promise.database.projectDir": "$projectDir".toString()
+                ]
             }
         }
     }
@@ -59,7 +58,6 @@ dependencies {
     api project(path: ':domains:wallet_domain')
     api project(path: ':base')
     api project(path: ':common')
-
     implementation deps.androidxCore
     implementation deps.appcompat
     implementation deps.dagger
@@ -71,13 +69,15 @@ dependencies {
     implementation deps.preferences
     implementation deps.promiseCommons
     implementation deps.promiseModel
+    api deps.promiseDatabase
+    kapt deps.promiseDatabaseCompiler
     api deps.retrofit
     implementation deps.retrofitAdapterRxJava
     implementation deps.retrofitConverterGson
-    kapt deps.roomCompiler
-    implementation deps.room
-    implementation deps.roomRuntime
-    implementation deps.roomRxJava
+//    kapt deps.roomCompiler
+//    implementation deps.room
+//    implementation deps.roomRuntime
+//    implementation deps.roomRxJava
     implementation deps.rxAndroid
     implementation deps.rxJava
     androidTestImplementation deps.testRunner

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2020, {{App}}
   ~ Licensed under the Apache License, Version 2.0, "{{App}} Inc".
   ~ you may not use this file except in compliance with the License.
@@ -12,12 +11,11 @@
   ~ limitations under the License.
   -->
 
-<promise.ui.loading.LoadingLayout
+<promise.ui.loading.LoadingLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/loading_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/color_background"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        android:background="@color/color_background">
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/search_results_recycler_view"

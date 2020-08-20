@@ -47,13 +47,11 @@ class MessageRepositoryImpl @Inject constructor(
     override fun onSearch(
         context: WeakReference<Context>,
         search: Search
-    ): Either<Map<Pair<String, Int>, List<SearchResult>>> =
+    ): AsyncEither<Pair<Pair<String, Int>, List<SearchResult>>> =
         AsyncEither { resolve, _ ->
             LogUtil.e("messages", "searching")
-            val map = ArrayMap<Pair<String, Int>, List<SearchResult>>()
-            chatDatabase.search(search)
-            map[Pair("app", R.string.messages)] = chatDatabase.search(search)
-            resolve(map)
+            val pair = Pair(Pair("app", R.string.messages), chatDatabase.search(search))
+            resolve(pair)
         }
 
     private val chatThreadId: ID = ID.generate()
