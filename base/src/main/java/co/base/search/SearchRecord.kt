@@ -22,7 +22,7 @@ import promise.database.Index
 import promise.database.PrimaryKeyAutoIncrement
 
 @Entity
-class SearchRecord() : Parcelable, Identifiable<Int> {
+class SearchRecord @SuppressWarnings("unused") constructor() : Parcelable, Identifiable<Int> {
 
     @Index
     var query: String = ""

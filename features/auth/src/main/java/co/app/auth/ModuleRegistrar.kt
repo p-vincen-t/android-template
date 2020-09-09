@@ -24,11 +24,7 @@ class ModuleRegistrar : ModuleRegister() {
         LogUtil.e("Auth", "registering auth module : ")
         ModuleRegistrar.app = app
         sessionComponent = DaggerSessionComponent.factory()
-            .create(
-                app.okHttpClient(),
-                app.apiUrl(),
-                app.appComponent
-            )
+            .create(app.apiUrl(), app.baseComponent)
 
     }
 

@@ -11,14 +11,19 @@
  * limitations under the License.
  */
 
-package co.base.settings
+package co.app
 
-import co.app.domain.Settings
-import dagger.Binds
-import dagger.Module
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import dagger.android.support.DaggerFragment
 
-@Module
-abstract class SettingsProvider {
-    @Binds
-    abstract fun bindSettings(settings: SettingsImpl): Settings
+open class FeatureFragment : Fragment() {
+
+    lateinit var app: App
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        app = activity!!.application as App
+    }
 }

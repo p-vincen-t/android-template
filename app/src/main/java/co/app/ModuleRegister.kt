@@ -14,15 +14,26 @@
 package co.app
 
 import android.content.Context
+import co.app.common.search.Search
 import co.app.common.search.SearchRepository
 import co.app.common.search.SearchResult
 import co.app.common.search.SearchableRepository
 import co.app.report.Report
+import co.app.search.SearchResultsViewHolder
+import promise.commons.data.log.LogUtil
 import java.lang.ref.WeakReference
 
 abstract class ModuleRegister {
 
+    companion object {
+        val TAG: String = LogUtil.makeTag(ModuleRegister::class.java)
+    }
+
     abstract fun onRegister(app: App)
+
+    open fun onSearch(context: WeakReference<Context>,
+                      search: Search
+    ) : List<SearchResultsViewHolder> = emptyList()
 
     open fun onRegisterSearchableViews(context: WeakReference<Context>):
             Pair<String, ((Pair<Int, List<SearchResult>>, Any?, (Report) -> Unit) -> Unit)>? = null

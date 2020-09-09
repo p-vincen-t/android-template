@@ -16,7 +16,6 @@ package co.app.wallet
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import co.app.common.account.UserAccount
-import co.app.dashboard.DashboardScope
 import co.app.wallet.domain.accounts.AccountsRepository
 import promise.commons.AndroidPromise
 import javax.inject.Inject
@@ -25,7 +24,6 @@ import javax.inject.Inject
  * ViewModel provider factory to instantiate RegisterViewModel.
  * Required given RegisterViewModel has a non-empty constructor
  */
-@DashboardScope
 class WalletViewModelFactory @Inject constructor(var userAccount: UserAccount?) : ViewModelProvider.Factory {
 
     @Inject

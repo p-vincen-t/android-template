@@ -11,15 +11,11 @@
  * limitations under the License.
  */
 
-package co.app.messaging.chat
+package co.app.wallet
 
-import co.app.app.ReposComponent
-import dagger.Component
+import dagger.Module
 
-@ChatScope
-@Component(dependencies = [ReposComponent::class])
-interface ChatComponent {
-    fun inject(chatService: ChatService)
-    fun inject(chatThreadFragment: ChatThreadFragment)
-    fun inject(chatActivity: ChatActivity)
+@Module
+annotation class UIBuilders  {
+
 }

@@ -54,12 +54,13 @@ android {
 
 dependencies {
     implementation project(':app')
-
     implementation project(path: ':featuresBase:wallet_base')
-
     implementation deps.alerter
     implementation deps.appcompat
     implementation deps.dagger
+    implementation deps.daggerAndroid
+    implementation deps.daggerAndroidProcessor
+    kapt deps.daggerAndroidCompiler
     kapt deps.daggerCompiler
     implementation deps.gson
     implementation deps.facebookShimmer

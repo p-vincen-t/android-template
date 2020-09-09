@@ -31,9 +31,8 @@ android {
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [
-                        "room.schemaLocation"  : "$projectDir/schemas".toString(),
-                        "room.incremental"     : "true",
-                        "room.expandProjection": "true"]
+                        "promise.database.projectDir": "$projectDir".toString()
+                ]
             }
         }
     }
@@ -69,7 +68,8 @@ dependencies {
     implementation deps.multidex
     implementation deps.preferences
     implementation deps.promiseCommons
-    implementation deps.promiseDatabase
+    api deps.promiseDatabase
+    kapt deps.promiseDatabaseCompiler
     implementation deps.promiseModel
     androidTestImplementation deps.testRunner
     implementation deps.rxJava
@@ -79,10 +79,6 @@ dependencies {
     implementation deps.retrofit
     implementation deps.retrofitAdapterRxJava
     implementation deps.retrofitConverterGson
-//    kapt deps.roomCompiler
-//    implementation deps.room
-//    implementation deps.roomRuntime
-//    implementation deps.roomRxJava
     implementation deps.rxAndroid
     implementation deps.rxJava
 }

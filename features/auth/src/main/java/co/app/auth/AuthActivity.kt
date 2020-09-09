@@ -16,9 +16,10 @@ package co.app.auth
 import android.app.Activity
 import android.os.Bundle
 import co.app.BaseActivity
+import co.app.FeatureActivity
 import kotlinx.android.synthetic.main.activity_auth.*
 
-class AuthActivity : BaseActivity() {
+class AuthActivity : FeatureActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

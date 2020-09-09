@@ -18,9 +18,10 @@ import android.app.Service
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
+import dagger.android.DaggerService
 
 @SuppressLint("Registered")
-abstract class BindService<T : Service> : Service() {
+abstract class BindService<T : Service> : DaggerService() {
 
     inner class LocalBinder : Binder() {
         val service: T

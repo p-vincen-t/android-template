@@ -21,6 +21,7 @@ import co.app.common.addValue
 import co.app.common.search.Search
 import co.app.common.search.SearchRepository
 import co.app.common.search.SearchResult
+import co.base.DataScope
 import co.base.RepoScope
 import promise.commons.data.log.LogUtil
 import promise.commons.tx.AsyncEither
@@ -29,7 +30,7 @@ import promise.model.Repository
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
-@RepoScope
+@DataScope
 class SearchRepositoryImpl
 @Inject constructor(
     private val searchRepo: Repository<Search>
@@ -44,6 +45,11 @@ class SearchRepositoryImpl
         get() = recentSearchResultsMutable
 
     override fun recentSearchQueries(): LiveData<List<Search>> = recentSearchMutable
+
+
+    override fun searchSuggestions(search: Search): LiveData<List<Search>> {
+        TODO("Not yet implemented")
+    }
 
     override fun search(context: WeakReference<Context>, search: Search): Either<Any> =
         AsyncEither { resolve, reject ->

@@ -14,6 +14,7 @@
 package co.app.auth
 
 import co.app.app.AppComponent
+import co.app.app.BaseComponent
 import co.app.auth.domain.Session
 import co.base.account.AccountModule
 import co.app.auth.base.ApiModule
@@ -25,7 +26,7 @@ import okhttp3.OkHttpClient
 import promise.commons.AndroidPromise
 
 @SessionScope
-@Component( dependencies = [AppComponent::class],
+@Component( dependencies = [BaseComponent::class],
     modules = [SessionModule::class, AccountModule::class, ApiModule::class])
 interface SessionComponent {
 
@@ -35,9 +36,8 @@ interface SessionComponent {
     @Component.Factory
     interface Factory {
         fun create(
-                   @BindsInstance okHttpClient: OkHttpClient,
                    @BindsInstance url:String,
-                   appComponent: AppComponent
+                   appComponent: BaseComponent
         ): SessionComponent
     }
 }

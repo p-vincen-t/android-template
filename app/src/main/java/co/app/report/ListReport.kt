@@ -23,6 +23,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.app.R
+import co.app.common.search.SearchResultViewable
+import co.app.dsl.Grid
+import co.app.dsl.LayoutType
+import co.app.dsl.Linear
 import co.app.dsl.prepareAdapter
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.list_view.*
@@ -99,7 +103,7 @@ class ListReport<T : Any>(
             }
         }
         if (listData != null) {
-            LogUtil.e(TAG, "data ", listData)
+            //LogUtil.e(TAG, "data ", listData)
             adapter.clear()
             adapter.add(listData)
         } else if (dataSource != null) {
@@ -147,7 +151,6 @@ class ListReport<T : Any>(
         annotation class OrientationType
     }
 
-
 }
 
 class FooterParams(
@@ -156,9 +159,3 @@ class FooterParams(
     val viewIds: Array<Int>? = null
 )
 
-sealed class LayoutType
-
-class Linear(@ListReport.Companion.OrientationType val orientation: Int = RecyclerView.VERTICAL) :
-    LayoutType()
-
-class Grid(val spanCount: Int) : LayoutType()

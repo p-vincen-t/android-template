@@ -18,7 +18,6 @@ import androidx.lifecycle.ViewModelProvider
 import co.app.domain.message.MessageRepository
 import javax.inject.Inject
 
-@ChatScope
 class ChatViewModelFactory @Inject constructor() : ViewModelProvider.Factory {
 
     @Inject

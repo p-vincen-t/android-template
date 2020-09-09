@@ -19,5 +19,7 @@ import dagger.Component
 @Component(dependencies = [SessionComponent::class])
 @AuthScope
 interface AuthComponent {
+
     fun inject(loginFragment: LoginFragment)
+
 }

@@ -11,18 +11,14 @@
  * limitations under the License.
  */
 
-package co.app
+package co.base.settings
 
-import co.app.app.AppComponent
-import dagger.Component
-import promise.commons.AndroidPromise
+import co.app.domain.Settings
+import dagger.Binds
+import dagger.Module
 
-@Component(dependencies = [AppComponent::class])
-@UiScope
-interface UiComponent {
-
-    fun promise(): AndroidPromise
-
-    fun inject(splashActivity: SplashActivity)
-
+@Module
+abstract class SettingsModule {
+    @Binds
+    abstract fun bindSettings(settings: SettingsImpl): Settings
 }

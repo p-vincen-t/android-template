@@ -73,8 +73,19 @@ open class PhotoView : AppCompatImageView {
         if (placeHolder != null) setImageDrawable(placeHolder)
         if (photo1 != null && photo1!!.url() != null) {
             Picasso.get().cancelRequest(this)
-            if (photo1!!.isOffLine) {
-                Picasso.get().load(File(photo1!!.url()))
+            if (photo1!!.isOffLine) Picasso.get().load(File(photo1!!.url()))
+                .noPlaceholder()
+                .into(this, object : Callback {
+                    override fun onSuccess() {
+                    }
+
+                    override fun onError(e: Exception?) {
+                        if (errorDrawable != null) {
+                            setImageDrawable(errorDrawable)
+                            LogUtil.e(TAG, e)
+                        }
+                    }
+                }) else if (photo1!!.isOnLine) Picasso.get().load(photo1!!.url())
                     .noPlaceholder()
                     .into(this, object : Callback {
                         override fun onSuccess() {
@@ -87,21 +98,6 @@ open class PhotoView : AppCompatImageView {
                             }
                         }
                     })
-            } else if (photo1!!.isOnLine) {
-                Picasso.get().load(photo1!!.url())
-                    .noPlaceholder()
-                    .into(this, object : Callback {
-                        override fun onSuccess() {
-                        }
-
-                        override fun onError(e: Exception?) {
-                            if (errorDrawable != null) {
-                                setImageDrawable(errorDrawable)
-                                LogUtil.e(TAG, e)
-                            }
-                        }
-                    })
-            }
 
         }
     }

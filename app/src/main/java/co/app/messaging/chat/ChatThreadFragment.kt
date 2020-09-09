@@ -53,11 +53,6 @@ class ChatThreadFragment : BaseFragment(), PromiseAdapter.Listener<ChatThread> {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        DaggerChatComponent.builder()
-            .reposComponent(app.reposComponent())
-            .build()
-            .inject(this)
-
         threadsViewModel = ViewModelProvider(
             this,
             messagingViewModelFactory

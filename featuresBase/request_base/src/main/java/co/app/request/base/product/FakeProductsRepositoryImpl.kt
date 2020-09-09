@@ -56,20 +56,20 @@ class FakeProductsRepositoryImpl : ProductsRepository {
         search: Search
     ): AsyncEither<Pair<Pair<String, Int>, List<SearchResult>>> = AsyncEither { resolve, _ ->
         val faker = Faker()
-        val products = PromiseList.generate(3) {
-            val user = AppUser(
-                ID.generate(),
-                "userna",
-                null
-            )
-            Product(
-                user,
-                faker.commerce.productName(),
-                faker.commerce.productName(),
-                faker.commerce.material(),
-                true
-            )
-        }
-        resolve(Pair(Pair("request", R.string.products), products))
+//        val products = PromiseList.generate(3) {
+//            val user = AppUser(
+//                ID.generate(),
+//                "userna",
+//                null
+//            )
+//            Product(
+//                user,
+//                faker.commerce.productName(),
+//                faker.commerce.productName(),
+//                faker.commerce.material(),
+//                true
+//            )
+//        }
+//        resolve(Pair(Pair("request", R.string.products), products))
     }
 }

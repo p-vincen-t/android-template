@@ -324,9 +324,8 @@ class CameraFragment : Fragment() {
      */
     private fun aspectRatio(width: Int, height: Int): Int {
         val previewRatio = max(width, height).toDouble() / min(width, height)
-        if (abs(previewRatio - RATIO_4_3_VALUE) <= abs(previewRatio - RATIO_16_9_VALUE)) {
+        if (abs(previewRatio - RATIO_4_3_VALUE) <= abs(previewRatio - RATIO_16_9_VALUE))
             return AspectRatio.RATIO_4_3
-        }
         return AspectRatio.RATIO_16_9
     }
 

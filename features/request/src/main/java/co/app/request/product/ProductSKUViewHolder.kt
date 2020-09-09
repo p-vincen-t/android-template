@@ -14,19 +14,24 @@
 package co.app.request.product
 
 import android.view.View
+import co.app.common.search.SearchResultViewable
 import co.app.request.R
 import co.app.request.domain.product.ProductSKU
 import kotlinx.android.extensions.LayoutContainer
 import promise.commons.data.log.LogUtil
 import promise.ui.Viewable
 
-class ProductSKUViewHolder(val productSKU: ProductSKU) : Viewable, LayoutContainer {
+class ProductSKUViewHolder(val productSKU: ProductSKU) : SearchResultViewable(), LayoutContainer {
     lateinit var view: View
 
     override fun layout(): Int = R.layout.product_sku
 
     override fun bind(view: View, args: Any?) {
         LogUtil.e("sku tag", "sku ", productSKU.product.name)
+    }
+
+    override fun hashCode(): Int {
+        return productSKU.hashCode()
     }
 
     override fun init(view: View) {

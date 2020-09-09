@@ -22,6 +22,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import co.app.BaseActivity
 import co.app.BaseFragment
+import co.app.FeatureActivity
 import co.app.dsl.prepareAdapter
 import co.app.report.ReportHolder
 import co.app.wallet.home.ExpenseStructureReport
@@ -32,7 +33,7 @@ import promise.ui.adapter.PromiseAdapter
 import javax.inject.Inject
 
 @SuppressLint("Registered")
-class WalletActivity : BaseActivity() {
+class WalletActivity : FeatureActivity() {
 
     @Inject
     lateinit var walletViewModelFactory: WalletViewModelFactory
@@ -47,12 +48,12 @@ class WalletActivity : BaseActivity() {
         val binding = DataBindingUtil.setContentView<WalletFragmentBinding>(this, R.layout.wallet_fragment)
         val moduleRegistrar = ModuleRegistrar.instance()
 
-        DaggerWalletComponent.factory()
-            .create(
-                moduleRegistrar.dataComponent.accountsRepository(),
-                moduleRegistrar.accountsComponent
-            )
-            .inject(this)
+        //DaggerWalletComponent.factory()
+          //  .create(
+            //    moduleRegistrar.dataComponent.accountsRepository(),
+              //  moduleRegistrar.accountsComponent
+            //)
+            //.inject(this)
         viewModel = ViewModelProvider(this, walletViewModelFactory).get(WalletViewModel::class.java)
         binding.viewModel = viewModel
     }

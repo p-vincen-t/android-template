@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity
 import co.app.attachment.AttachmentModel
 import co.app.attachment.AttachmentPicker
 import co.app.common.Attachment
+import dagger.android.support.DaggerAppCompatActivity
 import promise.commons.AndroidPromise
 import promise.commons.model.List
 import promise.location.PromiseLocation
@@ -30,7 +31,7 @@ import promise.location.PromiseLocation
  *
  */
 @SuppressLint("Registered")
-open class BaseActivity : AppCompatActivity() {
+open class BaseActivity : DaggerAppCompatActivity() {
     /**
      * adds the back button
      *

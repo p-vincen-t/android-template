@@ -55,99 +55,68 @@ class SearchReport(
         this.search = search
         if (search.query.isEmpty() && !search.recent) {
             diffAdapter.clear()
-            loading_layout.showEmpty(
-                R.drawable.ic_hourglass_empty_icon_24dp,
-                "Type keyword to continue",
-                ""
-            )
             return
         }
-        loading_layout.showLoading(AppLoaderProgress("Loading reports, please wait ..."))
-        searchRepository.search(WeakReference(context), search).fold({
+//        searchRepository.search(WeakReference(context), search).fold({
+//
+//        }, {
+//            androidPromise.executeOnUi {
+//                loading_layout.showEmpty(
+//                    R.drawable.ic_error_icon_24dp,
+//                    "Problem retrieving reports ", it.message
+//                )
+//            }
+//        })
 
-        }, {
-            androidPromise.executeOnUi {
-                loading_layout.showEmpty(
-                    R.drawable.ic_error_icon_24dp,
-                    "Problem retrieving reports ", it.message
-                )
-            }
-        })
+        diffAdapter.clear()
+       app.modules.forEach {
+           val views = it.value.onSearch(WeakReference(context), search)
+           diffAdapter.add(promise.commons.model.List(views))
+       }
     }
 
-    lateinit var diffAdapter: PromiseAdapter<ReportHolder>
+    lateinit var diffAdapter: PromiseAdapter<SearchResultsViewHolder>
 
     companion object {
         val TAG: String = LogUtil.makeTag(SearchReport::class.java)
-        var searchViewMappers: PromiseList<Pair<String, ((Pair<Int, List<SearchResult>>, Any?, (Report) -> Unit) -> Unit)>>? =
-            null
+
     }
 
     override fun bind(reportView: ReportView, view: View) {
         this.view = view
-        diffAdapter = search_results_recycler_view.prepareAdapter()
-        val lock = Any()
-        searchRepository.searchResults.observe(lifecycleOwner, Observer { map ->
-            androidPromise.execute {
-                if (searchViewMappers == null) {
-                    val v =
-                        PromiseList<Pair<String, ((Pair<Int, List<SearchResult>>, Any?, (Report) -> Unit) -> Unit)>>()
-                    app.modules.forEach {
-                        val pair = it.value.onRegisterSearchableViews(WeakReference(context!!))
-                        if (pair != null) v.add(pair)
-                    }
-                    diffAdapter.clear()
-                    searchViewMappers = v
-                }
-                /* val searchResults: ArrayList<Pair<Pair<String, Int>, SearchResult>> = ArrayList()
-                 map.toList().map { pair ->
-                     pair.second.forEach {
-                         searchResults.add(Pair(Pair(pair.first.first, pair.first.second), it))
-                     }
-                 }
-                 */
-                val viewMapper = searchViewMappers!!.find { it.first == map.first.first }
-                val pair: Pair<Int, List<SearchResult>> = Pair(map.first.second, map.second)
-                androidPromise.executeOnUi {
-                    loading_layout.showContent()
-                }
+        diffAdapter = search_results_recycler_view.prepareAdapter {
+            args = true
+        }
 
-                viewMapper?.second?.invoke(pair, search) { report ->
-                    synchronized(lock) {
-                        LogUtil.e(TAG, "adding report ", report)
-                        diffAdapter.add(ReportHolder((report)))
-                    }
-                }
-                /*val results = PromiseList(searchResults)
-                    .filter { result ->
-                        viewableMappersRegistered.anyMatch {
-                            it.first == result.first.first
-                        }
-                    }
-                    .groupBy {
-                        it.first
-                    }.map { category ->
-                        Pair(
-                            category.name().first,
-                            Pair(category.name().second, category.list().map { it.second })
-                        )
-                    }
-                    .groupBy { it.first }
-
-
-                results.forEach { category ->
-                    val viewMapper = viewableMappersRegistered.find { it.first == category.name() }
-                    val map1 = ArrayMap<Int, List<SearchResult>>()
-                    category.list().forEach {
-                        map1[it.second.first] = it.second.second
-                    }
-                    viewMapper?.second?.invoke(map1, search) { report ->
-                        LogUtil.e(TAG, "adding report ", report)
-                        diffAdapter.add(ReportHolder((report)))
-                    }
-                }*/
-            }
-        })
+//        val lock = Any()
+//
+//        searchRepository.searchResults.observe(lifecycleOwner, Observer { map ->
+//            androidPromise.execute {
+//                if (searchViewMappers == null) {
+//                    val v =
+//                        PromiseList<Pair<String, ((Pair<Int, List<SearchResult>>, Any?, (Report) -> Unit) -> Unit)>>()
+//                    app.modules.forEach {
+//                        val pair = it.value.onRegisterSearchableViews(WeakReference(context!!))
+//                        if (pair != null) v.add(pair)
+//                    }
+//                    diffAdapter.clear()
+//                    searchViewMappers = v
+//                }
+//
+//                val viewMapper = searchViewMappers!!.find { it.first == map.first.first }
+//                val pair: Pair<Int, List<SearchResult>> = Pair(map.first.second, map.second)
+//                androidPromise.executeOnUi {
+//                    loading_layout.showContent()
+//                }
+//
+//                viewMapper?.second?.invoke(pair, search) { report ->
+//                    synchronized(lock) {
+//                        //LogUtil.e(TAG, "adding report ", report)
+//                        diffAdapter.add(ReportHolder((report)))
+//                    }
+//                }
+//            }
+//        })
     }
 
     override fun layout(): Int = R.layout.report_search

@@ -18,6 +18,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import co.app.common.Attachment;
+import co.app.common.common.STUB;
 
 public class Photo implements Parcelable, Attachment {
 
@@ -88,6 +89,13 @@ public class Photo implements Parcelable, Attachment {
         @Override
         public Photo[] newArray(int size) {
             return new Photo[size];
+        }
+    };
+
+    public static final STUB<Photo> STUB = new STUB<Photo>() {
+        @Override
+        public Photo stub() {
+            return new Photo();
         }
     };
 

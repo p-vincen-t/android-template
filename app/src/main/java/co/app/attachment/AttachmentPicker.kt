@@ -60,7 +60,7 @@ class AttachmentPicker : BottomSheetDialogFragment() {
     private lateinit var settings: Settings
     private var uri: Uri? = null
     private var fileName = ""
-    var onPickerCloseListener: ((Attachment) -> Unit?)? = null
+    private var onPickerCloseListener: ((Attachment) -> Unit?)? = null
 
     private var dialogTitle = ""
     private var dialogTitleId = 0
@@ -692,10 +692,6 @@ internal fun Bitmap.toUri(context: Context, title: String): Uri {
         title, context.getString(R.string.app_name)
     )
     return Uri.parse(path)
-}
-
-infix fun ViewGroup.inflate(@LayoutRes lyt: Int): View {
-    return LayoutInflater.from(context).inflate(lyt, this, false)
 }
 
 

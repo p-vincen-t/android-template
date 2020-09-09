@@ -71,10 +71,6 @@ class ChatActivity : BaseActivity(), PromiseAdapter.Listener<ChatMessage>, View.
             DataBindingUtil.setContentView<ActivityChatBinding>(this, R.layout.activity_chat)
         setSupportActionBar(toolbar)
         addBackButton()
-        DaggerChatComponent.builder()
-            .reposComponent(app.reposComponent())
-            .build()
-            .inject(this)
         chatViewModel = ViewModelProvider(this, chatViewModelFactory)[ChatViewModel::class.java]
         binding.viewModel = chatViewModel
         app.connectService<ChatService>({

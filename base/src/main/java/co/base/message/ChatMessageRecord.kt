@@ -23,7 +23,7 @@ import java.util.*
 @Entity(
     tableName = "chats"
 )
-class ChatMessageRecord : Identifiable<Int> {
+class ChatMessageRecord @SuppressWarnings("unused") constructor() : Identifiable<Int> {
 
     var view: String? = null
 

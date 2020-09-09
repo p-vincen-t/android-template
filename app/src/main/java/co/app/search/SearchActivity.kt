@@ -18,7 +18,6 @@ import co.app.BaseActivity
 import co.app.R
 import co.app.common.search.Search
 import co.app.common.search.SearchRepository
-import co.app.dashboard.DaggerDashboardComponent
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.content_search.*
 import promise.commons.AndroidPromise
@@ -42,11 +41,6 @@ class SearchActivity : BaseActivity(), SearchForm.Listener {
         setContentView(R.layout.activity_search)
         setSupportActionBar(toolbar)
         addBackButton()
-
-        DaggerDashboardComponent.factory().create(
-            app.reposComponent().searchRepository(), app.accountComponent
-        )
-            .inject(this)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {

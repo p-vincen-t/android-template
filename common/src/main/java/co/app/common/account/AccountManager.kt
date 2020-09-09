@@ -11,25 +11,8 @@
  * limitations under the License.
  */
 
-package co.base.account
+package co.app.common.account
 
-import co.app.common.account.UserAccount
-import com.google.gson.Gson
-import dagger.BindsInstance
-import dagger.Component
-import promise.commons.AndroidPromise
-
-@AccountScope
-@Component(modules = [AccountProvider::class])
-interface AccountComponent {
-
-    fun userAccount(): UserAccount?
-
-    fun promise(): AndroidPromise
-
-    @Component.Factory
-    interface Factory {
-        fun create(@BindsInstance gson: Gson,
-                   @BindsInstance promise: AndroidPromise): AccountComponent
-    }
+interface AccountManager {
+    fun provideAccount(): UserAccount?
 }

@@ -11,14 +11,9 @@
   ~ limitations under the License.
   -->
 
-<promise.ui.loading.LoadingLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/loading_layout"
+<androidx.recyclerview.widget.RecyclerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:background="@color/color_background"
+        android:id="@+id/search_results_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/color_background">
-
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/search_results_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-</promise.ui.loading.LoadingLayout>
+        android:layout_height="match_parent" />

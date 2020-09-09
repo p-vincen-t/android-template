@@ -13,56 +13,28 @@
 
 package co.app.request.domain.product
 
+import co.app.common.Acceptor
+import co.app.common.Visitor
 import co.app.common.account.AppUser
-import co.app.common.ID
-import co.app.common.search.Search
 import co.app.common.search.SearchResult
+import com.google.auto.value.AutoValue
 import promise.commons.model.Identifiable
 
-class Product(
-    val registrar: AppUser,
-    val category: CharSequence,
-    val name: CharSequence,
-    val description: CharSequence,
-    val active: Boolean
-) : Identifiable<String>, SearchResult {
-    private var id: ID? = null
+@AutoValue
+abstract class Product : Identifiable<Int>, Acceptor<Product, Any> {
+    abstract val registrar: AppUser
+    abstract val category: CharSequence
+    abstract val name: CharSequence
+    abstract val description: CharSequence
+    abstract val active: Boolean
 
-    override fun getId(): String = id!!.id!!
+    override fun accept(t: Visitor<Product, Any>): Any = t.visit(this)
 
-    override fun setId(t: String) {
-        id = ID()
-        id!!.id = t
-    }
-
-    override fun onSearch(search: Search): Boolean {
+    override fun getId(): Int {
         TODO("Not yet implemented")
     }
 
-    override fun toString(): String =
-        "Product(registrar=$registrar, category=$category, name=$name, description=$description, active=$active, id=$id)"
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-        other as Product
-        if (registrar != other.registrar) return false
-        if (category != other.category) return false
-        if (name != other.name) return false
-        if (description != other.description) return false
-        if (active != other.active) return false
-        if (id != other.id) return false
-        return true
+    override fun setId(t: Int) {
+        TODO("Not yet implemented")
     }
-
-    override fun hashCode(): Int {
-        var result = registrar.hashCode()
-        result = 31 * result + category.hashCode()
-        result = 31 * result + name.hashCode()
-        result = 31 * result + description.hashCode()
-        result = 31 * result + active.hashCode()
-        result = 31 * result + (id?.hashCode() ?: 0)
-        return result
-    }
-
 }

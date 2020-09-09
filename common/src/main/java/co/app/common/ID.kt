@@ -61,9 +61,7 @@ class ID() : Parcelable {
 
     override fun describeContents(): Int = 0
 
-    override fun toString(): String {
-        return "ID(id = $id)"
-    }
+    override fun toString(): String = "ID(id = $id)"
 
     companion object CREATOR : Parcelable.Creator<ID> {
 

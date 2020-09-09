@@ -35,22 +35,17 @@ class PermissionsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        // Request camera-related permissions
+        // If permissions have already been granted, proceed
         if (!hasPermissions(
                 requireContext()
             )
-        ) {
-            // Request camera-related permissions
-            requestPermissions(
-                PERMISSIONS_REQUIRED,
-                PERMISSIONS_REQUEST_CODE
-            )
-        } else {
-            // If permissions have already been granted, proceed
-            Navigation.findNavController(requireActivity(), R.id.fragment_container).navigate(
-                PermissionsFragmentDirections.actionPermissionsToCamera()
-            )
-        }
+        ) requestPermissions(
+            PERMISSIONS_REQUIRED,
+            PERMISSIONS_REQUEST_CODE
+        ) else Navigation.findNavController(requireActivity(), R.id.fragment_container).navigate(
+            PermissionsFragmentDirections.actionPermissionsToCamera()
+        )
     }
 
     override fun onRequestPermissionsResult(
@@ -64,9 +59,7 @@ class PermissionsFragment : Fragment() {
                 Navigation.findNavController(requireActivity(), R.id.fragment_container).navigate(
                     PermissionsFragmentDirections.actionPermissionsToCamera()
                 )
-            } else {
-                Toast.makeText(context, "Permission request denied", Toast.LENGTH_LONG).show()
-            }
+            } else Toast.makeText(context, "Permission request denied", Toast.LENGTH_LONG).show()
         }
     }
 

@@ -11,34 +11,42 @@
  * limitations under the License.
  */
 
-package co.base.common
+package co.app.common.account
 
 import co.app.common.ID
+import co.app.common.account.AppUser
 import co.app.common.photo.Photo
+import co.app.common.search.Search
+import co.app.common.common.PhotoRecord
 import promise.commons.model.Identifiable
 import promise.database.Entity
-import promise.database.Index
+import promise.database.HasOne
 import promise.database.PrimaryKeyAutoIncrement
 
-@Entity(tableName = "app_photos")
-class PhotoRecord : Identifiable<Int> {
+@Entity(tableName = "app_users")
+class AppUserImpl : AppUser(), Identifiable<Int>{
+
+    @HasOne
+    var photoRecord: PhotoRecord? = null
 
     @PrimaryKeyAutoIncrement
-    var uid = 0
-    @Index
-    var refId: String? = null
-    @Index
-    var refName: String? = null
-
-    var url: String? = null
-    var type = "OFFLINE"
-
-    fun toPhoto(): Photo = Photo()
-        .url(url).type(type)
-
-    override fun getId(): Int = uid
+    var uid: Int = 0
+    override fun getId(): Int {
+        return uid
+    }
 
     override fun setId(t: Int) {
-        this.uid = t
+        uid = t
     }
+
+    override var userId: ID
+        get() = TODO("Not yet implemented")
+        set(value) {}
+    override var userName: String?
+        get() = TODO("Not yet implemented")
+        set(value) {}
+    override var photo: Photo?
+        get() = TODO("Not yet implemented")
+        set(value) {}
+
 }

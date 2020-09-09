@@ -22,10 +22,11 @@ import co.app.common.search.SearchDatabase
 import co.app.domain.message.ChatDatabase
 import co.app.domain.message.ChatMessage
 import co.app.domain.message.ChatThread
-import co.base.common.PhotoRecord
+import co.app.common.common.PhotoRecord
 import co.base.common.PhotoRecordsTable
 import co.base.message.*
 import co.base.search.SearchRecord
+import co.base.search.SearchRecordsTable
 import org.json.JSONObject
 import promise.commons.model.List
 import promise.commons.model.function.FilterFunction
@@ -63,6 +64,14 @@ abstract class AppDatabase(fastDatabase: FastDatabase) : PromiseDatabase(fastDat
 
     var threadStore: PreferenceKeyStore<ChatThread>
 
+    private val photoTable: FastTable<PhotoRecord> by lazy { tableOf(PhotoRecord::class.java) }
+
+    private val searchTable: FastTable<SearchRecord> by lazy { tableOf(SearchRecord::class.java) }
+
+    override fun recentSearches(search: Search): kotlin.collections.List<Search> =
+        searchTable.find().like(SearchRecordsTable.queryColumn
+            .with(search.query).descending()).map { it.toSearch() }
+
     init {
         threadStore = object : PreferenceKeyStore<ChatThread>(
             DB_PREF_NAME,
@@ -74,10 +83,6 @@ abstract class AppDatabase(fastDatabase: FastDatabase) : PromiseDatabase(fastDat
                 )
         }
     }
-
-    private val photoTable: FastTable<PhotoRecord> by lazy { tableOf(PhotoRecord::class.java) }
-
-    private val searchTable: FastTable<SearchRecord> by lazy { tableOf(SearchRecord::class.java) }
 
     private fun getPhotoRecordByRef(refName: String, id: ID): PhotoRecord? =
         photoTable.findOne(
@@ -100,9 +105,7 @@ abstract class AppDatabase(fastDatabase: FastDatabase) : PromiseDatabase(fastDat
         cursor.moveToFirst()
         val records = List<PhotoRecord>()
         while (cursor.moveToNext()) {
-            records.add(photoTable.deserialize(cursor).apply {
-                uid = cursor.getInt(PhotoRecordsTable.idColumn.index)
-            })
+            records.add(photoTable.deserialize(cursor))
         }
         cursor.close()
         return records

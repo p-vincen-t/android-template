@@ -15,11 +15,12 @@ package co.app.request.service
 
 import android.os.Bundle
 import co.app.BaseActivity
+import co.app.FeatureActivity
 import co.app.common.ID
 import co.app.request.R
 import promise.commons.data.log.LogUtil
 
-class ServiceDetailsActivity : BaseActivity() {
+class ServiceDetailsActivity : FeatureActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -13,6 +13,7 @@
 
 package co.app.domain.message
 import co.app.common.account.AppUser
+import co.app.common.common.STUB
 import co.app.common.photo.Photo
 import co.app.common.search.Search
 import co.app.common.search.SearchResult
@@ -33,5 +34,11 @@ data class ChatMessage(var sender: AppUser,
     var fromCurrentUser: Boolean = false
     var sentTimeString: String = ""
     var chatDescription: String = ""
+    companion object {
+        val STUB: STUB<ChatMessage> = object : STUB<ChatMessage> {
+            override fun stub(): ChatMessage = ChatMessage(AppUser.STUB.stub(), "message")
+        }
+    }
 }
+
 

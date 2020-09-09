@@ -13,51 +13,57 @@
 
 package co.app.app
 
-import co.app.common.account.UserAccount
-import co.app.common.search.SearchDatabase
-import co.app.domain.message.ChatApi
-import co.app.domain.message.ChatDatabase
-import co.base.ApiModule
-import co.base.DataScope
-import co.base.DatabaseModule
-import co.base.common.PhotoModule
-import co.base.message.MessagesModule
-import co.base.search.SearchModule
+import co.app.common.account.AccountManager
+import co.app.domain.Settings
+import co.base.*
+import co.base.account.AccountManagerModule
+import co.base.account.AccountProviderModule
+import co.base.settings.SettingsModule
 import com.google.gson.Gson
 import dagger.BindsInstance
 import dagger.Component
+import io.reactivex.disposables.CompositeDisposable
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import promise.commons.AndroidPromise
+import promise.commons.pref.Preferences
 
-@DataScope
 @Component(
-    dependencies = [AppComponent::class],
     modules = [
-        MessagesModule::class,
-        SearchModule::class,
+        AccountProviderModule::class,
+        AccountManagerModule::class,
+        DependenciesModule::class,
         ApiModule::class,
         DatabaseModule::class,
-        PhotoModule::class
+        SettingsModule::class
     ]
 )
-
-interface DataComponent {
-    fun chatDatabase(): ChatDatabase
-    fun searchDatabase(): SearchDatabase
-    fun chatApi(): ChatApi
-    fun gson(): Gson
+@AppScope
+interface BaseComponent {
     fun promise(): AndroidPromise
+
+    fun provideAccountManager(): AccountManager
+
+    fun compositeDisposable(): CompositeDisposable
+
+    fun gson(): Gson
+
+    fun settings(): Settings
+
     fun okHttpClient(): OkHttpClient
+
     fun apiUrl(): HttpUrl
+
+    fun preferences(): Preferences
+
+    fun appDatabase(): AppDatabase
 
     @Component.Factory
     interface Factory {
         fun create(
-            @BindsInstance userAccount: UserAccount?,
-            @BindsInstance interceptor: Interceptor,
-            appComponent: AppComponent
-        ): DataComponent
+            dependenciesModule: DependenciesModule,
+            @BindsInstance gson: Gson
+        ): BaseComponent
     }
 }

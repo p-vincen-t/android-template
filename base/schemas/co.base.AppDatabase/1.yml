@@ -1,0 +1,75 @@
+---
+dbVersion: 1
+tableMetaData:
+- tableName: "app_photos"
+  fields:
+  - fieldName: "refId"
+    columnName: "refId"
+    nullable: true
+  - fieldName: "refName"
+    columnName: "refName"
+    nullable: true
+  - fieldName: "url"
+    columnName: "url"
+    nullable: true
+  - fieldName: "type"
+    columnName: "type"
+    nullable: true
+  migrations: []
+- tableName: "chats"
+  fields:
+  - fieldName: "view"
+    columnName: "view"
+    nullable: true
+  - fieldName: "subject"
+    columnName: "subject"
+    nullable: true
+  - fieldName: "name"
+    columnName: "name"
+    nullable: true
+  - fieldName: "message"
+    columnName: "message"
+    nullable: true
+  - fieldName: "email"
+    columnName: "email"
+    nullable: true
+  - fieldName: "uId"
+    columnName: "uId"
+    nullable: true
+  - fieldName: "senderId"
+    columnName: "senderId"
+    nullable: true
+  - fieldName: "description"
+    columnName: "description"
+    nullable: true
+  - fieldName: "photoIds"
+    columnName: "photoIds"
+    nullable: true
+  - fieldName: "sentTime"
+    columnName: "sentTime"
+    nullable: true
+  - fieldName: "chatReplyId"
+    columnName: "chatReplyId"
+    nullable: true
+  - fieldName: "forwardedFlag"
+    columnName: "forwardedFlag"
+    nullable: true
+  migrations: []
+- tableName: "chat_users"
+  fields:
+  - fieldName: "userId"
+    columnName: "userId"
+    nullable: true
+  - fieldName: "userName"
+    columnName: "userName"
+    nullable: true
+  - fieldName: "photoRecord"
+    columnName: "photoRecord"
+    nullable: true
+  migrations: []
+- tableName: "searchRecords"
+  fields:
+  - fieldName: "query"
+    columnName: "query"
+    nullable: true
+  migrations: []

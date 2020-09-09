@@ -13,6 +13,7 @@
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 //apply from: '../deps.gradle'
 
 android {
@@ -25,6 +26,11 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
+        javaCompileOptions{
+            annotationProcessorOptions{
+                includeCompileClasspath = true
+            }
+        }
     }
 
     buildTypes {
@@ -42,6 +48,10 @@ dependencies {
     implementation deps.androidxAnnotation
     implementation deps.apacheCommonsLang
     implementation deps.appcompat
+    implementation deps.autoValueAnnotations
+    kapt deps.autoValue
+    implementation deps.autoValueGsonAnnotation
+    kapt deps.autoValueGson
     testImplementation deps.junit
     implementation deps.kotlin
     implementation deps.lifeCycleExtensions

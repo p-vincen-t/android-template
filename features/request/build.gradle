@@ -67,6 +67,8 @@ dependencies {
     implementation deps.appcompat
     implementation deps.constraintLayout
     implementation deps.dagger
+    implementation deps.daggerAndroid
+    implementation deps.daggerAndroidProcessor
     kapt deps.daggerCompiler
     implementation deps.legacySupport
     implementation deps.lifeCycleExtensions

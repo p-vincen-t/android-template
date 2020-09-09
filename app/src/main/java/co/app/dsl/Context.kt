@@ -24,10 +24,9 @@ import android.content.res.Configuration
 import android.location.LocationManager
 import android.os.Build
 import android.os.StrictMode
-import android.view.DisplayCutout
-import android.view.View
-import android.view.WindowManager
+import android.view.*
 import android.widget.*
+import androidx.annotation.LayoutRes
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
@@ -357,3 +356,11 @@ fun Context.hasGPSProvider(): Boolean {
 
 fun Context.isLandScape(): Boolean =
     this.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+
+
+infix fun ViewGroup.inflate(@LayoutRes lyt: Int): View =
+    LayoutInflater.from(context).inflate(lyt, this, false)
+
+
+infix fun ViewGroup.inflateAttached(@LayoutRes lyt: Int): View =
+    LayoutInflater.from(context).inflate(lyt, this, true)

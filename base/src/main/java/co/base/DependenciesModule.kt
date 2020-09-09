@@ -13,7 +13,8 @@
 
 package co.base
 
-import com.google.gson.Gson
+import android.app.Application
+import co.app.common.NetworkConnection
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
@@ -21,20 +22,26 @@ import promise.commons.AndroidPromise
 import promise.commons.pref.Preferences
 
 @Module
-object DependenciesModule {
+class DependenciesModule(private val application: Application) {
 
     @Provides
-    @JvmStatic
     @AppScope
     fun providePreferences(): Preferences = Preferences()
 
     @Provides
-    @JvmStatic
     @AppScope
-    fun provideCompositeDisposable(promise: AndroidPromise): CompositeDisposable = promise.compositeDisposable
+    fun provideCompositeDisposable(promise: AndroidPromise): CompositeDisposable =
+        promise.compositeDisposable
 
     @Provides
-    @JvmStatic
-    fun promise(): AndroidPromise = AndroidPromise.instance()
+    @AppScope
+    fun promise(): AndroidPromise {
+        AndroidPromise.init(application, 100, BuildConfig.DEBUG)
+        return AndroidPromise.instance()
+    }
 
-  }
+    @Provides
+    @AppScope
+    fun provideNetworkConnection(): NetworkConnection =
+        NetworkConnectionImpl(application)
+}

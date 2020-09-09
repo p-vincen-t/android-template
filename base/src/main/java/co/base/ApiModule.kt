@@ -33,13 +33,13 @@ import java.util.concurrent.TimeUnit
 @Module
 object ApiModule {
 
-    @DataScope
+    @AppScope
     @JvmStatic
     @Provides
     fun provideOkHttpClient(
         userAccount: UserAccount?,
         promise: AndroidPromise,
-        interceptor: Interceptor
+        interceptor: NetworkConnectionInterceptor
     ): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -89,12 +89,12 @@ object ApiModule {
         return client.build()
     }
 
-    @DataScope
+    @AppScope
     @JvmStatic
     @Provides
     fun provideApiUrl(): HttpUrl = BuildConfig.API_URL.toHttpUrlOrNull()!!
 
-    @DataScope
+    @AppScope
     @JvmStatic
     @Provides
     fun provideRetrofit(

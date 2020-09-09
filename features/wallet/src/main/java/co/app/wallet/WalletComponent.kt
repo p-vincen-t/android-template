@@ -13,21 +13,22 @@
 
 package co.app.wallet
 
-import co.base.account.AccountComponent
-import co.app.dashboard.DashboardScope
-import co.app.wallet.domain.accounts.AccountsRepository
-import dagger.BindsInstance
+import co.app.app.AppComponent
+import co.app.app.BaseComponent
 import dagger.Component
 
-@DashboardScope
-@Component(dependencies = [AccountComponent::class])
+@Component(
+    dependencies = [BaseComponent::class]
+)
+
 interface WalletComponent {
 
     fun inject(walletFragment: WalletActivity)
 
     @Component.Factory
     interface Factory {
-        fun create(@BindsInstance accountsRepository: AccountsRepository,
-                   accountsComponent: AccountComponent): WalletComponent
+        fun create(
+            baseComponent: BaseComponent
+        ): WalletComponent
     }
 }

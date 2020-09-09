@@ -13,9 +13,18 @@
 
 package co.app.request.base
 
+import co.app.request.base.product.ProductImpl
 import co.app.request.domain.product.ProductsDatabase
 import co.app.request.domain.service.ServicesDatabase
+import promise.database.DatabaseEntity
+import promise.db.FastDatabase
+import promise.db.PromiseDatabase
 
-class RequestDatabase: ProductsDatabase, ServicesDatabase {
+@DatabaseEntity(
+    persistableEntities = [
+    ProductImpl::class
+    ]
+)
+abstract class RequestDatabase(fastDatabase: FastDatabase): PromiseDatabase(fastDatabase), ProductsDatabase, ServicesDatabase {
 
 }

@@ -17,11 +17,13 @@ import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import co.app.App
 import co.app.ModuleRegister
+import co.app.common.search.Search
 import co.app.common.search.SearchRepository
 import co.app.common.search.SearchResult
 import co.app.dsl.startActivity
-import co.app.report.Linear
+import co.app.dsl.Linear
 import co.app.report.ListReport
+import co.app.report.ListSearchViewable
 import co.app.report.Report
 import co.app.request.base.product.FakeProductsRepositoryImpl
 import co.app.request.base.service.FakeServiceRepository
@@ -32,6 +34,7 @@ import co.app.request.domain.service.ServicesRepository
 import co.app.request.product.ProductReport
 import co.app.request.service.ServiceDetailsActivity
 import co.app.request.service.ServiceViewHolder
+import co.app.search.SearchResultsViewHolder
 import promise.commons.data.log.LogUtil
 import promise.ui.adapter.PromiseAdapter
 import java.lang.ref.WeakReference
@@ -47,6 +50,27 @@ class ModuleRegistrar : ModuleRegister() {
         servicesRepository = FakeServiceRepository()
         SearchRepository.registerSearchableRepository(productsRepository)
         SearchRepository.registerSearchableRepository(servicesRepository)
+    }
+
+    override fun onSearch(
+        context: WeakReference<Context>,
+        search: Search
+    ): List<SearchResultsViewHolder> {
+
+        val searchResultViewables = ArrayList<SearchResultsViewHolder>()
+        val chatMessagesViewable = SearchResultsViewHolder(
+            promise.commons.model.List.generate(3) {
+                ListSearchViewable<Product>(
+                    title = "Category",
+                    listData = promise.commons.model.List.generate(3) {
+                        Product.
+                    }
+
+                )
+            })
+        searchResultViewables.add(chatMessagesViewable)
+
+        return searchResultViewables
     }
 
     override fun onRegisterSearchableViews(context: WeakReference<Context>): Pair<String, (Pair<Int, List<SearchResult>>, Any?, (Report) -> Unit) -> Unit>? =
@@ -71,8 +95,8 @@ class ModuleRegistrar : ModuleRegister() {
             if (results.first == R.string.services) resolve(
                 ListReport<ServiceViewHolder>(
                     title = context.get()?.getString(R.string.services),
-                    listData = PromiseList(results.second).map { ServiceViewHolder(it as Service) },
-
+                    listData = PromiseList(results.second)
+                        .map { ServiceViewHolder(it as Service) },
                     layoutType = Linear(orientation = RecyclerView.HORIZONTAL),
                     listener = object : PromiseAdapter.Listener<ServiceViewHolder> {
                         override fun onClick(t: ServiceViewHolder, id: Int) {
@@ -86,7 +110,5 @@ class ModuleRegistrar : ModuleRegister() {
                     dataArgs = args
                 )
             )
-
         }
-
 }

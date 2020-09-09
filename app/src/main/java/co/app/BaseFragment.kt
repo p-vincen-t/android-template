@@ -15,8 +15,9 @@ package co.app
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import dagger.android.support.DaggerFragment
 
-open class BaseFragment : Fragment() {
+open class BaseFragment : DaggerFragment() {
 
     lateinit var app: App
 

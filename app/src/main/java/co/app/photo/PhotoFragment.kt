@@ -40,22 +40,20 @@ class PhotoFragment internal constructor() : Fragment() {
         val args = arguments ?: return
         val resource =
             args.getString(FILE_NAME_KEY)?.let { File(it) } ?: R.drawable.user_default_photo_image
-        if (resource is File) {
-            Picasso.get().load(resource)
-                .noPlaceholder()
-                .into(view as ImageView, object : Callback {
-                    override fun onSuccess() {
-                    }
+        if (resource is File) Picasso.get().load(resource)
+            .noPlaceholder()
+            .into(view as ImageView, object : Callback {
+                override fun onSuccess() {
+                }
 
-                    override fun onError(e: Exception?) {
-                        /*if (errorDrawable != null) {
-                            setImageDrawable(errorDrawable)
+                override fun onError(e: Exception?) {
+                    /*if (errorDrawable != null) {
+                        setImageDrawable(errorDrawable)
 
-                        }*/
-                        LogUtil.e(TAG, e)
-                    }
-                })
-        }
+                    }*/
+                    LogUtil.e(TAG, e)
+                }
+            })
 
     }
 

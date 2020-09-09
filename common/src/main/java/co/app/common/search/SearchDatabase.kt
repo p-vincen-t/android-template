@@ -18,4 +18,6 @@ import co.app.common.search.Search
 interface SearchDatabase {
     fun save(search: Search)
     fun save(searched: List<Search>)
+
+    fun recentSearches(search: Search): List<Search>
 }

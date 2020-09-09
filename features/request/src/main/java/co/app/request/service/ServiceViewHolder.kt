@@ -14,17 +14,22 @@
 package co.app.request.service
 
 import android.view.View
+import co.app.common.search.SearchResultViewable
 import co.app.request.R
 import co.app.request.domain.service.Service
 import promise.commons.data.log.LogUtil
 import promise.ui.Viewable
 
-class ServiceViewHolder(val service: Service): Viewable {
+class ServiceViewHolder(val service: Service): SearchResultViewable() {
 
     override fun layout(): Int = R.layout.service
 
     override fun bind(view: View?, args: Any?) {
         LogUtil.e("service tag", "sku ", service.name)
+    }
+
+    override fun hashCode(): Int {
+        return service.hashCode()
     }
 
     override fun init(view: View?) {

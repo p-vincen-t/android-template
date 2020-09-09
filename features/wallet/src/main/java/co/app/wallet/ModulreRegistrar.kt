@@ -13,24 +13,28 @@
 
 package co.app.wallet
 
+import android.content.Context
 import co.app.App
 import co.app.ModuleRegister
+import co.app.common.search.SearchResult
+import co.app.report.Report
 import co.app.wallet.base.data.DaggerDataComponent
 import co.app.wallet.base.data.DataComponent
-import co.base.account.AccountComponent
+import java.lang.ref.WeakReference
 
 class ModuleRegistrar : ModuleRegister() {
 
     lateinit var dataComponent: DataComponent
 
-    lateinit var accountsComponent: AccountComponent
-
     override fun onRegister(app: App) {
         Companion.app = app
         dataComponent = DaggerDataComponent.factory()
             .create(app.promise, app.gson(), app.okHttpClient())
-        accountsComponent = app.accountComponent
         //registerSearchableRepository(dataComponent.accountsRepository())
+    }
+
+    override fun onRegisterSearchableViews(context: WeakReference<Context>): Pair<String, (Pair<Int, List<SearchResult>>, Any?, (Report) -> Unit) -> Unit>? {
+        return super.onRegisterSearchableViews(context)
     }
 
     companion object {

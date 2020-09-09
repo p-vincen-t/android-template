@@ -19,8 +19,7 @@ import promise.db.FastDatabase
 import promise.db.PromiseDatabase
 
 @DatabaseEntity(
-    persistableEntities = [Record::class],
-    version = 1
+    persistableEntities = [Record::class]
 )
 abstract class WalletDatabase(fastDatabase: FastDatabase) : PromiseDatabase(fastDatabase) {
 

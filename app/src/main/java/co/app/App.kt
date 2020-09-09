@@ -27,15 +27,16 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
-import androidx.multidex.MultiDexApplication
-import co.app.app.*
+import androidx.multidex.MultiDex
+import co.app.app.AppComponent
+import co.app.app.BaseComponent
+import co.app.app.DaggerAppComponent
+import co.app.app.DaggerBaseComponent
 import co.app.common.ID
 import co.app.common.NetworkUtils
-import co.app.common.account.UserAccount
 import co.app.common.errors.NetworkError
 import co.app.settings.ThemePreference
-import co.base.account.AccountComponent
-import co.base.account.DaggerAccountComponent
+import co.base.DependenciesModule
 import com.facebook.stetho.Stetho
 import com.google.android.play.core.splitcompat.SplitCompat
 import com.google.android.play.core.splitinstall.SplitInstallManager
@@ -43,6 +44,8 @@ import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.instacart.library.truetime.TrueTimeRx
+import dagger.android.AndroidInjector
+import dagger.android.support.DaggerApplication
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.Interceptor
@@ -57,7 +60,7 @@ import kotlin.collections.set
 
 const val NETWORK_ERROR_MESSAGE = "network_error_message"
 
-class App : MultiDexApplication(), LifecycleObserver {
+class App : DaggerApplication(), LifecycleObserver {
 
     inline fun <reified T : Service> connectService(
         noinline result: (T) -> Unit,
@@ -80,6 +83,16 @@ class App : MultiDexApplication(), LifecycleObserver {
         )
     }
 
+    val baseComponent: BaseComponent by lazy {
+        DaggerBaseComponent.factory().create(
+            DependenciesModule(this),
+            GsonBuilder()
+                .registerTypeAdapter(ID::class.java, ID.IDTypeAdapter())
+                .setPrettyPrinting()
+                .create()
+        )
+    }
+
     val themePreferenceRepo: ThemePreference by lazy {
         ThemePreference()
     }
@@ -93,6 +106,7 @@ class App : MultiDexApplication(), LifecycleObserver {
     val modules: ArrayMap<String, ModuleRegister> = ArrayMap()
 
     override fun attachBaseContext(base: Context) {
+        MultiDex.install(base)
         LanguageHelper.init(base)
         val ctx = LanguageHelper.getLanguageConfigurationContext(base)
         super.attachBaseContext(ctx)
@@ -101,12 +115,10 @@ class App : MultiDexApplication(), LifecycleObserver {
 
     override fun onCreate() {
         super.onCreate()
-        AndroidPromise.init(this, 100, BuildConfig.DEBUG)
         themePreferenceRepo.setTheme()
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
         TAG = LogUtil.makeTag(App::class.java)
-        appComponent.inject(this)
-        promise.execute {
+        appComponent.promise().execute {
             registerModule("app")
             manager.installedModules.forEach {
                 registerModule(it)
@@ -124,6 +136,8 @@ class App : MultiDexApplication(), LifecycleObserver {
             )
         }
     }
+
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> = appComponent
 
     fun registerModule(module: String) {
         LogUtil.d(TAG, "registering module : ", module)
@@ -152,14 +166,9 @@ class App : MultiDexApplication(), LifecycleObserver {
 
     fun gson(): Gson = appComponent.gson()
 
-    fun okHttpClient(): OkHttpClient = dataComponent().okHttpClient()
+    fun okHttpClient(): OkHttpClient = appComponent.okHttpClient()
 
     lateinit var TAG: String
-
-    fun userAccount(): UserAccount? = accountComponent.userAccount()
-
-    private var dataComponent: DataComponent? = null
-    private var reposComponent: ReposComponent? = null
 
     @Inject
     lateinit var compositeDisposable: CompositeDisposable
@@ -167,48 +176,14 @@ class App : MultiDexApplication(), LifecycleObserver {
     @Inject
     lateinit var promise: AndroidPromise
 
-    val accountComponent: AccountComponent by lazy {
-        DaggerAccountComponent.factory()
-            .create(appComponent.gson(), appComponent.promise())
-    }
-
-    fun reposComponent(): ReposComponent = reposComponent ?: DaggerReposComponent.factory().create(
-        userAccount(),
-        dataComponent()
-    ).also {
-        reposComponent = it
-    }
-
     val appComponent: AppComponent by lazy {
         DaggerAppComponent.factory().create(
-            GsonBuilder()
-                .registerTypeAdapter(ID::class.java, ID.IDTypeAdapter())
-                .setPrettyPrinting()
-                .create()
+            this,
+            baseComponent
         )
     }
 
-    fun dataComponent(): DataComponent = dataComponent ?: DaggerDataComponent.factory()
-        .create(userAccount(), object : Interceptor {
-            override fun intercept(chain: Interceptor.Chain): Response {
-                if (NetworkUtils.getConnectivityStatus(this@App.applicationContext) == NetworkUtils.TYPE_NOT_CONNECTED) {
-                    val exception = NetworkError().apply {
-                        request = chain.request().url
-                    }
-                    LogUtil.e(TAG, "Connection error: ", exception)
-                    appComponent.promise().send(Message(NETWORK_ERROR_MESSAGE, exception))
-                    throw exception
-                }
-                return chain.proceed(chain.request())
-            }
-        }, appComponent).also { dataComponent = it }
-
-    fun apiUrl(): String = dataComponent().apiUrl().toString()
-
-    fun initUserAccount() {
-        dataComponent = null
-        reposComponent = null
-    }
+    fun apiUrl(): String = appComponent.apiUrl().toString()
 
     fun initComponents() {
         compositeDisposable.add(
@@ -226,7 +201,6 @@ class App : MultiDexApplication(), LifecycleObserver {
         )
         if (co.base.BuildConfig.DEBUG) Stetho.initializeWithDefaults(this)
     }
-
 
     override fun onTerminate() {
         AndroidPromise.instance().terminate()

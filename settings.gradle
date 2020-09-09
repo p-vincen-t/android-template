@@ -17,7 +17,7 @@ include ':app', ':base', ':domain', ':common'
 //auth
 include ':features:auth', ':domains:auth_domain', ':featuresBase:auth_base'
 //wallet
-include ':features:wallet', ':domains:wallet_domain', ':featuresBase:wallet_base'
+// include ':features:wallet', ':domains:wallet_domain', ':featuresBase:wallet_base'
 // request
 include ':features:request',   ':domains:request_domain',   'featuresBase:request_base'
 

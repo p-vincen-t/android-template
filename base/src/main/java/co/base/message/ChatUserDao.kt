@@ -22,8 +22,7 @@ interface ChatUserDao {
 }
 
 class ChatUserDaoImpl(private val promiseDatabase: PromiseDatabase): ChatUserDao {
-    override fun getChatUser(id: ID): ChatUserRecord? {
-        return promiseDatabase.tableOf(ChatUserRecord::class.java)
+    override fun getChatUser(id: ID): ChatUserRecord? =
+        promiseDatabase.tableOf(ChatUserRecord::class.java)
             .findOne(ChatUserRecordsTable.userIdColumn.with(id.id))
-    }
 }

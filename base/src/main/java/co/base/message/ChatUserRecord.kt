@@ -16,16 +16,21 @@ package co.base.message
 import co.app.common.account.AppUser
 import co.app.common.ID
 import co.app.common.photo.PhotoDatabase
+import co.app.common.common.PhotoRecord
 import promise.commons.model.Identifiable
 import promise.database.Entity
+import promise.database.HasOne
 import promise.database.PrimaryKeyAutoIncrement
 
 @Entity(tableName = "chat_users")
-class ChatUserRecord: Identifiable<Int> {
+class ChatUserRecord @SuppressWarnings("unused") constructor(): Identifiable<Int> {
 
     var userId: ID? = null
 
     var userName: String? = null
+
+    @HasOne
+    var photoRecord: PhotoRecord? = null
 
     @PrimaryKeyAutoIncrement
     var uid: Int = 0
@@ -37,9 +42,7 @@ class ChatUserRecord: Identifiable<Int> {
             photo = photoRecordDao.getPhotoByRef("chat_user",userId!!)
         )
 
-    override fun getId(): Int {
-        return this.uid
-    }
+    override fun getId(): Int = this.uid
 
     override fun setId(t: Int) {
         this.uid = t;

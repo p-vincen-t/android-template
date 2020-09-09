@@ -15,6 +15,7 @@ package co.app.request.product
 
 import android.content.Context
 import android.view.View
+import co.app.dsl.Grid
 import co.app.dsl.startActivity
 import co.app.report.*
 import co.app.request.R
@@ -26,6 +27,7 @@ import promise.ui.adapter.DataSource
 import promise.ui.adapter.PromiseAdapter
 import java.lang.ref.WeakReference
 import promise.commons.model.List as PromiseList
+
 @ReportMeta
 class ProductReport(private val product: Product,
                     private val productsRepository: ProductsRepository,

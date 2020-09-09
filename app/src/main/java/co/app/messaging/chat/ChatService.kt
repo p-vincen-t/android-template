@@ -27,15 +27,6 @@ class ChatService : BindService<ChatService>() {
     @Inject
     lateinit var messageRepository: MessageRepository
 
-    override fun onCreate() {
-        super.onCreate()
-        DaggerChatComponent.builder()
-            .reposComponent(app.reposComponent())
-            .build()
-            .inject(this)
-
-    }
-
     fun sendMessage(chatMessage: ChatMessage) {
         messageRepository.sendMessage(chatMessage)
     }

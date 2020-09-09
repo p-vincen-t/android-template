@@ -71,7 +71,10 @@ class ReportView : LinearLayoutCompat, ViewHolder {
         if (!TextUtils.isEmpty(_header)) {
             toolbar.visibility = View.VISIBLE
             toolbar.title = _header
-        } else toolbar.visibility = View.GONE
+        } else {
+            toolbar.visibility = View.GONE
+            toolbar.title = ""
+        }
     }
 
     /**

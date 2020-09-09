@@ -52,7 +52,7 @@ android {
 
     dynamicFeatures = [
             ':features:auth',
-            ':features:wallet',
+           // ':features:wallet',
             ':features:request'
             //":fleet",
             //":partner"
@@ -83,6 +83,9 @@ dependencies {
     implementation deps.cameraXView
     implementation deps.constraintLayout
     implementation deps.coroutines
+    implementation deps.daggerAndroid
+    implementation deps.daggerAndroidProcessor
+    kapt deps.daggerAndroidCompiler
     kapt deps.daggerCompiler
     implementation deps.emoji
     implementation deps.emojiCompat

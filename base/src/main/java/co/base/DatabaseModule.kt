@@ -23,6 +23,7 @@ object DatabaseModule {
 
     @Provides
     @JvmStatic
+    @AppScope
     fun provideBehaviorDatabase() : AppDatabase = AppDatabaseImpl.createDatabase(
         DB_NAME)
 

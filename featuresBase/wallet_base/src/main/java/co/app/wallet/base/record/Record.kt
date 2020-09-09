@@ -23,7 +23,5 @@ import promise.db.ActiveRecord
 class Record : ActiveRecord<Record>() {
 
     var amount: Int = 0
-    override fun getEntity(): Record {
-        return this
-    }
+    override fun getEntity(): Record = this
 }

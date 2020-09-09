@@ -11,11 +11,10 @@
  * limitations under the License.
  */
 
-package co.base.account
+package co.app.search
 
-import javax.inject.Scope
+import co.app.BaseViewModel
 
-@Scope
-@MustBeDocumented
-@Retention(AnnotationRetention.RUNTIME)
-annotation class AccountScope
+class SearchViewModel : BaseViewModel() {
+
+}

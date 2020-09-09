@@ -16,11 +16,13 @@ package co.app.request.product
 import android.annotation.SuppressLint
 import android.os.Bundle
 import co.app.BaseActivity
+import co.app.FeatureActivity
+import co.app.FeatureFragment
 import co.app.request.R
 import kotlinx.android.synthetic.main.activity_product_details.*
 
 @SuppressLint("Registered")
-class ProductDetailsActivity : BaseActivity() {
+class ProductDetailsActivity : FeatureActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

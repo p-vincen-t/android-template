@@ -65,11 +65,6 @@ class DashboardActivity : BaseSplitActivity(),
         )
         setSupportActionBar(toolbar)
 
-        DaggerDashboardComponent.factory().create(
-            app.reposComponent().searchRepository(), app.accountComponent
-        )
-            .inject(this)
-
         dashboardViewModel = ViewModelProvider(this, dashboardViewModelFactory).get(
             DashboardViewModel::class.java
         )
@@ -87,6 +82,7 @@ class DashboardActivity : BaseSplitActivity(),
             if (app.isWalletModuleInstalled()) {
                 startActivity(App.WALLET_ACTIVITY)
             } else {
+
                 Toast.makeText(this, "Wallet feature missing", Toast.LENGTH_LONG).show()
             }
         }

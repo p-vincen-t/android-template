@@ -60,6 +60,8 @@ dependencies {
     implementation deps.alerter
     implementation deps.appcompat
     implementation deps.dagger
+    implementation deps.daggerAndroid
+    implementation deps.daggerAndroidProcessor
     kapt deps.daggerCompiler
 
     implementation deps.legacySupport

@@ -23,6 +23,7 @@ import co.app.common.photo.Photo
 import co.app.common.search.Search
 import co.app.common.search.SearchResult
 import co.app.domain.message.*
+import co.base.DataScope
 import co.base.R
 import co.base.RepoScope
 import org.joda.time.DateTime
@@ -37,7 +38,7 @@ import java.lang.ref.WeakReference
 import java.util.*
 import javax.inject.Inject
 
-@RepoScope
+@DataScope
 class MessageRepositoryImpl @Inject constructor(
     private val chatDatabase: ChatDatabase,
     private val repository: Repository<ChatMessage>

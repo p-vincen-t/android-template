@@ -15,6 +15,7 @@ package co.app.messaging.chat
 
 import android.view.View
 import co.app.R
+import co.app.common.search.SearchResultViewable
 import co.app.domain.message.ChatMessage
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.recipient_chat.*
@@ -61,8 +62,7 @@ class RecipientMessageViewable constructor(
         get() = view
 }
 
-
-class ChatMessageViewable(chatMessage: ChatMessage) : Viewable {
+class ChatMessageViewable(private val chatMessage: ChatMessage) : SearchResultViewable() {
     private val viewable: Viewable =
         if (chatMessage.fromCurrentUser) SenderMessageViewable(chatMessage)
         else RecipientMessageViewable(chatMessage)
@@ -70,4 +70,6 @@ class ChatMessageViewable(chatMessage: ChatMessage) : Viewable {
     override fun layout(): Int = viewable.layout()
     override fun bind(view: View?, args: Any?) = viewable.bind(view, args)
     override fun init(view: View) = viewable.init(view)
+    override fun hashCode(): Int = chatMessage.hashCode()
+
 }

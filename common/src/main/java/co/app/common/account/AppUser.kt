@@ -14,32 +14,20 @@
 package co.app.common.account
 
 import co.app.common.ID
+import co.app.common.common.STUB
 import co.app.common.photo.Photo
-import co.app.common.search.Search
-import co.app.common.search.SearchResult
-import java.util.*
+import com.google.auto.value.AutoValue
 
-class AppUser(var userId: ID, var userName: String?, var photo: Photo?):
-    SearchResult {
-    override fun toString(): String = userName!!
+@AutoValue
+abstract class AppUser {
+    abstract val userId: ID
+    abstract val userName: String?
+    abstract val photo: Photo?
 
-    override fun onSearch(search: Search): Boolean =
-        userName!!.toLowerCase(Locale.getDefault()).contains(search.query.toLowerCase(Locale.getDefault()))
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-        other as AppUser
-        if (userId != other.userId) return false
-        if (userName != other.userName) return false
-        return true
+    companion object {
+        val STUB: STUB<AppUser> = object : STUB<AppUser> {
+            override fun stub(): AppUser = AutoValue_AppUser(ID.generate(), "username", null)
+        }
     }
-
-    override fun hashCode(): Int {
-        var result = userId.hashCode()
-        result = 31 * result + userName.hashCode()
-        return result
-    }
-
 
 }

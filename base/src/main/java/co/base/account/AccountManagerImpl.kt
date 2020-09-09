@@ -11,11 +11,14 @@
  * limitations under the License.
  */
 
-package co.app.dashboard
+package co.base.account
 
-import javax.inject.Scope
+import co.app.common.account.AccountManager
+import co.app.common.account.UserAccount
+import co.base.AppScope
+import javax.inject.Inject
 
-@Scope
-@MustBeDocumented
-@Retention(AnnotationRetention.RUNTIME)
-annotation class DashboardScope
+@AppScope
+class AccountManagerImpl @Inject constructor(private val userAccount: UserAccount?) : AccountManager {
+    override fun provideAccount(): UserAccount? = userAccount
+}

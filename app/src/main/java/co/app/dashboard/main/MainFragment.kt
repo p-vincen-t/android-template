@@ -21,7 +21,6 @@ import co.app.BaseFragment
 import co.app.R
 import co.app.common.search.Search
 import co.app.common.search.SearchRepository
-import co.app.dashboard.DaggerDashboardComponent
 import co.app.search.SearchReport
 import kotlinx.android.synthetic.main.main_fragment.*
 import promise.commons.AndroidPromise
@@ -39,15 +38,6 @@ class MainFragment : BaseFragment() {
 
     companion object {
         fun newInstance() = MainFragment()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        DaggerDashboardComponent.factory().create(
-            app.reposComponent().searchRepository(), app.accountComponent
-        )
-            .inject(this)
-
     }
 
     override fun onCreateView(

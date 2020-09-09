@@ -24,6 +24,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import co.app.BaseFragment
+import co.app.FeatureFragment
 import co.app.auth.DaggerAuthComponent
 import co.app.auth.ModuleRegistrar
 import co.app.auth.R
@@ -32,7 +33,7 @@ import co.app.auth.databinding.FragmentLoginBinding
 import kotlinx.android.synthetic.main.fragment_login.*
 import javax.inject.Inject
 
-class LoginFragment : BaseFragment() {
+class LoginFragment : FeatureFragment() {
 
     @Inject
     lateinit var loginViewModelFactory: LoginViewModelFactory
@@ -71,7 +72,7 @@ class LoginFragment : BaseFragment() {
         navController = Navigation.findNavController(view)
 
         loginViewModel.uIResult.observe(viewLifecycleOwner, Observer {
-            app.initUserAccount()
+
             activity?.finish()
         })
 

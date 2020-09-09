@@ -33,6 +33,11 @@ android {
         vectorDrawables.useSupportLibrary true
         multiDexEnabled = true
         useLibrary 'org.apache.http.legacy'
+        javaCompileOptions{
+            annotationProcessorOptions{
+                includeCompileClasspath = true
+            }
+        }
     }
 
    /* splits {

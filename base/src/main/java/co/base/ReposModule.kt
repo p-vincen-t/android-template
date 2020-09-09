@@ -22,6 +22,9 @@ import co.app.common.search.SearchDatabase
 import co.app.domain.message.ChatApi
 import co.base.message.AsyncMessageRepo
 import co.base.message.MessageRepositoryImpl
+import co.base.message.MessagesModule
+import co.base.search.AsyncSearchRepo
+import co.base.search.SearchModule
 import co.base.search.SearchRepositoryImpl
 import co.base.search.SyncSearchRepo
 import dagger.Binds
@@ -30,7 +33,11 @@ import dagger.Provides
 import promise.model.Repository
 import promise.model.StoreRepository
 
-@Module
+@Module(
+    includes = [
+        ReposModule::class
+    ]
+)
 abstract class RepoBinders {
     @Binds
     abstract fun bindMessageRepository(messageRepositoryImpl: MessageRepositoryImpl): MessageRepository
@@ -39,7 +46,11 @@ abstract class RepoBinders {
     abstract fun bindSearchRepository(searchRepositoryImpl: SearchRepositoryImpl): SearchRepository
 }
 
-@Module
+@Module(
+    includes = [
+        MessagesModule::class,
+        SearchModule::class]
+)
 object ReposModule {
 
     @Provides
@@ -56,8 +67,11 @@ object ReposModule {
     @Provides
     @JvmStatic
     fun provideSearchRepo(searchDatabase: SearchDatabase): Repository<Search> =
-        StoreRepository.sync(
+        StoreRepository.of(
             SyncSearchRepo::class,
+            AsyncSearchRepo::class,
+            arrayOf(searchDatabase),
             arrayOf(searchDatabase)
+
         )
 }

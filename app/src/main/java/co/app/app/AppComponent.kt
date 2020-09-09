@@ -14,28 +14,60 @@
 package co.app.app
 
 import co.app.App
+import co.app.common.account.AccountManager
 import co.app.domain.Settings
+import co.base.AppDatabase
 import co.base.AppScope
-import co.base.DependenciesModule
-import co.base.settings.SettingsProvider
 import com.google.gson.Gson
 import dagger.BindsInstance
 import dagger.Component
+import dagger.android.AndroidInjector
+import dagger.android.support.AndroidSupportInjectionModule
 import io.reactivex.disposables.CompositeDisposable
+import okhttp3.HttpUrl
+import okhttp3.OkHttpClient
 import promise.commons.AndroidPromise
+import promise.commons.pref.Preferences
 
-@Component(modules = [DependenciesModule::class, SettingsProvider::class])
-@AppScope
-interface AppComponent {
+/**
+ * Application component
+ */
+@Component(
+    dependencies = [
+        BaseComponent::class
+    ],
+    modules = [
+        AndroidSupportInjectionModule::class,
+        UIBuildersModule::class
+    ]
+)
+@ApplicationScope
+interface AppComponent : AndroidInjector<App> {
+
     fun promise(): AndroidPromise
+
+    fun provideAccountManager(): AccountManager
+
     fun compositeDisposable(): CompositeDisposable
+
     fun gson(): Gson
-    fun inject(appBase: App)
+
     fun settings(): Settings
+
+    fun okHttpClient(): OkHttpClient
+
+    fun apiUrl(): HttpUrl
+
+    fun preferences(): Preferences
+
+    fun appDatabase(): AppDatabase
+
 
     @Component.Factory
     interface Factory {
-        fun create(@BindsInstance gson: Gson): AppComponent
+        fun create(
+            @BindsInstance app: App,
+            baseComponent: BaseComponent
+        ): AppComponent
     }
-
 }

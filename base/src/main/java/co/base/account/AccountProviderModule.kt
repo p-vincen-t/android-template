@@ -13,28 +13,33 @@
 
 package co.base.account
 
+import co.app.common.account.AccountManager
 import co.app.common.account.UserAccount
+import co.base.AppScope
 import com.google.gson.Gson
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import promise.commons.AndroidPromise
 import promise.commons.pref.Preferences
 
 @Module
-object AccountProvider {
+abstract class AccountManagerModule {
+    @Binds
+    abstract fun bindAccountManager(accountManagerImpl: AccountManagerImpl): AccountManager
+}
+
+@Module
+object AccountProviderModule {
     @Provides
     @JvmStatic
-    @AccountScope
-    fun provideAccount(preferences: Preferences,gson: Gson): UserAccount? {
-        if (UserAccountImpl.ReadAccount.hasAccount(preferences))
-            return UserAccountImpl.ReadAccount(preferences, gson)
+    fun provideAccount(gson: Gson): UserAccount? {
+        val pref = Preferences(SessionPrefName)
+        if (UserAccountImpl.ReadAccount.hasAccount(pref))
+            return UserAccountImpl.ReadAccount(pref, gson)
         return null
     }
 
-    @Provides
-    @AccountScope
-    @JvmStatic
-    fun providePreferences(): Preferences = Preferences(SessionPrefName)
 }
 
 @Module
@@ -42,12 +47,7 @@ object AccountModule {
 
     @Provides
     @JvmStatic
-    fun providePreferences(): Preferences = Preferences(SessionPrefName)
-
-    @Provides
-    @JvmStatic
-    fun provideWriteAccount(preferences: Preferences,
-                            promise: AndroidPromise, gson: Gson): UserAccount =
-        UserAccountImpl.WriteAccount(preferences, promise, gson)
+    fun provideWriteAccount(promise: AndroidPromise, gson: Gson): UserAccount =
+        UserAccountImpl.WriteAccount(Preferences(SessionPrefName), promise, gson)
 
 }
